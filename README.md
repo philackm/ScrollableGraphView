@@ -43,7 +43,7 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 
 ### Adding the GraphView to your project:
 
-1. Add "GraphView.swift" to your project in Xcode  
+1. Add [GraphView.swift](graphview_example/GraphView/GraphView.swift) to your project in Xcode  
 
 2. Create a GraphView instance and set the data and labels  
 ```swift
