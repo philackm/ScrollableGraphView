@@ -1,14 +1,5 @@
 # Scrolling GraphView
 
-- [About](#About)
-- [Features](#Features)
-- [Basic Usage](#Usage)
-- [Gallery](#Gallery)
-- [Customisation](#Customisation)
-- [Improvements](#Improvements)
-- [Known Issues](#Known Issues)
-- [Other](#Other)
-
 ## About
 
 ![Example Application Usage](readme_images/IMG_5814_small.jpg)
@@ -16,6 +7,14 @@
 An adaptive scrollable graph view for iOS to visualise simple discrete datasets. Written in Swift. Originally written for a small personal project.
 
 ![Init Animation](readme_images/init_anim_high_fps.gif)
+
+- [Features](#features)
+- [Basic Usage](#usage)
+- [Gallery](#gallery)
+- [Customisation](#customisation)
+- [Improvements](#improvements)
+- [Known Issues](#known-issues)
+- [Other](#other)
 
 ## Features
 
@@ -37,7 +36,6 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 
 ### [Customising!](#Customisation)
 ![More_Scrolling](readme_images/customising.gif)
-
 
 ## Usage
 
@@ -537,4 +535,4 @@ If you find any bugs please create an issue on Github.
 
 ## Other
 
-[Follow me on twitter](https://twitter.com/zeromanapoints) for interesting updates (read: gifs) about other things that I make.
+[Follow me on twitter](https://twitter.com/philackm) for interesting updates (read: gifs) about other things that I make.
