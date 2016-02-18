@@ -8,9 +8,11 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 
 ![Init Animation](readme_images/init_anim_high_fps.gif)
 
+## Contents
+
 - [Features](#features)
 - [Basic Usage](#usage)
-- [Gallery](#gallery)
+- [Gallery](#gallerythemes)
 - [Customisation](#customisation)
 - [Improvements](#improvements)
 - [Known Issues](#known-issues)
