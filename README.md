@@ -46,17 +46,17 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 1. Add [GraphView.swift](graphview_example/GraphView/GraphView.swift) to your project in Xcode  
 
 2. Create a GraphView instance and set the data and labels  
-```swift
-let graphView = GraphView(frame: someFrame)
-let data = [4, 8, 15, 16, 23, 42]
-let labels = ["one", "two", "three", "four", "five", "six"]
-graphView.setData(data, withLabels: labels)
-```
+    ```swift
+    let graphView = GraphView(frame: someFrame)
+    let data = [4, 8, 15, 16, 23, 42]
+    let labels = ["one", "two", "three", "four", "five", "six"]
+    graphView.setData(data, withLabels: labels)
+    ```  
 
 3. Add the GraphView to the view hierarchy.
-```swift
-someViewController.view.addSubview(graphView)
-```
+    ```swift
+    someViewController.view.addSubview(graphView)
+    ```
 
 ### Things you *could* use it for:
 
