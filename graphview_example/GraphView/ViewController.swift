@@ -36,6 +36,7 @@ class ViewController: UIViewController {
     }
     
     func didTap(gesture: UITapGestureRecognizer) {
+        
         currentGraphType.next()
         
         self.view.removeConstraints(graphConstraints)
@@ -186,7 +187,7 @@ class ViewController: UIViewController {
         let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 40)
         let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: label.frame.width * 1.5)
         
-        let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: "didTap:")
+        let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(didTap))
         label.addGestureRecognizer(tapGestureRecogniser)
         
         self.view.insertSubview(label, aboveSubview: graphView)
@@ -216,7 +217,7 @@ class ViewController: UIViewController {
     // Data Generation
     private func generateRandomData(numberOfItems: Int, max: Double) -> [Double] {
         var data = [Double]()
-        for(var i = 0; i < numberOfItems; i++) {
+        for _ in 0 ..< numberOfItems {
             var randomNumber = Double(random()) % max
             
             if(random() % 100 < 10) {
@@ -230,7 +231,7 @@ class ViewController: UIViewController {
     
     private func generateSequentialLabels(numberOfItems: Int, text: String) -> [String] {
         var labels = [String]()
-        for(var i = 0; i < numberOfItems; i++) {
+        for i in 0 ..< numberOfItems {
             labels.append("\(text) \(i+1)")
         }
         return labels

@@ -7,7 +7,7 @@ import UIKit
 extension UIColor {
     
     // Convert a hex string to a UIColor object.
-    class func colorFromHex(var hexString:String) -> UIColor {
+    class func colorFromHex(hexString:String) -> UIColor {
         
         func cleanHexString(hexString: String) -> String {
             
