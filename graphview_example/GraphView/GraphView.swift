@@ -130,8 +130,8 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     
     // Active Points & Range Calculation
     
-    private var previousActivePointsInterval: Range<Int> = Range<Int>(start: -1, end: -1)
-    private var activePointsInterval: Range<Int> = Range<Int>(start: -1, end: -1) {
+    private var previousActivePointsInterval: Range<Int> = -1 ..< -1
+    private var activePointsInterval: Range<Int> = -1 ..< -1 {
         didSet {
             if(oldValue.startIndex != activePointsInterval.startIndex || oldValue.endIndex != activePointsInterval.endIndex) {
                 if !isCurrentlySettingUp { activePointsDidChange() }
@@ -216,7 +216,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
         
         // Create all the GraphPoints which which are used for drawing.
-        for (var i = 0; i < data.count; i++) {
+        for i in 0 ..< data.count {
             let value = (shouldAnimateOnStartup) ? self.range.min : data[i]
             
             let position = calculatePosition(i, value: value)
@@ -240,7 +240,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         self.insertSubview(labelsView, aboveSubview: drawingView)
         
         // Animation loop for when the range adapts
-        displayLink = CADisplayLink(target: self, selector: "animationUpdate")
+        displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         displayLink.paused = true
         
@@ -268,8 +268,8 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         previousTimestamp = 0
         currentTimestamp = 0
         
-        previousActivePointsInterval = Range<Int>(start: -1, end: -1)
-        activePointsInterval = Range<Int>(start: -1, end: -1)
+        previousActivePointsInterval = -1 ..< -1
+        activePointsInterval = -1 ..< -1
         range = (0, 100)
     }
     
@@ -541,7 +541,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         let actualMin = clamp(min - numberOfPointsOffscreen, min: minPossible, max: maxPossible)
         let actualMax = clamp(max + numberOfPointsOffscreen, min: minPossible, max: maxPossible)
         
-        return Range<Int>(start: actualMin, end: actualMax)
+        return actualMin ..< actualMax
     }
     
     private func calculateRangeForActivePointsInterval(interval: Range<Int>) -> (min: Double, max: Double) {
@@ -681,7 +681,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         }
         
         // Connect each point on the graph with a segment.
-        for (var i = activePointsInterval.startIndex; i < numberOfPoints; i++) {
+        for i in activePointsInterval.startIndex ..< numberOfPoints {
             
             let startPoint = graphPoints[i].location
             let endPoint = graphPoints[i+1].location
@@ -853,7 +853,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     
     private func startAnimations(withStaggerValue stagger: Double = 0) {
         
-        var pointsToAnimate = Range<Int>(start: 0, end: 0)
+        var pointsToAnimate = 0 ..< 0
         
         if (shouldAnimateOnAdapt || (dataNeedsReloading && shouldAnimateOnStartup)) {
             pointsToAnimate = activePointsInterval
@@ -861,14 +861,16 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
-        for(var i = pointsToAnimate.startIndex, index = 0; i <= pointsToAnimate.endIndex; i++, index++) {
+        var index = 0
+        for i in pointsToAnimate.startIndex ... pointsToAnimate.endIndex {
             let newPosition = calculatePosition(i, value: data[i])
             let point = graphPoints[i]
             animatePoint(point, toPosition: newPosition, withDelay: Double(index) * stagger)
+            index += 1
         }
         
         // Update any non-visible & non-animating points so they come on to screen at the right scale.
-        for(var i = 0; i < graphPoints.count; i++) {
+        for i in 0 ..< graphPoints.count {
             if(i > pointsToAnimate.startIndex && i < pointsToAnimate.endIndex || graphPoints[i].currentlyAnimatingToPosition) {
                 continue
             }
@@ -942,7 +944,7 @@ private class LabelPool {
             var currentlyActive = [UILabel]()
             let numberOfLabels = labels.count
             
-            for(var i = 0; i < numberOfLabels; i++) {
+            for i in 0 ..< numberOfLabels {
                 if(!unused.contains(i)) {
                     currentlyActive.append(labels[i])
                 }
@@ -1002,12 +1004,14 @@ private class GraphPointAnimation : Equatable {
     
     static private var animationsCreated = 0
     
-    init(fromPoint: CGPoint, toPoint: CGPoint, forGraphPoint graphPoint: GraphPoint, forKey key: String = "animation\(animationsCreated++)") {
+    init(fromPoint: CGPoint, toPoint: CGPoint, forGraphPoint graphPoint: GraphPoint, forKey key: String = "animation\(animationsCreated)") {
         self.startingPoint = fromPoint
         self.endingPoint = toPoint
         self.animationKey = key
         self.graphPoint = graphPoint
         self.graphPoint?.currentlyAnimatingToPosition = true
+        
+        GraphPointAnimation.animationsCreated += 1
     }
     
     func update(dt: Double) {
@@ -1179,7 +1183,7 @@ private class DataPointDrawingLayer: GraphViewDrawingLayer {
         let pointPathCreator = getPointPathCreator()
         let numberOfPoints = min(data.count, activePointsInterval.endIndex)
         
-        for (var i = activePointsInterval.startIndex; i <= numberOfPoints; i++) {
+        for i in activePointsInterval.startIndex ... numberOfPoints {
             
             var location = CGPointZero
             
@@ -1446,7 +1450,7 @@ private class ReferenceLineDrawingView : UIView {
         let height = rect.size.height
         let spacePerPartition = height / CGFloat(numberOfIntermediateReferenceLines + 1)
         
-        for(var i = 0; i < numberOfIntermediateReferenceLines; i++) {
+        for i in 0 ..< numberOfIntermediateReferenceLines {
             
             let lineStart = CGPoint(x: 0, y: rect.origin.y + (spacePerPartition * CGFloat(i + 1)))
             let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
@@ -1579,7 +1583,7 @@ private class ReferenceLineDrawingView : UIView {
             addLineFrom(from, to: firstGapLeft, inPath: path)
             
             // Add lines between all intermediate gaps
-            for(var i = 0; i < gaps.count - 1; i++) {
+            for i in 0 ..< gaps.count - 1 {
                 
                 let startGapEnd = gaps[i].end
                 let endGapStart = gaps[i + 1].start
