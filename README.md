@@ -1,4 +1,4 @@
-# Scrolling GraphView
+# ScrollableGraphView
 
 ## About
 
@@ -41,19 +41,27 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 
 ## Usage
 
-### Adding the GraphView to your project:
+### Adding the ScrollableGraphView to your project:
 
-1. Add [GraphView.swift](graphview_example/GraphView/GraphView.swift) to your project in Xcode  
+Add the ```ScrollableGraphView``` class to your project. There are two ways to add the ScrollableGraphView to your project.
 
-2. Create a GraphView instance and set the data and labels  
+#### Manually
+Add [ScrollableGraphView.swift](graphview_example/ScrollableGraphView/ScrollableGraphView.swift) to your project in Xcode  
+
+#### CocoaPods
+Add ```pod 'ScrollableGraphView'``` to your Podfile and then make sure to ```import ScrollableGraphView``` in your code.
+
+### Creating a graph and setting the data.
+
+1. Create a ScrollableGraphView instance and set the data and labels  
     ```swift
-    let graphView = GraphView(frame: someFrame)
+    let graphView = ScrollableGraphView(frame: someFrame)
     let data = [4, 8, 15, 16, 23, 42]
     let labels = ["one", "two", "three", "four", "five", "six"]
     graphView.setData(data, withLabels: labels)
     ```  
 
-3. Add the GraphView to the view hierarchy.
+2. Add the ScrollableGraphView to the view hierarchy.
     ```swift
     someViewController.view.addSubview(graphView)
     ```
@@ -79,7 +87,7 @@ _Note: Examples here use a "colorFromHex" extension for UIColor._
 ### Default
 ![dark](readme_images/gallery/default.png)
 ```swift
-let graphView = GraphView(frame: frame)
+let graphView = ScrollableGraphView(frame: frame)
 graphView.setData(data, withLabels: labels)
 self.view.addSubview(graphView)
 ```
@@ -87,7 +95,7 @@ self.view.addSubview(graphView)
 ### Smooth Dark
 ![dark](readme_images/gallery/dark.png)
 ```swift
-let graphView = GraphView(frame: frame)
+let graphView = ScrollableGraphView(frame: frame)
 
 graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
 
@@ -95,12 +103,12 @@ graphView.rangeMax = 50
 
 graphView.lineWidth = 1
 graphView.lineColor = UIColor.colorFromHex("#777777")
-graphView.lineStyle = GraphViewLineStyle.Smooth
+graphView.lineStyle = ScrollableGraphViewLineStyle.Smooth
 
 graphView.shouldFill = true
-graphView.fillType = GraphViewFillType.Gradient
+graphView.fillType = ScrollableGraphViewFillType.Gradient
 graphView.fillColor = UIColor.colorFromHex("#555555")
-graphView.fillGradientType = GraphViewGradientType.Linear
+graphView.fillGradientType = ScrollableGraphViewGradientType.Linear
 graphView.fillGradientStartColor = UIColor.colorFromHex("#555555")
 graphView.fillGradientEndColor = UIColor.colorFromHex("#444444")
 
@@ -120,7 +128,7 @@ self.view.addSubview(graphView)
 ### Dot
 ![dot](readme_images/gallery/dot.png)
 ```swift
-let graphView = GraphView(frame:frame)
+let graphView = ScrollableGraphView(frame:frame)
 graphView.backgroundFillColor = UIColor.colorFromHex("#00BFFF")
 graphView.lineColor = UIColor.clearColor()
 
@@ -133,7 +141,7 @@ graphView.dataPointFillColor = UIColor.whiteColor()
 graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
 graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
 graphView.referenceLineLabelColor = UIColor.whiteColor()
-graphView.referenceLinePosition = GraphViewReferenceLinePosition.Both
+graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
 
 graphView.numberOfIntermediateReferenceLines = 9
 
@@ -145,7 +153,7 @@ self.view.addSubview(graphView)
 ### Pink Mountain
 ![pink](readme_images/gallery/pink_mountain.png)
 ```swift
-let graphView = GraphView(frame:frame)
+let graphView = ScrollableGraphView(frame:frame)
 graphView.backgroundFillColor = UIColor.colorFromHex("#222222")
 graphView.lineColor = UIColor.clearColor()
 
@@ -161,7 +169,7 @@ graphView.referenceLineThickness = 1
 graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
 graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
 graphView.referenceLineLabelColor = UIColor.whiteColor()
-graphView.referenceLinePosition = GraphViewReferenceLinePosition.Both
+graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
 
 graphView.numberOfIntermediateReferenceLines = 1
 
@@ -175,14 +183,14 @@ You can use the top and bottom margin to leave space for other content:
 
 ![pink_margins](readme_images/gallery/pink_margins.png)
 ```swift
-let graphView = GraphView(frame:frame)
+let graphView = ScrollableGraphView(frame:frame)
 
 graphView.bottomMargin = 350
 graphView.topMargin = 20
 
 graphView.backgroundFillColor = UIColor.colorFromHex("#222222")
 graphView.lineColor = UIColor.clearColor()
-graphView.lineStyle = GraphViewLineStyle.Smooth
+graphView.lineStyle = ScrollableGraphViewLineStyle.Smooth
 
 graphView.shouldFill = true
 graphView.fillColor = UIColor.colorFromHex("#FF0080")
@@ -206,7 +214,7 @@ self.view.addSubview(graphView)
 
 ## Customisation
 
-The graph can be customised by setting any of the following public properties before displaying the GraphView. The defaults are shown below.
+The graph can be customised by setting any of the following public properties before displaying the ScrollableGraphView. The defaults are shown below.
 
 ### Line Styles
 
@@ -221,14 +229,14 @@ var lineColor = UIColor.blackColor()
 The color of the graph line. UIColor.
 
 ```swift
-var lineStyle = GraphViewLineStyle.Straight
+var lineStyle = ScrollableGraphViewLineStyle.Straight
 ```
 Whether or not the line should be rendered using bezier curves are straight lines.
 
 Possible values:
 
-- ```GraphViewLineStyle.Straight```
-- ```GraphViewLineStyle.Smooth```
+- ```ScrollableGraphViewLineStyle.Straight```
+- ```ScrollableGraphViewLineStyle.Smooth```
 
 ```swift
 var lineJoin = kCALineJoinRound
@@ -252,14 +260,14 @@ var shouldFill = false
 Specifies whether or not the plotted graph should be filled with a colour or gradient.
 
 ```swift
-var fillType = GraphViewFillType.Solid
+var fillType = ScrollableGraphViewFillType.Solid
 ```
 Specifies whether to fill the graph with a solid colour or gradient.
 
 Possible values:
 
-- ```GraphViewFillType.Solid```
-- ```GraphViewFillType.Gradient```
+- ```ScrollableGraphViewFillType.Solid```
+- ```ScrollableGraphViewFillType.Gradient```
 
 ```swift
 var fillColor = UIColor.blackColor()
@@ -277,14 +285,14 @@ var fillGradientEndColor = UIColor.blackColor()
 If ```fillType``` is set to ```.Gradient```, then this will be the ending colour for the gradient.
 
 ```swift
-var fillGradientType = GraphViewGradientType.Linear
+var fillGradientType = ScrollableGraphViewGradientType.Linear
 ```
 If ```fillType``` is set to ```.Gradient```, then this defines whether the gradient is rendered as a linear gradient or radial gradient.
 
 Possible values:
 
-- ```GraphViewFillType.Solid```
-- ```GraphViewFillType.Gradient```
+- ```ScrollableGraphViewFillType.Solid```
+- ```ScrollableGraphViewFillType.Gradient```
 
 ### Spacing
 
@@ -316,14 +324,14 @@ var dataPointSpacing: CGFloat = 40
 How much space should be between each data point.
 
 ```swift
-var direction = GraphViewDirection.LeftToRight
+var direction = ScrollableGraphViewDirection.LeftToRight
 ```
 Which way the user is expected to scroll from.
 
 Possible values:
 
-- ```GraphViewDirection.LeftToRight```
-- ```GraphViewDirection.RightToLeft```
+- ```ScrollableGraphViewDirection.LeftToRight```
+- ```ScrollableGraphViewDirection.RightToLeft```
 
 
 ### Graph Range
@@ -355,15 +363,15 @@ var shouldDrawDataPoint = true
 Whether or not to draw a symbol for each data point.
 
 ```swift
-var dataPointType = GraphViewDataPointType.Circle
+var dataPointType = ScrollableGraphViewDataPointType.Circle
 ```
 The shape to draw for each data point.
 
 Possible values:
 
-- ```GraphViewDataPointType.Circle```
-- ```GraphViewDataPointType.Square```
-- ```GraphViewDataPointType.Custom```
+- ```ScrollableGraphViewDataPointType.Circle```
+- ```ScrollableGraphViewDataPointType.Square```
+- ```ScrollableGraphViewDataPointType.Custom```
 
 ```swift
 var dataPointSize: CGFloat = 5
@@ -399,15 +407,15 @@ var animationDuration = 1
 How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
 
 ```swift
-var adaptAnimationType = GraphViewAnimationType.EaseOut
+var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
 ```
 The animation style.
 
 Possible values:
 
-- ```GraphViewAnimationType.EaseOut```
-- ```GraphViewAnimationType.Elastic```
-- ```GraphViewAnimationType.Custom```
+- ```ScrollableGraphViewAnimationType.EaseOut```
+- ```ScrollableGraphViewAnimationType.Elastic```
+- ```ScrollableGraphViewAnimationType.Custom```
 
 ```swift
 var customAnimationEasingFunction: ((t: Double) -> Double)?
@@ -436,18 +444,18 @@ var referenceLineThickness: CGFloat = 0.5
 The thickness of the reference lines.
 
 ```swift
-var referenceLinePosition = GraphViewReferenceLinePosition.Left
+var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
 ```
 Where the labels should be displayed on the reference lines.
 
 Possible values:
 
-- ```GraphViewReferenceLinePosition.Left```
-- ```GraphViewReferenceLinePosition.Right```
-- ```GraphViewReferenceLinePosition.Both```
+- ```ScrollableGraphViewReferenceLinePosition.Left```
+- ```ScrollableGraphViewReferenceLinePosition.Right```
+- ```ScrollableGraphViewReferenceLinePosition.Both```
 
 ```swift
-var referenceLineType = GraphViewReferenceLineType.Cover
+var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
 ```
 The type of reference lines. Currently only ```.Cover``` is available.
 
