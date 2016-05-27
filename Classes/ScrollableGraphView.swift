@@ -1,7 +1,7 @@
 import UIKit
 
-// MARK: - GraphView
-class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
+// MARK: - ScrollableGraphView
+class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
     
     // MARK: - Public Properties
     // Use these to customise the graph.
@@ -10,7 +10,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     // Line Styles
     var lineWidth: CGFloat = 2
     var lineColor = UIColor.blackColor()
-    var lineStyle = GraphViewLineStyle.Straight
+    var lineStyle = ScrollableGraphViewLineStyle.Straight
     
     var lineJoin = kCALineJoinRound
     var lineCap = kCALineCapRound
@@ -20,11 +20,11 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     var backgroundFillColor = UIColor.whiteColor()
     
     var shouldFill = false
-    var fillType = GraphViewFillType.Solid
+    var fillType = ScrollableGraphViewFillType.Solid
     var fillColor = UIColor.blackColor()
     var fillGradientStartColor = UIColor.whiteColor()
     var fillGradientEndColor = UIColor.blackColor()
-    var fillGradientType = GraphViewGradientType.Linear
+    var fillGradientType = ScrollableGraphViewGradientType.Linear
     
     // Spacing
     var topMargin: CGFloat = 10
@@ -32,7 +32,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     var leftmostPointPadding: CGFloat = 50
     var rightmostPointPadding: CGFloat = 50
     var dataPointSpacing: CGFloat = 40
-    var direction = GraphViewDirection.LeftToRight
+    var direction = ScrollableGraphViewDirection.LeftToRight
     
     // Graph Range
     var shouldAutomaticallyDetectRange = false
@@ -42,7 +42,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     
     // Data Point Drawing
     var shouldDrawDataPoint = true
-    var dataPointType = GraphViewDataPointType.Circle
+    var dataPointType = ScrollableGraphViewDataPointType.Circle
     var dataPointSize: CGFloat = 5
     var dataPointFillColor: UIColor = UIColor.blackColor()
     var customDataPointPath: ((centre: CGPoint) -> UIBezierPath)?
@@ -51,7 +51,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     var shouldAdaptRange = false
     var shouldAnimateOnAdapt = true
     var animationDuration: Double = 1
-    var adaptAnimationType = GraphViewAnimationType.EaseOut
+    var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
     var customAnimationEasingFunction: ((t: Double) -> Double)?
     var shouldAnimateOnStartup = true
     
@@ -59,8 +59,8 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
     var shouldShowReferenceLines = true
     var referenceLineColor = UIColor.blackColor()
     var referenceLineThickness: CGFloat = 0.5
-    var referenceLinePosition = GraphViewReferenceLinePosition.Left
-    var referenceLineType = GraphViewReferenceLineType.Cover
+    var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
+    var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
     
     var numberOfIntermediateReferenceLines: Int = 3
     var shouldAddLabelsToIntermediateReferenceLines = true
@@ -777,7 +777,7 @@ class GraphView: UIScrollView, UIScrollViewDelegate, GraphViewDrawingDelegate {
         
         if let drawingLayers = drawingView.layer.sublayers {
             for layer in drawingLayers {
-                if let layer = layer as? GraphViewDrawingLayer {
+                if let layer = layer as? ScrollableGraphViewDrawingLayer {
                     layer.updatePath()
                 }
             }
@@ -1062,7 +1062,7 @@ private func ==(lhs: GraphPointAnimation, rhs: GraphPointAnimation) -> Bool {
 // MARK: - Drawing Layers
 
 // MARK: Delegate definition that provides the data required by the drawing layers.
-private protocol GraphViewDrawingDelegate {
+private protocol ScrollableGraphViewDrawingDelegate {
     func intervalForActivePoints() -> Range<Int>
     func rangeForActivePoints() -> (min: Double, max: Double)
     func dataForGraph() -> [Double]
@@ -1074,7 +1074,7 @@ private protocol GraphViewDrawingDelegate {
 // MARK: Drawing Layer Classes
 
 // MARK: Base Class
-private class GraphViewDrawingLayer : CAShapeLayer {
+private class ScrollableGraphViewDrawingLayer : CAShapeLayer {
     
     var offset: CGFloat = 0 {
         didSet {
@@ -1085,7 +1085,7 @@ private class GraphViewDrawingLayer : CAShapeLayer {
     var viewportWidth: CGFloat = 0
     var viewportHeight: CGFloat = 0
     
-    var graphViewDrawingDelegate: GraphViewDrawingDelegate? = nil
+    var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate? = nil
     
     var active = true
     
@@ -1120,9 +1120,9 @@ private class GraphViewDrawingLayer : CAShapeLayer {
 }
 
 // MARK: Drawing the Graph Line
-private class LineDrawingLayer : GraphViewDrawingLayer {
+private class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
     
-    init(frame: CGRect, lineWidth: CGFloat, lineColor: UIColor, lineStyle: GraphViewLineStyle, lineJoin: String, lineCap: String) {
+    init(frame: CGRect, lineWidth: CGFloat, lineColor: UIColor, lineStyle: ScrollableGraphViewLineStyle, lineJoin: String, lineCap: String) {
         super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
         
         self.lineWidth = lineWidth
@@ -1145,15 +1145,15 @@ private class LineDrawingLayer : GraphViewDrawingLayer {
 }
 
 // MARK: Drawing the Individual Data Points
-private class DataPointDrawingLayer: GraphViewDrawingLayer {
+private class DataPointDrawingLayer: ScrollableGraphViewDrawingLayer {
     
     private var dataPointPath = UIBezierPath()
     private var dataPointSize: CGFloat = 5
-    private var dataPointType: GraphViewDataPointType = .Circle
+    private var dataPointType: ScrollableGraphViewDataPointType = .Circle
     
     private var customDataPointPath: ((centre: CGPoint) -> UIBezierPath)?
     
-    init(frame: CGRect, fillColor: UIColor, dataPointType: GraphViewDataPointType, dataPointSize: CGFloat, customDataPointPath: ((centre: CGPoint) -> UIBezierPath)? = nil) {
+    init(frame: CGRect, fillColor: UIColor, dataPointType: ScrollableGraphViewDataPointType, dataPointSize: CGFloat, customDataPointPath: ((centre: CGPoint) -> UIBezierPath)? = nil) {
         
         self.dataPointType = dataPointType
         self.dataPointSize = dataPointSize
@@ -1247,11 +1247,11 @@ private class DataPointDrawingLayer: GraphViewDrawingLayer {
 }
 
 // MARK: Drawing the Graph Gradient Fill
-private class GradientDrawingLayer : GraphViewDrawingLayer {
+private class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
     
     private var startColor: UIColor
     private var endColor: UIColor
-    private var gradientType: GraphViewGradientType
+    private var gradientType: ScrollableGraphViewGradientType
     
     lazy private var gradientMask: CAShapeLayer = ({
         let mask = CAShapeLayer()
@@ -1264,7 +1264,7 @@ private class GradientDrawingLayer : GraphViewDrawingLayer {
         return mask
     })()
     
-    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: GraphViewGradientType, lineJoin: String = kCALineJoinRound) {
+    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: ScrollableGraphViewGradientType, lineJoin: String = kCALineJoinRound) {
         self.startColor = startColor
         self.endColor = endColor
         self.gradientType = gradientType
@@ -1311,7 +1311,7 @@ private class GradientDrawingLayer : GraphViewDrawingLayer {
 }
 
 // MARK: Drawing the Graph Fill
-private class FillDrawingLayer : GraphViewDrawingLayer {
+private class FillDrawingLayer : ScrollableGraphViewDrawingLayer {
     
     init(frame: CGRect, fillColor: UIColor) {
         super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
@@ -1336,8 +1336,8 @@ private class ReferenceLineDrawingView : UIView {
     // Reference line settings.
     var referenceLineColor: UIColor = UIColor.blackColor()
     var referenceLineThickness: CGFloat = 0.5
-    var referenceLinePosition = GraphViewReferenceLinePosition.Left
-    var referenceLineType = GraphViewReferenceLineType.Cover
+    var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
+    var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
     
     var numberOfIntermediateReferenceLines = 3 // Number of reference lines between the min and max line.
     
@@ -1359,7 +1359,7 @@ private class ReferenceLineDrawingView : UIView {
     private var leftLabelInset: CGFloat = 10
     private var rightLabelInset: CGFloat = 10
     
-    // Store information about the GraphView
+    // Store information about the ScrollableGraphView
     private var currentRange: (min: Double, max: Double) = (0,100)
     private var topMargin: CGFloat = 10
     private var bottomMargin: CGFloat = 10
@@ -1369,7 +1369,7 @@ private class ReferenceLineDrawingView : UIView {
     
     private var lineWidth: CGFloat {
         get {
-            if(self.referenceLineType == GraphViewReferenceLineType.Cover) {
+            if(self.referenceLineType == ScrollableGraphViewReferenceLineType.Cover) {
                 return self.bounds.width
             }
             else {
@@ -1653,47 +1653,47 @@ private class ReferenceLineDrawingView : UIView {
     }
 }
 
-// MARK: - GraphView Settings Enums
+// MARK: - ScrollableGraphView Settings Enums
 
-enum GraphViewLineStyle {
+enum ScrollableGraphViewLineStyle {
     case Straight
     case Smooth
 }
 
-enum GraphViewFillType {
+enum ScrollableGraphViewFillType {
     case Solid
     case Gradient
 }
 
-enum GraphViewGradientType {
+enum ScrollableGraphViewGradientType {
     case Linear
     case Radial
 }
 
-enum GraphViewDataPointType {
+enum ScrollableGraphViewDataPointType {
     case Circle
     case Square
     case Custom
 }
 
-enum GraphViewReferenceLinePosition {
+enum ScrollableGraphViewReferenceLinePosition {
     case Left
     case Right
     case Both
 }
 
-enum GraphViewReferenceLineType {
+enum ScrollableGraphViewReferenceLineType {
     case Cover
     //case Edge // FUTURE: Implement
 }
 
-enum GraphViewAnimationType {
+enum ScrollableGraphViewAnimationType {
     case EaseOut
     case Elastic
     case Custom
 }
 
-enum GraphViewDirection {
+enum ScrollableGraphViewDirection {
     case LeftToRight
     case RightToLeft
 }
