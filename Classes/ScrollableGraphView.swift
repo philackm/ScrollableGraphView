@@ -150,7 +150,7 @@ public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, Scrollable
     // MARK: - INIT, SETUP & VIEWPORT RESIZING
     // #######################################
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
     }
     
