@@ -8,78 +8,78 @@ public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, Scrollable
     // #################################
     
     // Line Styles
-    var lineWidth: CGFloat = 2
-    var lineColor = UIColor.blackColor()
-    var lineStyle = ScrollableGraphViewLineStyle.Straight
+    public var lineWidth: CGFloat = 2
+    public var lineColor = UIColor.blackColor()
+    public var lineStyle = ScrollableGraphViewLineStyle.Straight
     
-    var lineJoin = kCALineJoinRound
-    var lineCap = kCALineCapRound
-    var lineCurviness: CGFloat = 0.5
+    public var lineJoin = kCALineJoinRound
+    public var lineCap = kCALineCapRound
+    public var lineCurviness: CGFloat = 0.5
     
     // Fill Styles
-    var backgroundFillColor = UIColor.whiteColor()
+    public var backgroundFillColor = UIColor.whiteColor()
     
-    var shouldFill = false
-    var fillType = ScrollableGraphViewFillType.Solid
-    var fillColor = UIColor.blackColor()
-    var fillGradientStartColor = UIColor.whiteColor()
-    var fillGradientEndColor = UIColor.blackColor()
-    var fillGradientType = ScrollableGraphViewGradientType.Linear
+    public var shouldFill = false
+    public var fillType = ScrollableGraphViewFillType.Solid
+    public var fillColor = UIColor.blackColor()
+    public var fillGradientStartColor = UIColor.whiteColor()
+    public var fillGradientEndColor = UIColor.blackColor()
+    public var fillGradientType = ScrollableGraphViewGradientType.Linear
     
     // Spacing
-    var topMargin: CGFloat = 10
-    var bottomMargin: CGFloat = 10
-    var leftmostPointPadding: CGFloat = 50
-    var rightmostPointPadding: CGFloat = 50
-    var dataPointSpacing: CGFloat = 40
-    var direction = ScrollableGraphViewDirection.LeftToRight
+    public var topMargin: CGFloat = 10
+    public var bottomMargin: CGFloat = 10
+    public var leftmostPointPadding: CGFloat = 50
+    public var rightmostPointPadding: CGFloat = 50
+    public var dataPointSpacing: CGFloat = 40
+    public var direction = ScrollableGraphViewDirection.LeftToRight
     
     // Graph Range
-    var shouldAutomaticallyDetectRange = false
-    var shouldRangeAlwaysStartAtZero = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
-    var rangeMin: Double = 0 // Ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
-    var rangeMax: Double = 100  // Ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
+    public var shouldAutomaticallyDetectRange = false
+    public var shouldRangeAlwaysStartAtZero = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
+    public var rangeMin: Double = 0 // Ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
+    public var rangeMax: Double = 100  // Ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
     
     // Data Point Drawing
-    var shouldDrawDataPoint = true
-    var dataPointType = ScrollableGraphViewDataPointType.Circle
-    var dataPointSize: CGFloat = 5
-    var dataPointFillColor: UIColor = UIColor.blackColor()
-    var customDataPointPath: ((centre: CGPoint) -> UIBezierPath)?
+    public var shouldDrawDataPoint = true
+    public var dataPointType = ScrollableGraphViewDataPointType.Circle
+    public var dataPointSize: CGFloat = 5
+    public var dataPointFillColor: UIColor = UIColor.blackColor()
+    public var customDataPointPath: ((centre: CGPoint) -> UIBezierPath)?
     
     // Adapting & Animations
-    var shouldAdaptRange = false
-    var shouldAnimateOnAdapt = true
-    var animationDuration: Double = 1
-    var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
-    var customAnimationEasingFunction: ((t: Double) -> Double)?
-    var shouldAnimateOnStartup = true
+    public var shouldAdaptRange = false
+    public var shouldAnimateOnAdapt = true
+    public var animationDuration: Double = 1
+    public var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
+    public var customAnimationEasingFunction: ((t: Double) -> Double)?
+    public var shouldAnimateOnStartup = true
     
     // Reference Lines
-    var shouldShowReferenceLines = true
-    var referenceLineColor = UIColor.blackColor()
-    var referenceLineThickness: CGFloat = 0.5
-    var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
-    var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
+    public var shouldShowReferenceLines = true
+    public var referenceLineColor = UIColor.blackColor()
+    public var referenceLineThickness: CGFloat = 0.5
+    public var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
+    public var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
     
-    var numberOfIntermediateReferenceLines: Int = 3
-    var shouldAddLabelsToIntermediateReferenceLines = true
-    var shouldAddUnitsToIntermediateReferenceLineLabels = false
+    public var numberOfIntermediateReferenceLines: Int = 3
+    public var shouldAddLabelsToIntermediateReferenceLines = true
+    public var shouldAddUnitsToIntermediateReferenceLineLabels = false
     
     // Reference Line Labels
-    var referenceLineLabelFont = UIFont.systemFontOfSize(8)
-    var referenceLineLabelColor = UIColor.blackColor()
+    public var referenceLineLabelFont = UIFont.systemFontOfSize(8)
+    public var referenceLineLabelColor = UIColor.blackColor()
     
-    var shouldShowReferenceLineUnits = true
-    var referenceLineUnits: String?
-    var referenceLineNumberOfDecimalPlaces: Int = 0
+    public var shouldShowReferenceLineUnits = true
+    public var referenceLineUnits: String?
+    public var referenceLineNumberOfDecimalPlaces: Int = 0
     
     // Data Point Labels
-    var shouldShowLabels = true
-    var dataPointLabelTopMargin: CGFloat = 10
-    var dataPointLabelBottomMargin: CGFloat = 0
-    var dataPointLabelColor = UIColor.blackColor()
-    var dataPointLabelFont: UIFont? = UIFont.systemFontOfSize(10)
+    public var shouldShowLabels = true
+    public var dataPointLabelTopMargin: CGFloat = 10
+    public var dataPointLabelBottomMargin: CGFloat = 0
+    public var dataPointLabelColor = UIColor.blackColor()
+    public var dataPointLabelFont: UIFont? = UIFont.systemFontOfSize(10)
     
     // MARK: - Private State
     // #####################
@@ -1655,45 +1655,45 @@ private class ReferenceLineDrawingView : UIView {
 
 // MARK: - ScrollableGraphView Settings Enums
 
-enum ScrollableGraphViewLineStyle {
+public enum ScrollableGraphViewLineStyle {
     case Straight
     case Smooth
 }
 
-enum ScrollableGraphViewFillType {
+public enum ScrollableGraphViewFillType {
     case Solid
     case Gradient
 }
 
-enum ScrollableGraphViewGradientType {
+public enum ScrollableGraphViewGradientType {
     case Linear
     case Radial
 }
 
-enum ScrollableGraphViewDataPointType {
+public enum ScrollableGraphViewDataPointType {
     case Circle
     case Square
     case Custom
 }
 
-enum ScrollableGraphViewReferenceLinePosition {
+public enum ScrollableGraphViewReferenceLinePosition {
     case Left
     case Right
     case Both
 }
 
-enum ScrollableGraphViewReferenceLineType {
+public enum ScrollableGraphViewReferenceLineType {
     case Cover
     //case Edge // FUTURE: Implement
 }
 
-enum ScrollableGraphViewAnimationType {
+public enum ScrollableGraphViewAnimationType {
     case EaseOut
     case Elastic
     case Custom
 }
 
-enum ScrollableGraphViewDirection {
+public enum ScrollableGraphViewDirection {
     case LeftToRight
     case RightToLeft
 }
