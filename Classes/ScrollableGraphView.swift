@@ -1,7 +1,7 @@
 import UIKit
 
 // MARK: - ScrollableGraphView
-class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
+public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
     
     // MARK: - Public Properties
     // Use these to customise the graph.
@@ -154,7 +154,7 @@ class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphVi
         super.init(frame: frame)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -340,7 +340,7 @@ class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphVi
     }
     
     // If the view has changed we have to make sure we're still displaying the right data.
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
         updateUI()
@@ -419,7 +419,7 @@ class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphVi
     // MARK: - Public Methods
     // ######################
     
-    func setData(data: [Double], withLabels labels: [String]) {
+    public func setData(data: [Double], withLabels labels: [String]) {
         self.dataNeedsReloading = true
         self.data = data
         self.labels = labels
