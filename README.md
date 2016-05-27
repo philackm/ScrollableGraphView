@@ -46,7 +46,7 @@ An adaptive scrollable graph view for iOS to visualise simple discrete datasets.
 Add the ```ScrollableGraphView``` class to your project. There are two ways to add the ScrollableGraphView to your project.
 
 #### Manually
-Add [ScrollableGraphView.swift](graphview_example/ScrollableGraphView/ScrollableGraphView.swift) to your project in Xcode  
+Add [ScrollableGraphView.swift](Classes/ScrollableGraphView.swift) to your project in Xcode  
 
 #### CocoaPods
 Add ```pod 'ScrollableGraphView'``` to your Podfile and then make sure to ```import ScrollableGraphView``` in your code.
