@@ -12,20 +12,20 @@
 		291839A71C72E6A400753A45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 291839A51C72E6A400753A45 /* Main.storyboard */; };
 		291839A91C72E6A400753A45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 291839A81C72E6A400753A45 /* Assets.xcassets */; };
 		291839AC1C72E6A400753A45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 291839AA1C72E6A400753A45 /* LaunchScreen.storyboard */; };
-		29559B7E1C72E7A100E77931 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29559B7D1C72E7A100E77931 /* GraphView.swift */; };
+		294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */; };
 		29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2918399E1C72E6A400753A45 /* GraphView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		291839A11C72E6A400753A45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		291839A31C72E6A400753A45 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		291839A31C72E6A400753A45 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = GraphView/ViewController.swift; sourceTree = "<group>"; };
 		291839A61C72E6A400753A45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		291839A81C72E6A400753A45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		291839AB1C72E6A400753A45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		291839AD1C72E6A400753A45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		29559B7D1C72E7A100E77931 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
-		29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
+		294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphView.swift; path = ../../Classes/ScrollableGraphView.swift; sourceTree = "<group>"; };
+		29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+colorFromHex.swift"; path = "GraphView/UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +42,9 @@
 		291839951C72E6A400753A45 = {
 			isa = PBXGroup;
 			children = (
-				291839A01C72E6A400753A45 /* GraphView */,
+				294A1ACC1CF80C970070FACD /* Example */,
+				291839A01C72E6A400753A45 /* Classes */,
+				29559B7C1C72E72B00E77931 /* Supporting Files */,
 				2918399F1C72E6A400753A45 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,15 +57,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		291839A01C72E6A400753A45 /* GraphView */ = {
+		291839A01C72E6A400753A45 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
+			);
+			name = Classes;
+			path = GraphView;
+			sourceTree = "<group>";
+		};
+		294A1ACC1CF80C970070FACD /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				291839A31C72E6A400753A45 /* ViewController.swift */,
-				29559B7D1C72E7A100E77931 /* GraphView.swift */,
 				29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */,
-				29559B7C1C72E72B00E77931 /* Supporting Files */,
 			);
-			path = GraphView;
+			name = Example;
 			sourceTree = "<group>";
 		};
 		29559B7C1C72E72B00E77931 /* Supporting Files */ = {
@@ -76,6 +85,7 @@
 				291839AD1C72E6A400753A45 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			path = GraphView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,10 +158,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */,
 				291839A41C72E6A400753A45 /* ViewController.swift in Sources */,
 				29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */,
 				291839A21C72E6A400753A45 /* AppDelegate.swift in Sources */,
-				29559B7E1C72E7A100E77931 /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

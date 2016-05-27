@@ -1,5 +1,5 @@
 //
-//  Simple example usage of GraphView.swift
+//  Simple example usage of ScrollableGraphView.swift
 //  #######################################
 //
 
@@ -7,7 +7,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var graphView = GraphView()
+    var graphView = ScrollableGraphView()
     var currentGraphType = GraphType.Dark
     var graphConstraints = [NSLayoutConstraint]()
     
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        graphView = GraphView(frame: self.view.frame)
+        graphView = ScrollableGraphView(frame: self.view.frame)
         graphView = createDarkGraph(self.view.frame)
         
         graphView.setData(data, withLabels: labels)
@@ -60,19 +60,19 @@ class ViewController: UIViewController {
         setupConstraints()
     }
     
-    private func createDarkGraph(frame: CGRect) -> GraphView {
-        let graphView = GraphView(frame: frame)
+    private func createDarkGraph(frame: CGRect) -> ScrollableGraphView {
+        let graphView = ScrollableGraphView(frame: frame)
 
         graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
         
         graphView.lineWidth = 1
         graphView.lineColor = UIColor.colorFromHex("#777777")
-        graphView.lineStyle = GraphViewLineStyle.Smooth
+        graphView.lineStyle = ScrollableGraphViewLineStyle.Smooth
         
         graphView.shouldFill = true
-        graphView.fillType = GraphViewFillType.Gradient
+        graphView.fillType = ScrollableGraphViewFillType.Gradient
         graphView.fillColor = UIColor.colorFromHex("#555555")
-        graphView.fillGradientType = GraphViewGradientType.Linear
+        graphView.fillGradientType = ScrollableGraphViewGradientType.Linear
         graphView.fillGradientStartColor = UIColor.colorFromHex("#555555")
         graphView.fillGradientEndColor = UIColor.colorFromHex("#444444")
 
@@ -88,7 +88,7 @@ class ViewController: UIViewController {
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        graphView.adaptAnimationType = GraphViewAnimationType.Elastic
+        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.Elastic
         graphView.animationDuration = 1.5
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
@@ -96,9 +96,9 @@ class ViewController: UIViewController {
         return graphView
     }
     
-    private func createDotGraph(frame: CGRect) -> GraphView {
+    private func createDotGraph(frame: CGRect) -> ScrollableGraphView {
         
-        let graphView = GraphView(frame:frame)
+        let graphView = ScrollableGraphView(frame:frame)
         
         graphView.backgroundFillColor = UIColor.colorFromHex("#00BFFF")
         graphView.lineColor = UIColor.clearColor()
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
         graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
         graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         graphView.referenceLineLabelColor = UIColor.whiteColor()
-        graphView.referenceLinePosition = GraphViewReferenceLinePosition.Both
+        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
         
         graphView.numberOfIntermediateReferenceLines = 9
         
@@ -121,9 +121,9 @@ class ViewController: UIViewController {
         return graphView
     }
     
-    private func createPinkMountainGraph(frame: CGRect) -> GraphView {
+    private func createPinkMountainGraph(frame: CGRect) -> ScrollableGraphView {
         
-        let graphView = GraphView(frame:frame)
+        let graphView = ScrollableGraphView(frame:frame)
         
         graphView.backgroundFillColor = UIColor.colorFromHex("#222222")
         graphView.lineColor = UIColor.clearColor()
@@ -140,7 +140,7 @@ class ViewController: UIViewController {
         graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
         graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         graphView.referenceLineLabelColor = UIColor.whiteColor()
-        graphView.referenceLinePosition = GraphViewReferenceLinePosition.Both
+        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
         
         graphView.numberOfIntermediateReferenceLines = 1
         
