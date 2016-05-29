@@ -1,7 +1,7 @@
 import UIKit
 
 // MARK: - ScrollableGraphView
-public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
+@objc public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
     
     // MARK: - Public Properties
     // Use these to customise the graph.
@@ -1655,45 +1655,45 @@ private class ReferenceLineDrawingView : UIView {
 
 // MARK: - ScrollableGraphView Settings Enums
 
-public enum ScrollableGraphViewLineStyle {
+@objc public enum ScrollableGraphViewLineStyle : Int {
     case Straight
     case Smooth
 }
 
-public enum ScrollableGraphViewFillType {
+@objc public enum ScrollableGraphViewFillType : Int {
     case Solid
     case Gradient
 }
 
-public enum ScrollableGraphViewGradientType {
+@objc public enum ScrollableGraphViewGradientType : Int {
     case Linear
     case Radial
 }
 
-public enum ScrollableGraphViewDataPointType {
+@objc public enum ScrollableGraphViewDataPointType : Int {
     case Circle
     case Square
     case Custom
 }
 
-public enum ScrollableGraphViewReferenceLinePosition {
+@objc public enum ScrollableGraphViewReferenceLinePosition : Int {
     case Left
     case Right
     case Both
 }
 
-public enum ScrollableGraphViewReferenceLineType {
+@objc public enum ScrollableGraphViewReferenceLineType : Int {
     case Cover
     //case Edge // FUTURE: Implement
 }
 
-public enum ScrollableGraphViewAnimationType {
+@objc public enum ScrollableGraphViewAnimationType : Int {
     case EaseOut
     case Elastic
     case Custom
 }
 
-public enum ScrollableGraphViewDirection {
+@objc public enum ScrollableGraphViewDirection : Int {
     case LeftToRight
     case RightToLeft
 }
