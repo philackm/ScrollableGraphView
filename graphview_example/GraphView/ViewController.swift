@@ -49,6 +49,9 @@ class ViewController: UIViewController {
         case .Dot:
             addLabel(withText: "DOT")
             graphView = createDotGraph(self.view.frame)
+        case .Bar:
+            addLabel(withText: "BAR")
+            graphView = createBarGraph(self.view.frame)
         case .Pink:
             addLabel(withText: "PINK")
             graphView = createPinkMountainGraph(self.view.frame)
@@ -80,6 +83,36 @@ class ViewController: UIViewController {
         graphView.dataPointSize = 2
         graphView.dataPointFillColor = UIColor.whiteColor()
 
+        graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(8)
+        graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+        graphView.referenceLineLabelColor = UIColor.whiteColor()
+        graphView.numberOfIntermediateReferenceLines = 5
+        graphView.dataPointLabelColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        
+        graphView.shouldAnimateOnStartup = true
+        graphView.shouldAdaptRange = true
+        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.Elastic
+        graphView.animationDuration = 1.5
+        graphView.rangeMax = 50
+        graphView.shouldRangeAlwaysStartAtZero = true
+        
+        return graphView
+    }
+    
+    private func createBarGraph(frame: CGRect) -> ScrollableGraphView {
+        let graphView = ScrollableGraphView(frame:frame)
+        
+        graphView.dataPointType = ScrollableGraphViewDataPointType.Circle
+        graphView.shouldDrawBarLayer = true
+        graphView.shouldDrawDataPoint = false
+    
+        graphView.lineColor = UIColor.clearColor()
+        graphView.barWidth = 25
+        graphView.barLineWidth = 1
+        graphView.barLineColor = UIColor.colorFromHex("#777777")
+        graphView.barColor = UIColor.colorFromHex("#555555")
+        graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
+        
         graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(8)
         graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
         graphView.referenceLineLabelColor = UIColor.whiteColor()
@@ -240,12 +273,15 @@ class ViewController: UIViewController {
     // The type of the current graph we are showing.
     enum GraphType {
         case Dark
+        case Bar
         case Dot
         case Pink
         
         mutating func next() {
             switch(self) {
             case .Dark:
+                self = GraphType.Bar
+            case .Bar:
                 self = GraphType.Dot
             case .Dot:
                 self = GraphType.Pink
