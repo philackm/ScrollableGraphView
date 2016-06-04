@@ -282,7 +282,7 @@ import UIKit
         
         // Data Point layer
         if(shouldDrawDataPoint) {
-            dataPointLayer = DataPointDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize)
+            dataPointLayer = DataPointDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
             dataPointLayer?.graphViewDrawingDelegate = self
             drawingView.layer.insertSublayer(dataPointLayer!, above: lineLayer)
         }
