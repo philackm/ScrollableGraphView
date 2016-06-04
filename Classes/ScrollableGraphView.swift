@@ -104,6 +104,7 @@ import UIKit
     
     // Graph Line
     private var currentLinePath = UIBezierPath()
+    private var zeroYPosition: CGFloat = 0
     
     // Labels
     private var labelsView = UIView()
@@ -659,12 +660,12 @@ import UIKit
         
         let pathSegmentAdder = lineStyle == .Straight ? addStraightLineSegment : addCurvedLineSegment
         
+        zeroYPosition = calculatePosition(0, value: self.range.min).y
+        
         // Connect the line to the starting edge if we are filling it.
         if(shouldFill) {
             // Add a line from the base of the graph to the first data point.
             let firstDataPoint = graphPoints[activePointsInterval.startIndex]
-            
-            let zeroYPosition = calculatePosition(0, value: self.range.min).y
             
             let viewportLeftZero = CGPoint(x: firstDataPoint.x - (leftmostPointPadding), y: zeroYPosition)
             let leftFarEdgeTop = CGPoint(x: firstDataPoint.x - (leftmostPointPadding + viewportWidth), y: zeroYPosition)
@@ -693,8 +694,6 @@ import UIKit
         if(shouldFill) {
             // Add a line from the last data point to the base of the graph.
             let lastDataPoint = graphPoints[activePointsInterval.endIndex]
-            
-            let zeroYPosition = calculatePosition(0, value: self.range.min).y
             
             let viewportRightZero = CGPoint(x: lastDataPoint.x + (rightmostPointPadding), y: zeroYPosition)
             let rightFarEdgeTop = CGPoint(x: lastDataPoint.x + (rightmostPointPadding + viewportWidth), y: zeroYPosition)
@@ -773,11 +772,16 @@ import UIKit
     
     // Update any paths with the new path based on visible data points.
     private func updatePaths() {
+        
         createLinePath()
         
         if let drawingLayers = drawingView.layer.sublayers {
             for layer in drawingLayers {
                 if let layer = layer as? ScrollableGraphViewDrawingLayer {
+                    // Need to make sure this is set in createLinePath
+                    assert (layer.zeroYPosition > 0);
+                    // The bar layer needs the zero Y position to set the bottom of the bar
+                    layer.zeroYPosition = zeroYPosition
                     layer.updatePath()
                 }
             }
@@ -1084,6 +1088,7 @@ private class ScrollableGraphViewDrawingLayer : CAShapeLayer {
     
     var viewportWidth: CGFloat = 0
     var viewportHeight: CGFloat = 0
+    var zeroYPosition: CGFloat = 0
     
     var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate? = nil
     
