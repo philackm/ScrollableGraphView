@@ -125,6 +125,39 @@ graphView.setData(data, withLabels: labels)
 self.view.addSubview(graphView)
 ```
 
+### Bar Dark (Bar layer thanks to [@RedBlueThing](https://twitter.com/RedBlueThing))
+![bar](readme_images/gallery/bar.png)
+```swift
+let graphView = ScrollableGraphView(frame:frame)  
+
+// Disable the lines and data points.
+graphView.shouldDrawDataPoint = false
+graphView.lineColor = UIColor.clearColor()
+
+// Tell the graph it should draw the bar layer instead.
+graphView.shouldDrawBarLayer = true
+
+// Customise the bar.
+graphView.barWidth = 25
+graphView.barLineWidth = 1
+graphView.barLineColor = UIColor.colorFromHex("#777777")
+graphView.barColor = UIColor.colorFromHex("#555555")
+graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
+
+graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(8)
+graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+graphView.referenceLineLabelColor = UIColor.whiteColor()
+graphView.numberOfIntermediateReferenceLines = 5
+graphView.dataPointLabelColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+
+graphView.shouldAnimateOnStartup = true
+graphView.shouldAdaptRange = true
+graphView.adaptAnimationType = ScrollableGraphViewAnimationType.Elastic
+graphView.animationDuration = 1.5
+graphView.rangeMax = 50
+graphView.shouldRangeAlwaysStartAtZero = true
+```
+
 ### Dot
 ![dot](readme_images/gallery/dot.png)
 ```swift
