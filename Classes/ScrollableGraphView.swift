@@ -7,6 +7,13 @@ import UIKit
     // Use these to customise the graph.
     // #################################
     
+    // Bar styles
+    public var shouldDrawBarLayer = false
+    public var barLineWidth: CGFloat = 1
+    public var barLineColor = UIColor.darkGrayColor()
+    public var barColor = UIColor.grayColor()
+    public var barWidth: CGFloat = 25;
+    
     // Line Styles
     public var lineWidth: CGFloat = 2
     public var lineColor = UIColor.blackColor()
@@ -114,6 +121,7 @@ import UIKit
     private var graphPoints = [GraphPoint]()
     
     private var drawingView = UIView()
+    private var barLayer: BarDrawingLayer?
     private var lineLayer: LineDrawingLayer?
     private var dataPointLayer: DataPointDrawingLayer?
     private var fillLayer: FillDrawingLayer?
@@ -305,6 +313,18 @@ import UIKit
                 gradientLayer!.graphViewDrawingDelegate = self
                 drawingView.layer.insertSublayer(gradientLayer!, below: lineLayer)
             }
+        }
+        
+        // The bar layer
+        if (shouldDrawBarLayer) {
+            // Bar Layer
+            barLayer = BarDrawingLayer(frame: viewport,
+                                       barWidth: barWidth,
+                                       barColor: barColor,
+                                       barLineWidth: barLineWidth,
+                                       barLineColor: barLineColor)
+            barLayer?.graphViewDrawingDelegate = self
+            drawingView.layer.insertSublayer (barLayer!, below: lineLayer)
         }
     }
     
@@ -778,10 +798,10 @@ import UIKit
         if let drawingLayers = drawingView.layer.sublayers {
             for layer in drawingLayers {
                 if let layer = layer as? ScrollableGraphViewDrawingLayer {
-                    // Need to make sure this is set in createLinePath
-                    assert (layer.zeroYPosition > 0);
                     // The bar layer needs the zero Y position to set the bottom of the bar
                     layer.zeroYPosition = zeroYPosition
+                    // Need to make sure this is set in createLinePath
+                    assert (layer.zeroYPosition > 0);
                     layer.updatePath()
                 }
             }
@@ -1122,6 +1142,85 @@ private class ScrollableGraphViewDrawingLayer : CAShapeLayer {
     func updatePath() {
         fatalError("updatePath needs to be implemented by the subclass")
     }
+}
+
+// MARK: Drawing the bars
+private class BarDrawingLayer: ScrollableGraphViewDrawingLayer {
+    
+    private var barPath = UIBezierPath()
+    private var barWidth: CGFloat = 4
+    
+    init(frame: CGRect, barWidth: CGFloat, barColor: UIColor, barLineWidth: CGFloat, barLineColor: UIColor) {
+        super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
+        
+        self.barWidth = barWidth
+        self.lineWidth = barLineWidth
+        self.strokeColor = barLineColor.CGColor
+        self.fillColor = barColor.CGColor
+        
+        self.lineJoin = lineJoin
+        self.lineCap = lineCap
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func createBarPath(centre: CGPoint) -> UIBezierPath {
+        
+        let squarePath = UIBezierPath()
+        
+        squarePath.moveToPoint(centre)
+        let barWidthOffset: CGFloat = self.barWidth / 2
+        
+        let topLeft = CGPoint(x: centre.x - barWidthOffset, y: centre.y)
+        let topRight = CGPoint(x: centre.x + barWidthOffset, y: centre.y)
+        let bottomLeft = CGPoint(x: centre.x - barWidthOffset, y: zeroYPosition)
+        let bottomRight = CGPoint(x: centre.x + barWidthOffset, y: zeroYPosition)
+        
+        squarePath.moveToPoint(topLeft)
+        squarePath.addLineToPoint(topRight)
+        squarePath.addLineToPoint(bottomRight)
+        squarePath.addLineToPoint(bottomLeft)
+        squarePath.addLineToPoint(topLeft)
+        
+        return squarePath
+    }
+    
+    private func createPath () -> UIBezierPath {
+        
+        barPath.removeAllPoints()
+        
+        // We can only move forward if we can get the data we need from the delegate.
+        guard let
+            activePointsInterval = self.graphViewDrawingDelegate?.intervalForActivePoints(),
+            data = self.graphViewDrawingDelegate?.dataForGraph()
+            else {
+                return barPath
+        }
+        
+        let numberOfPoints = min(data.count, activePointsInterval.endIndex)
+        
+        for i in activePointsInterval.startIndex ... numberOfPoints {
+            
+            var location = CGPointZero
+            
+            if let pointLocation = self.graphViewDrawingDelegate?.graphPointForIndex(i).location {
+                location = pointLocation
+            }
+            
+            let pointPath = createBarPath(location)
+            barPath.appendPath(pointPath)
+        }
+        
+        return barPath
+    }
+    
+    override func updatePath() {
+        
+        self.path = createPath ().CGPath
+    }
+    
 }
 
 // MARK: Drawing the Graph Line
