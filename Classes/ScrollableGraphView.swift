@@ -248,6 +248,8 @@ import UIKit
         // X-Axis Labels
         self.insertSubview(labelsView, aboveSubview: drawingView)
         
+        updateOffsetWidths()
+        
         // Animation loop for when the range adapts
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
