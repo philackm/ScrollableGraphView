@@ -445,7 +445,7 @@ import UIKit
     public func setData(data: [Double], withLabels labels: [String]) {
         
         // If we are setting exactly the same data and labels, there's no need to re-init everything.
-        guard self.data != data && self.labels != labels else {
+        if(self.data == data && self.labels == labels) {
             return
         }
         
