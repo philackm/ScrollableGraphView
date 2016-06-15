@@ -87,7 +87,8 @@ import UIKit
     public var dataPointLabelBottomMargin: CGFloat = 0
     public var dataPointLabelColor = UIColor.blackColor()
     public var dataPointLabelFont: UIFont? = UIFont.systemFontOfSize(10)
-    
+    public var dataPointLabelsSparsity: Int = 1 // Used to force the graph to show every n-th dataPoint label (by default displaying every label)
+  
     // MARK: - Private State
     // #####################
     
@@ -760,15 +761,17 @@ import UIKit
     // If the active points (the points we can actually see) change, then we need to update the path.
     private func activePointsDidChange() {
         
-        let deactivatedPoints = determineDeactivatedPoints()
-        let activatedPoints = determineActivatedPoints()
-        
-        updatePaths()
-        if(shouldShowLabels) {
-            updateLabels(deactivatedPoints, activatedPoints)
-        }
-    }
-    
+      let deactivatedPoints = determineDeactivatedPoints()
+      let activatedPoints = determineActivatedPoints()
+      
+      updatePaths()
+      if(shouldShowLabels) {
+        let deactivatedLabelPoints = filterPointsForLabels(fromPoints: deactivatedPoints)
+        let activatedLabelPoints = filterPointsForLabels(fromPoints: activatedPoints)
+        updateLabels(deactivatedLabelPoints, activatedLabelPoints)
+      }
+  }
+  
     private func rangeDidChange() {
         
         // If shouldAnimateOnAdapt is enabled it will kickoff any animations that need to occur.
@@ -882,7 +885,15 @@ import UIKit
         }
         return set
     }
+  
+  private func filterPointsForLabels(fromPoints points:[Int]) -> [Int] {
     
+    if(self.dataPointLabelsSparsity == 1) {
+      return points
+    }
+    return points.filter({ $0 % self.dataPointLabelsSparsity == 0 })
+  }
+  
     private func startAnimations(withStaggerValue stagger: Double = 0) {
         
         var pointsToAnimate = 0 ..< 0
