@@ -56,7 +56,7 @@ Add ```pod 'ScrollableGraphView'``` to your Podfile and then make sure to ```imp
 1. Create a ScrollableGraphView instance and set the data and labels  
     ```swift
     let graphView = ScrollableGraphView(frame: someFrame)
-    let data = [4, 8, 15, 16, 23, 42]
+    let data = [4.0, 8.0, 15.0, 16.0, 23.0, 42.0]
     let labels = ["one", "two", "three", "four", "five", "six"]
     graphView.setData(data, withLabels: labels)
     ```  
