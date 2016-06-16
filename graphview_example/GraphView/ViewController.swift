@@ -165,9 +165,11 @@ class ViewController: UIViewController {
         graphView.fillColor = UIColor.colorFromHex("#FF0080")
         
         graphView.shouldDrawDataPoint = false
-        graphView.dataPointSpacing = 80
+        graphView.dataPointSpacing = 20
         graphView.dataPointLabelFont = UIFont.boldSystemFontOfSize(10)
         graphView.dataPointLabelColor = UIColor.whiteColor()
+      
+        graphView.dataPointLabelsSparsity = 3
 
         graphView.referenceLineThickness = 1
         graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
