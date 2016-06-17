@@ -22,7 +22,7 @@ The main goal of the this graph component is to visualise simple discrete datase
 
 ## Features
 
-| Feature|
+| Feature List |
 |--------|
 | Initialisation animations and range adaption animations. <br><br> ![Animating](readme_images/animating.gif)|
 | Range adaption when scrolling through the graph. The range of the y-axis will automatically adapt to to the min and max of the visible points. <br><br> ![Adapting](readme_images/adapting.gif)|
@@ -85,16 +85,6 @@ The graph can be customised by setting any of the following public properties be
 | **lineJoin**  | How each segment in the line should connect. Takes any of the Core Animation LineJoin values.                                                                                      |
 | **lineCap**   | The line caps. Takes any of the Core Animation LineCap values.                                                                                                                     |
 
-### Bar Styles
-
-| Property                 | Description                                                                                                                                                                                                                                                           |
-|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **shouldDrawBarLayer**: Bool | Whether bars should be drawn or not. If you want a bar graph, this should be set to `true`. However, you will probably want to disable drawing the data points with `shouldDrawDataPoint = false`. If you want to hide the line as well: `lineColor = UIColor.clearColor()` |
-| **barWidth**: CGFloat        | The width of an individual bar on the graph.                                                                                                                                                                                                                          |
-| **barColor**: UIColor        | The actual colour of the bar.                                                                                                                                                                                                                                         |
-| **barLineWidth**: CGFloat    | The width of the outline of the bar                                                                                                                                                                                                                                   |
-| **barLineColor**: UIColor    | The colour of the bar outline                                                                                                                                                                                                                                         |
-
 ### Fill Styles
 | Property               | Description                                                                                                                                                                                                         |
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -105,6 +95,16 @@ The graph can be customised by setting any of the following public properties be
 | **fillGradientStartColor**: UIColor | If `fillType` is set to `.Gradient` then this will be the starting colour for the gradient.                                                                                                                             |
 | **fillGradientEndColor**: UIColor   | If `fillType` is set to `.Gradient`, then this will be the ending colour for the gradient.                                                                                                                              |
 | **fillGradientType**:ScrollableGraphViewGradientType       | If `fillType` is set to `.Gradient`, then this defines whether the gradient is rendered as a linear gradient or radial gradient. Possible values: <ul><li>`ScrollableGraphViewFillType.Solid`</li><li>`ScrollableGraphViewFillType.Gradient`</li></ul> |
+
+### Bar Styles
+
+| Property                 | Description                                                                                                                                                                                                                                                           |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **shouldDrawBarLayer**: Bool | Whether bars should be drawn or not. If you want a bar graph, this should be set to `true`. However, you will probably want to disable drawing the data points with `shouldDrawDataPoint = false`. If you want to hide the line as well: `lineColor = UIColor.clearColor()` |
+| **barWidth**: CGFloat        | The width of an individual bar on the graph.                                                                                                                                                                                                                          |
+| **barColor**: UIColor        | The actual colour of the bar.                                                                                                                                                                                                                                         |
+| **barLineWidth**: CGFloat    | The width of the outline of the bar                                                                                                                                                                                                                                   |
+| **barLineColor**: UIColor    | The colour of the bar outline                                                                                                                                                                                                                                         |
 
 ### Spacing
 
