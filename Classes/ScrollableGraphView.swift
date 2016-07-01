@@ -148,6 +148,8 @@ import UIKit
     public var referenceLineUnits: String?
     /// The number of decimal places that should be shown on the reference line labels.
     public var referenceLineNumberOfDecimalPlaces: Int = 0
+    /// The NSNumberFormatterStyle that reference lines should use to display
+    public var referenceLineNumberStyle: NSNumberFormatterStyle = .NoStyle
     
     // Data Point Labels
     // #################
@@ -434,6 +436,7 @@ import UIKit
         referenceLineView?.labelFont = self.referenceLineLabelFont
         referenceLineView?.labelColor = self.referenceLineLabelColor
         referenceLineView?.labelDecimalPlaces = self.referenceLineNumberOfDecimalPlaces
+        referenceLineView?.labelNumberStyle = self.referenceLineNumberStyle
         
         referenceLineView?.setRange(self.range)
         self.addSubview(referenceLineView!)
@@ -1548,6 +1551,7 @@ private class ReferenceLineDrawingView : UIView {
     var labelFont: UIFont = UIFont.systemFontOfSize(8)
     var labelColor: UIColor = UIColor.blackColor()
     var labelDecimalPlaces: Int = 2
+    var labelNumberStyle: NSNumberFormatterStyle = .NoStyle
     
     // PRIVATE PROPERTIES
     
@@ -1631,8 +1635,10 @@ private class ReferenceLineDrawingView : UIView {
         let minLineStart = CGPoint(x: 0, y: self.bounds.height - bottomMargin)
         let minLineEnd = CGPoint(x: lineWidth, y: self.bounds.height - bottomMargin)
         
-        let maxString = String(format: "%.\(labelDecimalPlaces)f", arguments: [self.currentRange.max]) + units
-        let minString = String(format: "%.\(labelDecimalPlaces)f", arguments: [self.currentRange.min]) + units
+        let numberFormatter = referenceNumberFormatter()
+        
+        let maxString = numberFormatter.stringFromNumber(self.currentRange.max)! + units
+        let minString = numberFormatter.stringFromNumber(self.currentRange.min)! + units
         
         addLineWithTag(maxString, from: maxLineStart, to: maxLineEnd, inPath: referenceLinePath)
         addLineWithTag(minString, from: minLineStart, to: minLineEnd, inPath: referenceLinePath)
@@ -1642,6 +1648,15 @@ private class ReferenceLineDrawingView : UIView {
         createIntermediateReferenceLines(initialRect, numberOfIntermediateReferenceLines: self.numberOfIntermediateReferenceLines, forPath: referenceLinePath)
         
         return referenceLinePath
+    }
+    
+    private func referenceNumberFormatter() -> NSNumberFormatter {
+        let numberFormatter = NSNumberFormatter()
+        numberFormatter.numberStyle = labelNumberStyle
+        numberFormatter.minimumFractionDigits = labelDecimalPlaces
+        numberFormatter.maximumFractionDigits = labelDecimalPlaces
+        
+        return numberFormatter
     }
     
     private func createIntermediateReferenceLines(rect: CGRect, numberOfIntermediateReferenceLines: Int, forPath path: UIBezierPath) {
@@ -1692,7 +1707,8 @@ private class ReferenceLineDrawingView : UIView {
         if(shouldAddLabelsToIntermediateReferenceLines) {
             
             let value = calculateYAxisValueForPoint(lineStart)
-            var valueString = String(format: "%.\(labelDecimalPlaces)f", arguments: [value])
+            let numberFormatter = referenceNumberFormatter()
+            var valueString = numberFormatter.stringFromNumber(value)!
             
             if(shouldAddUnitsToIntermediateReferenceLineLabels) {
                 valueString += " \(units)"
