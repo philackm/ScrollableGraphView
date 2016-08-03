@@ -1,6 +1,7 @@
 import UIKit
 
 // MARK: - ScrollableGraphView
+@IBDesignable
 @objc public class ScrollableGraphView: UIScrollView, UIScrollViewDelegate, ScrollableGraphViewDrawingDelegate {
     
     // MARK: - Public Properties
@@ -248,6 +249,10 @@ import UIKit
         displayLink?.invalidate()
     }
     
+    public override func prepareForInterfaceBuilder() {
+        setData([10, 2, 34, 11, 22], withLabels: ["One", "Two", "Three", "Four", "Five"])
+    }
+    
     private func setup() {
         
         isCurrentlySettingUp = true
@@ -303,7 +308,11 @@ import UIKit
         
         // Create all the GraphPoints which which are used for drawing.
         for i in 0 ..< data.count {
+            #if TARGET_INTERFACE_BUILDER
+            let value = data[i]
+            #else
             let value = (shouldAnimateOnStartup) ? self.range.min : data[i]
+            #endif
             
             let position = calculatePosition(i, value: value)
             let point = GraphPoint(position: position)
@@ -327,10 +336,12 @@ import UIKit
         
         updateOffsetWidths()
         
+        #if !TARGET_INTERFACE_BUILDER
         // Animation loop for when the range adapts
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         displayLink.paused = true
+        #endif
         
         isCurrentlySettingUp = false
         
@@ -443,7 +454,12 @@ import UIKit
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        updateUI()
+        // while putting the view on the IB, we may get calls with frame too small
+        // if frame height is too small we won't be able to calculate zeroYPosition
+        // so make sure to proceed only if there is enough space
+        if frame.height > topMargin + bottomMargin {
+            updateUI()
+        }
     }
     
     private func updateUI() {
@@ -867,7 +883,9 @@ import UIKit
             
             // Need to update the graph points so they are in their right positions for the new viewport.
             // Animate them into position if animation is enabled, but make sure to stop any current animations first.
+            #if !TARGET_INTERFACE_BUILDER
             dequeueAllAnimations()
+            #endif
             startAnimations()
             
             // The labels will also need to be repositioned if the viewport has changed.
@@ -972,9 +990,11 @@ import UIKit
         
         var pointsToAnimate = 0 ..< 0
         
+        #if !TARGET_INTERFACE_BUILDER
         if (shouldAnimateOnAdapt || (dataNeedsReloading && shouldAnimateOnStartup)) {
             pointsToAnimate = activePointsInterval
         }
+        #endif
         
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
