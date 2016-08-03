@@ -647,12 +647,12 @@ import UIKit
         let actualMin = clamp(min - numberOfPointsOffscreen, min: minPossible, max: maxPossible)
         let actualMax = clamp(max + numberOfPointsOffscreen, min: minPossible, max: maxPossible)
         
-        return actualMin ..< actualMax
+        return actualMin ... actualMax
     }
     
     private func calculateRangeForActivePointsInterval(interval: Range<Int>) -> (min: Double, max: Double) {
         
-        let dataForActivePoints = data[interval.startIndex...interval.endIndex]
+        let dataForActivePoints = data[interval]
         
         // We don't have any active points, return defaults.
         if(dataForActivePoints.count == 0) {
@@ -761,8 +761,6 @@ import UIKit
         
         currentLinePath.removeAllPoints()
         
-        let numberOfPoints = min(data.count, activePointsInterval.endIndex)
-        
         let pathSegmentAdder = lineStyle == .Straight ? addStraightLineSegment : addCurvedLineSegment
         
         zeroYPosition = calculatePosition(0, value: self.range.min).y
@@ -787,7 +785,7 @@ import UIKit
         }
         
         // Connect each point on the graph with a segment.
-        for i in activePointsInterval.startIndex ..< numberOfPoints {
+        for i in activePointsInterval.startIndex ..< activePointsInterval.endIndex - 1 {
             
             let startPoint = graphPoints[i].location
             let endPoint = graphPoints[i+1].location
@@ -798,7 +796,7 @@ import UIKit
         // Connect the line to the ending edge if we are filling it.
         if(shouldFill) {
             // Add a line from the last data point to the base of the graph.
-            let lastDataPoint = graphPoints[activePointsInterval.endIndex]
+            let lastDataPoint = graphPoints[activePointsInterval.endIndex - 1]
             
             let viewportRightZero = CGPoint(x: lastDataPoint.x + (rightmostPointPadding), y: zeroYPosition)
             let rightFarEdgeTop = CGPoint(x: lastDataPoint.x + (rightmostPointPadding + viewportWidth), y: zeroYPosition)
@@ -981,7 +979,7 @@ import UIKit
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
         var index = 0
-        for i in pointsToAnimate.startIndex ... pointsToAnimate.endIndex {
+        for i in pointsToAnimate {
             let newPosition = calculatePosition(i, value: data[i])
             let point = graphPoints[i]
             animatePoint(point, toPosition: newPosition, withDelay: Double(index) * stagger)
@@ -1294,9 +1292,7 @@ private class BarDrawingLayer: ScrollableGraphViewDrawingLayer {
                 return barPath
         }
         
-        let numberOfPoints = min(data.count, activePointsInterval.endIndex)
-        
-        for i in activePointsInterval.startIndex ... numberOfPoints {
+        for i in activePointsInterval {
             
             var location = CGPointZero
             
@@ -1380,9 +1376,8 @@ private class DataPointDrawingLayer: ScrollableGraphViewDrawingLayer {
         }
         
         let pointPathCreator = getPointPathCreator()
-        let numberOfPoints = min(data.count, activePointsInterval.endIndex)
         
-        for i in activePointsInterval.startIndex ... numberOfPoints {
+        for i in activePointsInterval {
             
             var location = CGPointZero
             
