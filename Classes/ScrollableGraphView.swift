@@ -269,7 +269,9 @@ import UIKit
     }
     
     public override func prepareForInterfaceBuilder() {
-        setData([10, 2, 34, 11, 22], withLabels: ["One", "Two", "Three", "Four", "Five"])
+        super.prepareForInterfaceBuilder()
+        
+        setData([10, 2, 34, 11, 22, 11, 44, 9, 12, 4], withLabels: ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"])
     }
     
     private func setup() {
