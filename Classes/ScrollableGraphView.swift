@@ -476,7 +476,12 @@ import UIKit
         // while putting the view on the IB, we may get calls with frame too small
         // if frame height is too small we won't be able to calculate zeroYPosition
         // so make sure to proceed only if there is enough space
-        if frame.height > topMargin + bottomMargin {
+        var availableGraphHeight = frame.height
+        availableGraphHeight = availableGraphHeight - topMargin - bottomMargin
+        
+        if(shouldShowLabels && dataPointLabelFont != nil) { availableGraphHeight -= (dataPointLabelFont!.pointSize + dataPointLabelTopMargin + dataPointLabelBottomMargin) }
+        
+        if availableGraphHeight > 0 {
             updateUI()
         }
     }
