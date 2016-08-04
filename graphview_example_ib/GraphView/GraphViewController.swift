@@ -13,10 +13,7 @@ class GraphViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let data = data else {
-            return
-        }
-        guard let labels = labels else {
+        guard let data = data, let labels = labels else {
             return
         }
         graphView?.setData(data, withLabels: labels)
