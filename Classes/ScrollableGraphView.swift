@@ -12,47 +12,66 @@ import UIKit
     // ###########
     
     /// Specifies how thick the graph of the line is. In points.
-    public var lineWidth: CGFloat = 2
+    @IBInspectable public var lineWidth: CGFloat = 2
     /// The color of the graph line. UIColor.
-    public var lineColor = UIColor.blackColor()
+    // We must not use type inferring here or else the property won't show up in IB
+    @IBInspectable public var lineColor: UIColor = UIColor.blackColor()
+    
+    @IBInspectable var lineStyle_: Int {
+        get { return lineStyle.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewLineStyle(rawValue: newValue) {
+                lineStyle = enumValue
+            }
+        }
+    }
     /// Whether or not the line should be rendered using bezier curves are straight lines.
     public var lineStyle = ScrollableGraphViewLineStyle.Straight
     /// How each segment in the line should connect. Takes any of the Core Animation LineJoin values.
     public var lineJoin = kCALineJoinRound
     /// The line caps. Takes any of the Core Animation LineCap values.
     public var lineCap = kCALineCapRound
-    public var lineCurviness: CGFloat = 0.5
+    @IBInspectable public var lineCurviness: CGFloat = 0.5
     
     // Bar styles
     // ##########
     
     /// Whether bars should be drawn or not. If you want a bar graph, this should be set to true.
-    public var shouldDrawBarLayer = false
+    @IBInspectable public var shouldDrawBarLayer: Bool = false
     /// The width of an individual bar on the graph.
-    public var barWidth: CGFloat = 25;
+    @IBInspectable public var barWidth: CGFloat = 25;
     /// The actual colour of the bar.
-    public var barColor = UIColor.grayColor()
+    @IBInspectable public var barColor: UIColor = UIColor.grayColor()
     /// The width of the outline of the bar
-    public var barLineWidth: CGFloat = 1
+    @IBInspectable public var barLineWidth: CGFloat = 1
     /// The colour of the bar outline
-    public var barLineColor = UIColor.darkGrayColor()
+    @IBInspectable public var barLineColor: UIColor = UIColor.darkGrayColor()
     
     // Fill Styles
     // ###########
     
     /// The background colour for the entire graph view, not just the plotted graph.
-    public var backgroundFillColor = UIColor.whiteColor()
+    @IBInspectable public var backgroundFillColor: UIColor = UIColor.whiteColor()
     
     /// Specifies whether or not the plotted graph should be filled with a colour or gradient.
-    public var shouldFill = false
+    @IBInspectable public var shouldFill: Bool = false
+    
+    @IBInspectable var fillType_: Int {
+        get { return fillType.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewFillType(rawValue: newValue) {
+                fillType = enumValue
+            }
+        }
+    }
     /// Specifies whether to fill the graph with a solid colour or gradient.
     public var fillType = ScrollableGraphViewFillType.Solid
     /// If fillType is set to .Solid then this colour will be used to fill the graph.
-    public var fillColor = UIColor.blackColor()
+    @IBInspectable public var fillColor: UIColor = UIColor.blackColor()
     /// If fillType is set to .Gradient then this will be the starting colour for the gradient.
-    public var fillGradientStartColor = UIColor.whiteColor()
+    @IBInspectable public var fillGradientStartColor: UIColor = UIColor.whiteColor()
     /// If fillType is set to .Gradient, then this will be the ending colour for the gradient.
-    public var fillGradientEndColor = UIColor.blackColor()
+    @IBInspectable public var fillGradientEndColor: UIColor = UIColor.blackColor()
     /// If fillType is set to .Gradient, then this defines whether the gradient is rendered as a linear gradient or radial gradient.
     public var fillGradientType = ScrollableGraphViewGradientType.Linear
     
@@ -60,15 +79,15 @@ import UIKit
     // #######
     
     /// How far the "maximum" reference line is from the top of the view's frame. In points.
-    public var topMargin: CGFloat = 10
+    @IBInspectable public var topMargin: CGFloat = 10
     /// How far the "minimum" reference line is from the bottom of the view's frame. In points.
-    public var bottomMargin: CGFloat = 10
+    @IBInspectable public var bottomMargin: CGFloat = 10
     /// How far the first point on the graph should be placed from the left hand side of the view.
-    public var leftmostPointPadding: CGFloat = 50
+    @IBInspectable public var leftmostPointPadding: CGFloat = 50
     /// How far the final point on the graph should be placed from the right hand side of the view.
-    public var rightmostPointPadding: CGFloat = 50
+    @IBInspectable public var rightmostPointPadding: CGFloat = 50
     /// How much space should be between each data point.
-    public var dataPointSpacing: CGFloat = 40
+    @IBInspectable public var dataPointSpacing: CGFloat = 40
     /// Which side of the graph the user is expected to scroll from.
     public var direction = ScrollableGraphViewDirection.LeftToRight
     
@@ -76,25 +95,25 @@ import UIKit
     // ###########
     
     /// If this is set to true, then the range will automatically be detected from the data the graph is given.
-    public var shouldAutomaticallyDetectRange = false
+    @IBInspectable public var shouldAutomaticallyDetectRange: Bool = false
     /// Forces the graph's minimum to always be zero. Used in conjunction with shouldAutomaticallyDetectRange or shouldAdaptRange, if you want to force the minimum to stay at 0 rather than the detected minimum.
-    public var shouldRangeAlwaysStartAtZero = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
+    @IBInspectable public var shouldRangeAlwaysStartAtZero: Bool = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
     /// The minimum value for the y-axis. This is ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
-    public var rangeMin: Double = 0
+    @IBInspectable public var rangeMin: Double = 0
     /// The maximum value for the y-axis. This is ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
-    public var rangeMax: Double = 100
+    @IBInspectable public var rangeMax: Double = 100
     
     // Data Point Drawing
     // ##################
     
     /// Whether or not to draw a symbol for each data point.
-    public var shouldDrawDataPoint = true
+    @IBInspectable public var shouldDrawDataPoint: Bool = true
     /// The shape to draw for each data point.
     public var dataPointType = ScrollableGraphViewDataPointType.Circle
     /// The size of the shape to draw for each data point.
-    public var dataPointSize: CGFloat = 5
+    @IBInspectable public var dataPointSize: CGFloat = 5
     /// The colour with which to fill the shape.
-    public var dataPointFillColor: UIColor = UIColor.blackColor()
+    @IBInspectable public var dataPointFillColor: UIColor = UIColor.blackColor()
     /// If dataPointType is set to .Custom then you,can provide a closure to create any kind of shape you would like to be displayed instead of just a circle or square. The closure takes a CGPoint which is the centre of the shape and it should return a complete UIBezierPath.
     public var customDataPointPath: ((centre: CGPoint) -> UIBezierPath)?
     
@@ -102,38 +121,38 @@ import UIKit
     // #####################
     
     /// Whether or not the y-axis' range should adapt to the points that are visible on screen. This means if there are only 5 points visible on screen at any given time, the maximum on the y-axis will be the maximum of those 5 points. This is updated automatically as the user scrolls along the graph.
-    public var shouldAdaptRange = false
+    @IBInspectable public var shouldAdaptRange: Bool = false
     /// If shouldAdaptRange is set to true then this specifies whether or not the points on the graph should animate to their new positions. Default is set to true.
-    public var shouldAnimateOnAdapt = true
+    @IBInspectable public var shouldAnimateOnAdapt: Bool = true
     /// How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
-    public var animationDuration: Double = 1
+    @IBInspectable public var animationDuration: Double = 1
     /// The animation style.
     public var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
     /// If adaptAnimationType is set to .Custom, then this is the easing function you would like applied for the animation.
     public var customAnimationEasingFunction: ((t: Double) -> Double)?
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
-    public var shouldAnimateOnStartup = true
+    @IBInspectable public var shouldAnimateOnStartup: Bool = true
     
     // Reference Lines
     // ###############
     
     /// Whether or not to show the y-axis reference lines and labels.
-    public var shouldShowReferenceLines = true
+    @IBInspectable public var shouldShowReferenceLines: Bool = true
     /// The colour for the reference lines.
-    public var referenceLineColor = UIColor.blackColor()
+    @IBInspectable public var referenceLineColor: UIColor = UIColor.blackColor()
     /// The thickness of the reference lines.
-    public var referenceLineThickness: CGFloat = 0.5
+    @IBInspectable public var referenceLineThickness: CGFloat = 0.5
     /// Where the labels should be displayed on the reference lines.
     public var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
     /// The type of reference lines. Currently only .Cover is available.
     public var referenceLineType = ScrollableGraphViewReferenceLineType.Cover
     
     /// How many reference lines should be between the minimum and maximum reference lines. If you want a total of 4 reference lines, you would set this to 2. This can be set to 0 for no intermediate reference lines.This can be used to create reference lines at specific intervals. If the desired result is to have a reference line at every 10 units on the y-axis, you could, for example, set rangeMax to 100, rangeMin to 0 and numberOfIntermediateReferenceLines to 9.
-    public var numberOfIntermediateReferenceLines: Int = 3
+    @IBInspectable public var numberOfIntermediateReferenceLines: Int = 3
     /// Whether or not to add labels to the intermediate reference lines.
-    public var shouldAddLabelsToIntermediateReferenceLines = true
+    @IBInspectable public var shouldAddLabelsToIntermediateReferenceLines: Bool = true
     /// Whether or not to add units specified by the referenceLineUnits variable to the labels on the intermediate reference lines.
-    public var shouldAddUnitsToIntermediateReferenceLineLabels = false
+    @IBInspectable public var shouldAddUnitsToIntermediateReferenceLineLabels: Bool = false
     
     // Reference Line Labels
     // #####################
@@ -141,10 +160,10 @@ import UIKit
     /// The font to be used for the reference line labels.
     public var referenceLineLabelFont = UIFont.systemFontOfSize(8)
     /// The colour of the reference line labels.
-    public var referenceLineLabelColor = UIColor.blackColor()
+    @IBInspectable public var referenceLineLabelColor: UIColor = UIColor.blackColor()
     
     /// Whether or not to show the units on the reference lines.
-    public var shouldShowReferenceLineUnits = true
+    @IBInspectable public var shouldShowReferenceLineUnits: Bool = true
     /// The units that the y-axis is in. This string is used for labels on the reference lines.
     public var referenceLineUnits: String?
     /// The number of decimal places that should be shown on the reference line labels.
@@ -154,13 +173,13 @@ import UIKit
     // #################
     
     /// Whether or not to show the labels on the x-axis for each point.
-    public var shouldShowLabels = true
+    @IBInspectable public var shouldShowLabels: Bool = true
     /// How far from the "minimum" reference line the data point labels should be rendered.
-    public var dataPointLabelTopMargin: CGFloat = 10
+    @IBInspectable public var dataPointLabelTopMargin: CGFloat = 10
     /// How far from the bottom of the view the data point labels should be rendered.
     public var dataPointLabelBottomMargin: CGFloat = 0
     /// The font for the data point labels.
-    public var dataPointLabelColor = UIColor.blackColor()
+    @IBInspectable public var dataPointLabelColor: UIColor = UIColor.blackColor()
     /// The colour for the data point labels.
     public var dataPointLabelFont: UIFont? = UIFont.systemFontOfSize(10)
     /// Used to force the graph to show every n-th dataPoint label
