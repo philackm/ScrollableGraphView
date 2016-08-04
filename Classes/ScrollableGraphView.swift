@@ -28,9 +28,9 @@ import UIKit
     /// Whether or not the line should be rendered using bezier curves are straight lines.
     public var lineStyle = ScrollableGraphViewLineStyle.Straight
     /// How each segment in the line should connect. Takes any of the Core Animation LineJoin values.
-    public var lineJoin = kCALineJoinRound
+    @IBInspectable public var lineJoin: String = kCALineJoinRound
     /// The line caps. Takes any of the Core Animation LineCap values.
-    public var lineCap = kCALineCapRound
+    @IBInspectable public var lineCap: String = kCALineCapRound
     @IBInspectable public var lineCurviness: CGFloat = 0.5
     
     // Bar styles
@@ -72,6 +72,15 @@ import UIKit
     @IBInspectable public var fillGradientStartColor: UIColor = UIColor.whiteColor()
     /// If fillType is set to .Gradient, then this will be the ending colour for the gradient.
     @IBInspectable public var fillGradientEndColor: UIColor = UIColor.blackColor()
+    
+    @IBInspectable var fillGradientType_: Int {
+        get { return fillGradientType.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewGradientType(rawValue: newValue) {
+                fillGradientType = enumValue
+            }
+        }
+    }
     /// If fillType is set to .Gradient, then this defines whether the gradient is rendered as a linear gradient or radial gradient.
     public var fillGradientType = ScrollableGraphViewGradientType.Linear
     
@@ -88,6 +97,15 @@ import UIKit
     @IBInspectable public var rightmostPointPadding: CGFloat = 50
     /// How much space should be between each data point.
     @IBInspectable public var dataPointSpacing: CGFloat = 40
+    
+    @IBInspectable var direction_: Int {
+        get { return direction.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewDirection(rawValue: newValue) {
+                direction = enumValue
+            }
+        }
+    }
     /// Which side of the graph the user is expected to scroll from.
     public var direction = ScrollableGraphViewDirection.LeftToRight
     
@@ -126,6 +144,15 @@ import UIKit
     @IBInspectable public var shouldAnimateOnAdapt: Bool = true
     /// How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
     @IBInspectable public var animationDuration: Double = 1
+    
+    @IBInspectable var adaptAnimationType_: Int {
+        get { return adaptAnimationType.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewAnimationType(rawValue: newValue) {
+                adaptAnimationType = enumValue
+            }
+        }
+    }
     /// The animation style.
     public var adaptAnimationType = ScrollableGraphViewAnimationType.EaseOut
     /// If adaptAnimationType is set to .Custom, then this is the easing function you would like applied for the animation.
@@ -142,6 +169,15 @@ import UIKit
     @IBInspectable public var referenceLineColor: UIColor = UIColor.blackColor()
     /// The thickness of the reference lines.
     @IBInspectable public var referenceLineThickness: CGFloat = 0.5
+    
+    @IBInspectable var referenceLinePosition_: Int {
+        get { return referenceLinePosition.rawValue }
+        set {
+            if let enumValue = ScrollableGraphViewReferenceLinePosition(rawValue: newValue) {
+                referenceLinePosition = enumValue
+            }
+        }
+    }
     /// Where the labels should be displayed on the reference lines.
     public var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Left
     /// The type of reference lines. Currently only .Cover is available.
@@ -165,9 +201,9 @@ import UIKit
     /// Whether or not to show the units on the reference lines.
     @IBInspectable public var shouldShowReferenceLineUnits: Bool = true
     /// The units that the y-axis is in. This string is used for labels on the reference lines.
-    public var referenceLineUnits: String?
+    @IBInspectable public var referenceLineUnits: String?
     /// The number of decimal places that should be shown on the reference line labels.
-    public var referenceLineNumberOfDecimalPlaces: Int = 0
+    @IBInspectable public var referenceLineNumberOfDecimalPlaces: Int = 0
     
     // Data Point Labels
     // #################
@@ -177,13 +213,13 @@ import UIKit
     /// How far from the "minimum" reference line the data point labels should be rendered.
     @IBInspectable public var dataPointLabelTopMargin: CGFloat = 10
     /// How far from the bottom of the view the data point labels should be rendered.
-    public var dataPointLabelBottomMargin: CGFloat = 0
+    @IBInspectable public var dataPointLabelBottomMargin: CGFloat = 0
     /// The font for the data point labels.
     @IBInspectable public var dataPointLabelColor: UIColor = UIColor.blackColor()
     /// The colour for the data point labels.
     public var dataPointLabelFont: UIFont? = UIFont.systemFontOfSize(10)
     /// Used to force the graph to show every n-th dataPoint label
-    public var dataPointLabelsSparsity: Int = 1
+    @IBInspectable public var dataPointLabelsSparsity: Int = 1
   
     // MARK: - Private State
     // #####################
