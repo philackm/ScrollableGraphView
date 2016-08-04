@@ -327,6 +327,9 @@ import UIKit
         self.contentSize = CGSize(width: totalGraphWidth, height: viewportHeight)
         
         // Scrolling direction.
+        #if TARGET_INTERFACE_BUILDER
+            self.offsetWidth = 0
+        #else
         if (direction == .RightToLeft) {
             self.offsetWidth = self.contentSize.width - viewportWidth
         }
@@ -334,6 +337,7 @@ import UIKit
         else {
             self.offsetWidth = 0
         }
+        #endif
         
         // Set the scrollview offset.
         self.contentOffset.x = self.offsetWidth
