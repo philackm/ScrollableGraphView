@@ -1100,10 +1100,6 @@ import UIKit
         return range
     }
     
-    private func dataForGraph() -> [Double] {
-        return data
-    }
-    
     private func graphPointForIndex(index: Int) -> GraphPoint {
         return graphPoints[index]
     }
@@ -1271,7 +1267,6 @@ private func ==(lhs: GraphPointAnimation, rhs: GraphPointAnimation) -> Bool {
 private protocol ScrollableGraphViewDrawingDelegate {
     func intervalForActivePoints() -> Range<Int>
     func rangeForActivePoints() -> (min: Double, max: Double)
-    func dataForGraph() -> [Double]
     func graphPointForIndex(index: Int) -> GraphPoint
     
     func currentPath() -> UIBezierPath
@@ -1375,8 +1370,7 @@ private class BarDrawingLayer: ScrollableGraphViewDrawingLayer {
         
         // We can only move forward if we can get the data we need from the delegate.
         guard let
-            activePointsInterval = self.graphViewDrawingDelegate?.intervalForActivePoints(),
-            data = self.graphViewDrawingDelegate?.dataForGraph()
+            activePointsInterval = self.graphViewDrawingDelegate?.intervalForActivePoints()
             else {
                 return barPath
         }
@@ -1458,8 +1452,7 @@ private class DataPointDrawingLayer: ScrollableGraphViewDrawingLayer {
         
         // We can only move forward if we can get the data we need from the delegate.
         guard let
-            activePointsInterval = self.graphViewDrawingDelegate?.intervalForActivePoints(),
-            data = self.graphViewDrawingDelegate?.dataForGraph()
+            activePointsInterval = self.graphViewDrawingDelegate?.intervalForActivePoints()
             else {
                 return dataPointPath
         }
