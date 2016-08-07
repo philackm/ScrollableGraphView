@@ -10,6 +10,10 @@ The main goal of the this graph component is to visualise simple discrete datase
 
 ![Init Animation](readme_images/init_anim_high_fps.gif)
 
+### Contribution
+
+All pull requests are welcome. There are a list of features people would like on the issues page, ranging from simple changes to quite complex. Feel free to jump on in.
+
 ## Contents
 
 - [Features](#features)
@@ -57,6 +61,10 @@ Add ```pod 'ScrollableGraphView'``` to your Podfile and then make sure to ```imp
     ```swift
     someViewController.view.addSubview(graphView)
     ```
+
+### Interface Builder support
+
+There is now support for Interface Builder (from CocoaPod version 2.0.0). See the example project in the folder: `graphview_example_ib`
 
 ### Things you *could* use it for:
 
@@ -350,12 +358,6 @@ graphView.rangeMax = 50
 
 self.view.addSubview(graphView)
 ```
-
-
-
-## Improvements
-
-Pull requests, improvements & criticisms to any and all of the code are more than welcome.
 
 
 
