@@ -173,6 +173,7 @@ The graph can be customised by setting any of the following public properties be
 | **shouldShowReferenceLineUnits**: Bool      | Whether or not to show the units on the reference lines.                                |
 | **referenceLineUnits**: String?             | The units that the y-axis is in. This string is used for labels on the reference lines. |
 | **referenceLineNumberOfDecimalPlaces**: Int | The number of decimal places that should be shown on the reference line labels.         |
+| **referenceLineNumberStyle**: NSNumberFormatterStyle | The number style that should be shown on the reference line labels.         |
 
 ### Data Point Labels (x-axis)
 
