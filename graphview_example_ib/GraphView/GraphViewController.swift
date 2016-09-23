@@ -16,7 +16,7 @@ class GraphViewController: UIViewController {
         guard let data = data, let labels = labels else {
             return
         }
-        graphView?.setData(data, withLabels: labels)
+        graphView?.set(data: data, withLabels: labels)
     }
 
 }
