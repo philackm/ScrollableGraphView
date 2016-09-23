@@ -319,8 +319,6 @@ import UIKit
         // Make sure everything is in a clean state.
         reset()
         
-        self.delegate = self
-        
         // Calculate the viewport and drawing frames.
         self.viewportWidth = self.frame.width
         self.viewportHeight = self.frame.height
