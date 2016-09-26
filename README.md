@@ -12,7 +12,7 @@ The main goal of the this graph component is to visualise simple discrete datase
 
 ### Contribution
 
-All pull requests are welcome. There are a list of features people would like on the issues page, ranging from simple changes to quite complex. Feel free to jump on in.
+All pull requests are welcome. There is a list of features people would like on the issues page, ranging from simple changes to quite complex. Feel free to jump on in.
 
 ## Contents
 
@@ -362,6 +362,8 @@ self.view.addSubview(graphView)
 
 
 ## Known Issues
+
+- Note: Performance in the simulator is not ideal.
 
 If you find any bugs please create an issue on Github.
 
