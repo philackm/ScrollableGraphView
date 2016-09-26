@@ -9,13 +9,13 @@ extension UIColor {
     // Convert a hex string to a UIColor object.
     class func colorFromHex(hexString:String) -> UIColor {
         
-        func cleanHexString(hexString: String) -> String {
+        func clean(hexString: String) -> String {
             
             var cleanedHexString = String()
             
             // Remove the leading "#"
             if(hexString[hexString.startIndex] == "#") {
-                cleanedHexString = hexString.substringFromIndex(hexString.startIndex.advancedBy(1))
+                cleanedHexString = hexString.substring(from: hexString.characters.index(hexString.startIndex, offsetBy: 1))
             }
             
             // TODO: Other cleanup. Allow for a "short" hex string, i.e., "#fff"
@@ -23,21 +23,21 @@ extension UIColor {
             return cleanedHexString
         }
         
-        let cleanedHexString = cleanHexString(hexString)
+        let cleanedHexString = clean(hexString: hexString)
         
         // If we can get a cached version of the colour, get out early.
-        if let cachedColor = UIColor.getColorFromCache(cleanedHexString) {
+        if let cachedColor = UIColor.getColorFromCache(hexString: cleanedHexString) {
             return cachedColor
         }
         
         // Else create the color, store it in the cache and return.
-        let scanner = NSScanner(string: cleanedHexString)
+        let scanner = Scanner(string: cleanedHexString)
         
         var value:UInt32 = 0
         
         // We have the hex value, grab the red, green, blue and alpha values.
         // Have to pass value by reference, scanner modifies this directly as the result of scanning the hex string. The return value is the success or fail.
-        if(scanner.scanHexInt(&value)){
+        if(scanner.scanHexInt32(&value)){
             
             // intValue = 01010101 11110111 11101010    // binary
             // intValue = 55       F7       EA          // hexadecimal
@@ -70,10 +70,10 @@ extension UIColor {
             // red, green, blue and alpha are currently between 0 and 255
             // We want to normalise these values between 0 and 1 to use with UIColor.
             let colors:[UInt32] = [red, green, blue]
-            let normalised = normaliseColors(colors)
+            let normalised = normalise(colors: colors)
             
             let newColor = UIColor(red: normalised[0], green: normalised[1], blue: normalised[2], alpha: 1)
-            UIColor.storeColorInCache(cleanedHexString, color: newColor)
+            UIColor.storeColorInCache(hexString: cleanedHexString, color: newColor)
             
             return newColor
             
@@ -81,12 +81,12 @@ extension UIColor {
             // We couldn't get a value from a valid hex string.
         else {
             print("Error: Couldn't convert the hex string to a number, returning UIColor.whiteColor() instead.")
-            return UIColor.whiteColor()
+            return UIColor.white
         }
     }
     
     // Takes an array of colours in the range of 0-255 and returns a value between 0 and 1.
-    private class func normaliseColors(colors: [UInt32]) -> [CGFloat]{
+    private class func normalise(colors: [UInt32]) -> [CGFloat]{
         var normalisedVersions = [CGFloat]()
         
         for color in colors{

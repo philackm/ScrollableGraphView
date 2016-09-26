@@ -8,7 +8,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var graphView = ScrollableGraphView()
-    var currentGraphType = GraphType.Dark
+    var currentGraphType = GraphType.dark
     var graphConstraints = [NSLayoutConstraint]()
     
     var label = UILabel()
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         graphView = ScrollableGraphView(frame: self.view.frame)
         graphView = createDarkGraph(self.view.frame)
         
-        graphView.setData(data, withLabels: labels)
+        graphView.set(data: data, withLabels: labels)
         self.view.addSubview(graphView)
         
         setupConstraints()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         addLabel(withText: "DARK (TAP HERE)")
     }
     
-    func didTap(gesture: UITapGestureRecognizer) {
+    func didTap(_ gesture: UITapGestureRecognizer) {
         
         currentGraphType.next()
         
@@ -43,55 +43,55 @@ class ViewController: UIViewController {
         graphView.removeFromSuperview()
         
         switch(currentGraphType) {
-        case .Dark:
+        case .dark:
             addLabel(withText: "DARK")
             graphView = createDarkGraph(self.view.frame)
-        case .Dot:
+        case .dot:
             addLabel(withText: "DOT")
             graphView = createDotGraph(self.view.frame)
-        case .Bar:
+        case .bar:
             addLabel(withText: "BAR")
             graphView = createBarGraph(self.view.frame)
-        case .Pink:
+        case .pink:
             addLabel(withText: "PINK")
             graphView = createPinkMountainGraph(self.view.frame)
         }
         
-        graphView.setData(data, withLabels: labels)
+        graphView.set(data: data, withLabels: labels)
         self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
     }
     
-    private func createDarkGraph(frame: CGRect) -> ScrollableGraphView {
+    fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame)
 
-        graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
         graphView.lineWidth = 1
-        graphView.lineColor = UIColor.colorFromHex("#777777")
-        graphView.lineStyle = ScrollableGraphViewLineStyle.Smooth
+        graphView.lineColor = UIColor.colorFromHex(hexString: "#777777")
+        graphView.lineStyle = ScrollableGraphViewLineStyle.smooth
         
         graphView.shouldFill = true
-        graphView.fillType = ScrollableGraphViewFillType.Gradient
-        graphView.fillColor = UIColor.colorFromHex("#555555")
-        graphView.fillGradientType = ScrollableGraphViewGradientType.Linear
-        graphView.fillGradientStartColor = UIColor.colorFromHex("#555555")
-        graphView.fillGradientEndColor = UIColor.colorFromHex("#444444")
+        graphView.fillType = ScrollableGraphViewFillType.gradient
+        graphView.fillColor = UIColor.colorFromHex(hexString: "#555555")
+        graphView.fillGradientType = ScrollableGraphViewGradientType.linear
+        graphView.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
+        graphView.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
 
         graphView.dataPointSpacing = 80
         graphView.dataPointSize = 2
-        graphView.dataPointFillColor = UIColor.whiteColor()
+        graphView.dataPointFillColor = UIColor.white
 
-        graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(8)
-        graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
-        graphView.referenceLineLabelColor = UIColor.whiteColor()
+        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        graphView.referenceLineLabelColor = UIColor.white
         graphView.numberOfIntermediateReferenceLines = 5
-        graphView.dataPointLabelColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.Elastic
+        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         graphView.animationDuration = 1.5
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
@@ -99,29 +99,29 @@ class ViewController: UIViewController {
         return graphView
     }
     
-    private func createBarGraph(frame: CGRect) -> ScrollableGraphView {
+    private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame:frame)
         
-        graphView.dataPointType = ScrollableGraphViewDataPointType.Circle
+        graphView.dataPointType = ScrollableGraphViewDataPointType.circle
         graphView.shouldDrawBarLayer = true
         graphView.shouldDrawDataPoint = false
     
-        graphView.lineColor = UIColor.clearColor()
+        graphView.lineColor = UIColor.clear
         graphView.barWidth = 25
         graphView.barLineWidth = 1
-        graphView.barLineColor = UIColor.colorFromHex("#777777")
-        graphView.barColor = UIColor.colorFromHex("#555555")
-        graphView.backgroundFillColor = UIColor.colorFromHex("#333333")
+        graphView.barLineColor = UIColor.colorFromHex(hexString: "#777777")
+        graphView.barColor = UIColor.colorFromHex(hexString: "#555555")
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
-        graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(8)
-        graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
-        graphView.referenceLineLabelColor = UIColor.whiteColor()
+        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        graphView.referenceLineLabelColor = UIColor.white
         graphView.numberOfIntermediateReferenceLines = 5
-        graphView.dataPointLabelColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.Elastic
+        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         graphView.animationDuration = 1.5
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
@@ -129,23 +129,23 @@ class ViewController: UIViewController {
         return graphView
     }
     
-    private func createDotGraph(frame: CGRect) -> ScrollableGraphView {
+    private func createDotGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
         
-        graphView.backgroundFillColor = UIColor.colorFromHex("#00BFFF")
-        graphView.lineColor = UIColor.clearColor()
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
+        graphView.lineColor = UIColor.clear
         
         graphView.dataPointSize = 5
         graphView.dataPointSpacing = 80
-        graphView.dataPointLabelFont = UIFont.boldSystemFontOfSize(10)
-        graphView.dataPointLabelColor = UIColor.whiteColor()
-        graphView.dataPointFillColor = UIColor.whiteColor()
+        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.dataPointLabelColor = UIColor.white
+        graphView.dataPointFillColor = UIColor.white
         
-        graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
-        graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        graphView.referenceLineLabelColor = UIColor.whiteColor()
-        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
+        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        graphView.referenceLineLabelColor = UIColor.white
+        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         
         graphView.numberOfIntermediateReferenceLines = 9
         
@@ -154,28 +154,28 @@ class ViewController: UIViewController {
         return graphView
     }
     
-    private func createPinkMountainGraph(frame: CGRect) -> ScrollableGraphView {
+    private func createPinkMountainGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
         
-        graphView.backgroundFillColor = UIColor.colorFromHex("#222222")
-        graphView.lineColor = UIColor.clearColor()
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
+        graphView.lineColor = UIColor.clear
         
         graphView.shouldFill = true
-        graphView.fillColor = UIColor.colorFromHex("#FF0080")
+        graphView.fillColor = UIColor.colorFromHex(hexString: "#FF0080")
         
         graphView.shouldDrawDataPoint = false
         graphView.dataPointSpacing = 20
-        graphView.dataPointLabelFont = UIFont.boldSystemFontOfSize(10)
-        graphView.dataPointLabelColor = UIColor.whiteColor()
+        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.dataPointLabelColor = UIColor.white
       
         graphView.dataPointLabelsSparsity = 3
 
         graphView.referenceLineThickness = 1
-        graphView.referenceLineLabelFont = UIFont.boldSystemFontOfSize(10)
-        graphView.referenceLineColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        graphView.referenceLineLabelColor = UIColor.whiteColor()
-        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.Both
+        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        graphView.referenceLineLabelColor = UIColor.white
+        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         
         graphView.numberOfIntermediateReferenceLines = 1
         
@@ -191,10 +191,10 @@ class ViewController: UIViewController {
         self.graphView.translatesAutoresizingMaskIntoConstraints = false
         graphConstraints.removeAll()
         
-        let topConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
-        let rightConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
-        let bottomConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
-        let leftConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Left, multiplier: 1, constant: 0)
+        let topConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        let rightConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.right, multiplier: 1, constant: 0)
+        let bottomConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        let leftConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.left, multiplier: 1, constant: 0)
         
         //let heightConstraint = NSLayoutConstraint(item: self.graphView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
         
@@ -213,14 +213,14 @@ class ViewController: UIViewController {
         
         label.removeFromSuperview()
         label = createLabel(withText: text)
-        label.userInteractionEnabled = true
+        label.isUserInteractionEnabled = true
         
-        let rightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: -20)
+        let rightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.right, multiplier: 1, constant: -20)
         
-        let topConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 20)
+        let topConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 20)
         
-        let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 40)
-        let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: label.frame.width * 1.5)
+        let heightConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 40)
+        let widthConstraint = NSLayoutConstraint(item: label, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: label.frame.width * 1.5)
         
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(didTap))
         label.addGestureRecognizer(tapGestureRecogniser)
@@ -232,12 +232,12 @@ class ViewController: UIViewController {
     private func createLabel(withText text: String) -> UILabel {
         let label = UILabel()
         
-        label.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
         label.text = text
-        label.textColor = UIColor.whiteColor()
-        label.textAlignment = NSTextAlignment.Center
-        label.font = UIFont.boldSystemFontOfSize(14)
+        label.textColor = UIColor.white
+        label.textAlignment = NSTextAlignment.center
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         
         label.layer.cornerRadius = 2
         label.clipsToBounds = true
@@ -250,12 +250,12 @@ class ViewController: UIViewController {
     }
     
     // Data Generation
-    private func generateRandomData(numberOfItems: Int, max: Double) -> [Double] {
+    private func generateRandomData(_ numberOfItems: Int, max: Double) -> [Double] {
         var data = [Double]()
         for _ in 0 ..< numberOfItems {
-            var randomNumber = Double(random()) % max
+            var randomNumber = Double(arc4random()).truncatingRemainder(dividingBy: max)
             
-            if(random() % 100 < 10) {
+            if(arc4random() % 100 < 10) {
                 randomNumber *= 3
             }
             
@@ -264,7 +264,7 @@ class ViewController: UIViewController {
         return data
     }
     
-    private func generateSequentialLabels(numberOfItems: Int, text: String) -> [String] {
+    private func generateSequentialLabels(_ numberOfItems: Int, text: String) -> [String] {
         var labels = [String]()
         for i in 0 ..< numberOfItems {
             labels.append("\(text) \(i+1)")
@@ -274,26 +274,26 @@ class ViewController: UIViewController {
     
     // The type of the current graph we are showing.
     enum GraphType {
-        case Dark
-        case Bar
-        case Dot
-        case Pink
+        case dark
+        case bar
+        case dot
+        case pink
         
         mutating func next() {
             switch(self) {
-            case .Dark:
-                self = GraphType.Bar
-            case .Bar:
-                self = GraphType.Dot
-            case .Dot:
-                self = GraphType.Pink
-            case .Pink:
-                self = GraphType.Dark
+            case .dark:
+                self = GraphType.bar
+            case .bar:
+                self = GraphType.dot
+            case .dot:
+                self = GraphType.pink
+            case .pink:
+                self = GraphType.dark
             }
         }
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }
