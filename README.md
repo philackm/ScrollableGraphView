@@ -113,6 +113,7 @@ The graph can be customised by setting any of the following public properties be
 | **barColor**: UIColor        | The actual colour of the bar.                                                                                                                                                                                                                                         |
 | **barLineWidth**: CGFloat    | The width of the outline of the bar                                                                                                                                                                                                                                   |
 | **barLineColor**: UIColor    | The colour of the bar outline                                                                                                                                                                                                                                         |
+| **shouldRoundBarCorners**: Bool    | Whether or not to use rounded corners for the bars.                                                                                                                                                                                                                                        |
 
 ### Spacing
 
