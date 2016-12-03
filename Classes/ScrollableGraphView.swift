@@ -1006,6 +1006,8 @@ import UIKit
             
             label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2, y: position.y + dataPointLabelTopMargin), size: label.frame.size)
             
+            let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
+
             labelsView.addSubview(label)
         }
     }
