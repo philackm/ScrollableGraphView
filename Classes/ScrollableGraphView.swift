@@ -46,6 +46,8 @@ import UIKit
     @IBInspectable open var barLineWidth: CGFloat = 1
     /// The colour of the bar outline
     @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
+    /// Whether the bars should be drawn with rounded corners
+    @IBInspectable open var shouldRoundBarCorners: Bool = false
     
     // Fill Styles
     // ###########
@@ -473,7 +475,8 @@ import UIKit
                                        barWidth: barWidth,
                                        barColor: barColor,
                                        barLineWidth: barLineWidth,
-                                       barLineColor: barLineColor)
+                                       barLineColor: barLineColor,
+                                       shouldRoundCorners: shouldRoundBarCorners)
             barLayer?.graphViewDrawingDelegate = self
             drawingView.layer.insertSublayer (barLayer!, below: lineLayer)
         }
@@ -951,7 +954,7 @@ import UIKit
             // Need to update the graph points so they are in their right positions for the new viewport.
             // Animate them into position if animation is enabled, but make sure to stop any current animations first.
             #if !TARGET_INTERFACE_BUILDER
-            dequeueAllAnimations()
+                dequeueAllAnimations()
             #endif
             startAnimations()
             
@@ -1317,14 +1320,16 @@ private class BarDrawingLayer: ScrollableGraphViewDrawingLayer {
     
     private var barPath = UIBezierPath()
     private var barWidth: CGFloat = 4
+    private var shouldRoundCorners = false
     
-    init(frame: CGRect, barWidth: CGFloat, barColor: UIColor, barLineWidth: CGFloat, barLineColor: UIColor) {
+    init(frame: CGRect, barWidth: CGFloat, barColor: UIColor, barLineWidth: CGFloat, barLineColor: UIColor, shouldRoundCorners: Bool) {
         super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
         
         self.barWidth = barWidth
         self.lineWidth = barLineWidth
         self.strokeColor = barLineColor.cgColor
         self.fillColor = barColor.cgColor
+        self.shouldRoundCorners = shouldRoundCorners
         
         self.lineJoin = lineJoin
         self.lineCap = lineCap
@@ -1336,23 +1341,21 @@ private class BarDrawingLayer: ScrollableGraphViewDrawingLayer {
     
     private func createBarPath(centre: CGPoint) -> UIBezierPath {
         
-        let squarePath = UIBezierPath()
-        
-        squarePath.move(to: centre)
         let barWidthOffset: CGFloat = self.barWidth / 2
         
-        let topLeft = CGPoint(x: centre.x - barWidthOffset, y: centre.y)
-        let topRight = CGPoint(x: centre.x + barWidthOffset, y: centre.y)
-        let bottomLeft = CGPoint(x: centre.x - barWidthOffset, y: zeroYPosition)
-        let bottomRight = CGPoint(x: centre.x + barWidthOffset, y: zeroYPosition)
+        let origin = CGPoint(x: centre.x - barWidthOffset, y: centre.y)
+        let size = CGSize(width: barWidth, height: zeroYPosition - centre.y)
+        let rect = CGRect(origin: origin, size: size)
         
-        squarePath.move(to: topLeft)
-        squarePath.addLine(to: topRight)
-        squarePath.addLine(to: bottomRight)
-        squarePath.addLine(to: bottomLeft)
-        squarePath.addLine(to: topLeft)
+        let barPath: UIBezierPath = {
+            if shouldRoundCorners {
+                return UIBezierPath(roundedRect: rect, cornerRadius: barWidthOffset)
+            } else {
+                return UIBezierPath(rect: rect)
+            }
+        }()
         
-        return squarePath
+        return barPath
     }
     
     private func createPath () -> UIBezierPath {
