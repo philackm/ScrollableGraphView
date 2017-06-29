@@ -7,6 +7,10 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
     private var endColor: UIColor
     private var gradientType: ScrollableGraphViewGradientType
     
+    // Gradient fills are only used with lineplots and we need 
+    // to know what the line looks like.
+    private var lineDrawingLayer: LineDrawingLayer
+    
     lazy private var gradientMask: CAShapeLayer = ({
         let mask = CAShapeLayer()
         
@@ -18,11 +22,13 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
         return mask
     })()
     
-    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: ScrollableGraphViewGradientType, lineJoin: String = kCALineJoinRound) {
+    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: ScrollableGraphViewGradientType, lineJoin: String = kCALineJoinRound, lineDrawingLayer: LineDrawingLayer) {
         self.startColor = startColor
         self.endColor = endColor
         self.gradientType = gradientType
         //self.lineJoin = lineJoin
+        
+        self.lineDrawingLayer = lineDrawingLayer
         
         super.init(viewportWidth: frame.size.width, viewportHeight: frame.size.height)
         
@@ -39,7 +45,7 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
     }
     
     override func updatePath() {
-        gradientMask.path = graphViewDrawingDelegate?.currentPath().cgPath
+        gradientMask.path = lineDrawingLayer.createLinePath().cgPath
     }
     
     override func draw(in ctx: CGContext) {

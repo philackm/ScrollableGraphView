@@ -28,6 +28,9 @@ class ViewController: UIViewController {
         let referenceLines = ReferenceLines()
         graphView.addReferenceLines(referenceLines: referenceLines)
         
+        let linePlot = LinePlot()
+        graphView.addPlot(plot: linePlot)
+        
         graphView.set(data: data, withLabels: labels)
         
         self.view.addSubview(graphView)
@@ -68,18 +71,26 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame: frame)
         let referenceLines = ReferenceLines()
         
+        let linePlot = LinePlot()
+        
+        linePlot.lineWidth = 1
+        linePlot.lineColor = UIColor.colorFromHex(hexString: "#777777")
+        linePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        
+        linePlot.shouldFill = true
+        linePlot.fillType = ScrollableGraphViewFillType.gradient
+        linePlot.fillColor = UIColor.colorFromHex(hexString: "#555555")
+        linePlot.fillGradientType = ScrollableGraphViewGradientType.linear
+        linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
+        linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
+        
+        let linePlot2 = LinePlot()
+        
+        linePlot2.lineWidth = 2
+        linePlot2.lineColor = UIColor.white
+
+        
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
-        
-        graphView.lineWidth = 1
-        graphView.lineColor = UIColor.colorFromHex(hexString: "#777777")
-        graphView.lineStyle = ScrollableGraphViewLineStyle.smooth
-        
-        graphView.shouldFill = true
-        graphView.fillType = ScrollableGraphViewFillType.gradient
-        graphView.fillColor = UIColor.colorFromHex(hexString: "#555555")
-        graphView.fillGradientType = ScrollableGraphViewGradientType.linear
-        graphView.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
-        graphView.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
 
         graphView.dataPointSpacing = 80
         graphView.dataPointSize = 2
@@ -100,7 +111,13 @@ class ViewController: UIViewController {
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.numberOfIntermediateReferenceLines = 5
         
+        
+        
+        
         graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.addPlot(plot: linePlot)
+        graphView.addPlot(plot: linePlot2)
+        
         return graphView
     }
     
@@ -112,7 +129,7 @@ class ViewController: UIViewController {
         graphView.shouldDrawBarLayer = true
         graphView.shouldDrawDataPoint = false
     
-        graphView.lineColor = UIColor.clear
+        //graphView.lineColor = UIColor.clear
         graphView.barWidth = 25
         graphView.barLineWidth = 1
         graphView.barLineColor = UIColor.colorFromHex(hexString: "#777777")
@@ -144,7 +161,7 @@ class ViewController: UIViewController {
         let referenceLines = ReferenceLines()
         
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
-        graphView.lineColor = UIColor.clear
+        //graphView.lineColor = UIColor.clear
         
         graphView.dataPointSize = 5
         graphView.dataPointSpacing = 80
@@ -169,11 +186,15 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame:frame)
         let referenceLines = ReferenceLines()
         
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
-        graphView.lineColor = UIColor.clear
+        let linePlot = LinePlot()
         
-        graphView.shouldFill = true
-        graphView.fillColor = UIColor.colorFromHex(hexString: "#FF0080")
+        linePlot.lineColor = UIColor.clear
+        linePlot.shouldFill = true
+        linePlot.fillColor = UIColor.colorFromHex(hexString: "#FF0080")
+        
+        
+        
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
         
         graphView.shouldDrawDataPoint = false
         graphView.dataPointSpacing = 20
@@ -193,6 +214,7 @@ class ViewController: UIViewController {
         referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         referenceLines.numberOfIntermediateReferenceLines = 1
         
+        graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }

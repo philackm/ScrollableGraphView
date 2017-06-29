@@ -7,10 +7,14 @@ import UIKit
     // MARK: - Public Properties
     // Use these to customise the graph.
     // #################################
+
+    
     
     // Line Styles
     // ###########
     
+    /*
+ 
     /// Specifies how thick the graph of the line is. In points.
     @IBInspectable open var lineWidth: CGFloat = 2
     /// The color of the graph line. UIColor.
@@ -33,28 +37,9 @@ import UIKit
     @IBInspectable open var lineCap: String = kCALineCapRound
     @IBInspectable open var lineCurviness: CGFloat = 0.5
     
-    // Bar styles
-    // ##########
-    
-    /// Whether bars should be drawn or not. If you want a bar graph, this should be set to true.
-    @IBInspectable open var shouldDrawBarLayer: Bool = false
-    /// The width of an individual bar on the graph.
-    @IBInspectable open var barWidth: CGFloat = 25;
-    /// The actual colour of the bar.
-    @IBInspectable open var barColor: UIColor = UIColor.gray
-    /// The width of the outline of the bar
-    @IBInspectable open var barLineWidth: CGFloat = 1
-    /// The colour of the bar outline
-    @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
-    /// Whether the bars should be drawn with rounded corners
-    @IBInspectable open var shouldRoundBarCorners: Bool = false
-    
     
     // Fill Styles
     // ###########
-    
-    /// The background colour for the entire graph view, not just the plotted graph.
-    @IBInspectable open var backgroundFillColor: UIColor = UIColor.white
     
     /// Specifies whether or not the plotted graph should be filled with a colour or gradient.
     @IBInspectable open var shouldFill: Bool = false
@@ -86,6 +71,46 @@ import UIKit
     }
     /// If fillType is set to .Gradient, then this defines whether the gradient is rendered as a linear gradient or radial gradient.
     open var fillGradientType = ScrollableGraphViewGradientType.linear
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Bar styles
+    // ##########
+    
+    /// Whether bars should be drawn or not. If you want a bar graph, this should be set to true.
+    @IBInspectable open var shouldDrawBarLayer: Bool = false
+    /// The width of an individual bar on the graph.
+    @IBInspectable open var barWidth: CGFloat = 25;
+    /// The actual colour of the bar.
+    @IBInspectable open var barColor: UIColor = UIColor.gray
+    /// The width of the outline of the bar
+    @IBInspectable open var barLineWidth: CGFloat = 1
+    /// The colour of the bar outline
+    @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
+    /// Whether the bars should be drawn with rounded corners
+    @IBInspectable open var shouldRoundBarCorners: Bool = false
+    
+    
+    // Fill Styles
+    // ###########
+    
+    /// The background colour for the entire graph view, not just the plotted graph.
+    @IBInspectable open var backgroundFillColor: UIColor = UIColor.white
+    
+
     
 
     // Spacing
@@ -347,15 +372,13 @@ import UIKit
         drawingView.backgroundColor = backgroundFillColor
         self.addSubview(drawingView)
         
-        addDrawingLayers(inViewport: viewport)
+        //addDrawingLayers(inViewport: viewport)
+        addDrawingLayersForPlots(inViewport: viewport)
         
         // References Lines
         if(referenceLines != nil) {
             addReferenceViewDrawingView()
         }
-        //if(shouldShowReferenceLines) {
-        //    addReferenceLines(inViewport: viewport)
-        //}
         
         // X-Axis Labels
         self.insertSubview(labelsView, aboveSubview: drawingView)
@@ -398,12 +421,54 @@ import UIKit
         range = (0, 100)
     }
     
+    
+    /* new plot code */
+    
+    // TODO: Plot layer ordering.
+    
+    private var plots: [Plot] = [Plot]()
+    
+    public func addPlot(plot: Plot) {
+        self.plots.append(plot)
+    }
+    
+    private func addDrawingLayersForPlots(inViewport viewport: CGRect) {
+        
+        for plot in plots {
+            switch(plot) {
+            case let plot as LinePlot:
+                addSubLayers(layers: plot.layers(forViewport: viewport))
+            case let plot as DataPointPlot:
+                print(plot.identifier)
+            case let plot as BarPlot:
+                print(plot.identifier)
+            default:
+                print("not a concrete plot")
+            }
+        }
+    }
+    
+    private func addSubLayers(layers: [ScrollableGraphViewDrawingLayer?]) {
+        for layer in layers {
+            if let layer = layer {
+                layer.graphViewDrawingDelegate = self
+                drawingView.layer.addSublayer(layer)
+            }
+        }
+    }
+    
+    /* end new plot code */
+    
+    
+    
     private func addDrawingLayers(inViewport viewport: CGRect) {
         
         // Line Layer
+        /*
         lineLayer = LineDrawingLayer(frame: viewport, lineWidth: lineWidth, lineColor: lineColor, lineStyle: lineStyle, lineJoin: lineJoin, lineCap: lineCap)
         lineLayer?.graphViewDrawingDelegate = self
         drawingView.layer.addSublayer(lineLayer!)
+         */
         
         // Data Point layer
         if(shouldDrawDataPoint) {
@@ -413,6 +478,7 @@ import UIKit
         }
         
         // Gradient and Fills
+        /*
         switch (self.fillType) {
             
         case .solid:
@@ -430,6 +496,7 @@ import UIKit
                 drawingView.layer.insertSublayer(gradientLayer!, below: lineLayer)
             }
         }
+         */
         
         // The bar layer
         if (shouldDrawBarLayer) {
@@ -546,9 +613,24 @@ import UIKit
         drawingView.frame.origin.x = offsetWidth
         drawingView.bounds.origin.x = offsetWidth
         
-        gradientLayer?.offset = offsetWidth
+        updateOffsetsForGradients(offsetWidth: offsetWidth)
+        //gradientLayer?.offset = offsetWidth
         
         referenceLineView?.frame.origin.x = offsetWidth
+    }
+    
+    private func updateOffsetsForGradients(offsetWidth: CGFloat) {
+        guard let sublayers = drawingView.layer.sublayers else {
+            return
+        }
+        
+        for layer in sublayers {
+            switch(layer) {
+            case let layer as GradientDrawingLayer:
+                layer.offset = offsetWidth
+            default: break
+            }
+        }
     }
     
     private func updateFrames() {
@@ -557,13 +639,30 @@ import UIKit
         drawingView.frame.size.height = viewportHeight
         
         // Gradient should extend over the entire viewport
-        gradientLayer?.frame.size.width = viewportWidth
-        gradientLayer?.frame.size.height = viewportHeight
+        updateFramesForGradientLayers(viewportWidth: viewportWidth, viewportHeight: viewportHeight)
+        // gradientLayer?.frame.size.width = viewportWidth
+        // gradientLayer?.frame.size.height = viewportHeight
         
         // Reference lines should extend over the entire viewport
         referenceLineView?.set(viewportWidth: viewportWidth, viewportHeight: viewportHeight)
         
         self.contentSize.height = viewportHeight
+    }
+    
+    private func updateFramesForGradientLayers(viewportWidth: CGFloat, viewportHeight: CGFloat) {
+        
+        guard let sublayers = drawingView.layer.sublayers else {
+            return
+        }
+        
+        for layer in sublayers {
+            switch(layer) {
+            case let layer as GradientDrawingLayer:
+                layer.frame.size.width = viewportWidth
+                layer.frame.size.height = viewportHeight
+            default: break
+            }
+        }
     }
     
     // MARK: - Public Methods
@@ -767,7 +866,7 @@ import UIKit
         return width
     }
     
-    private func calculatePosition(atIndex index: Int, value: Double) -> CGPoint {
+    internal func calculatePosition(atIndex index: Int, value: Double) -> CGPoint {
         
         // Set range defaults based on settings:
         
@@ -806,6 +905,7 @@ import UIKit
     }
     
     // MARK: Line Path Creation
+    /*
     @discardableResult
     private func createLinePath() -> UIBezierPath {
         
@@ -879,6 +979,7 @@ import UIKit
         // add curve from start to end
         currentLinePath.addCurve(to: endPoint, controlPoint1: controlPointOne, controlPoint2: controlPointTwo)
     }
+     */
     
     // MARK: Events
     
@@ -930,7 +1031,9 @@ import UIKit
     // Update any paths with the new path based on visible data points.
     private func updatePaths() {
         
-        createLinePath()
+        zeroYPosition = calculatePosition(atIndex: 0, value: self.range.min).y
+        
+        //createLinePath()
         
         if let drawingLayers = drawingView.layer.sublayers {
             for layer in drawingLayers {
@@ -1061,6 +1164,10 @@ import UIKit
     
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
         return graphPoints[index]
+    }
+    
+    internal func currentViewport() -> CGRect {
+        return CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
     }
 }
 
@@ -1221,26 +1328,6 @@ private class GraphPointAnimation : Equatable {
     }
 }
 
-// MARK: - Drawing Layers
-
-
-// MARK: Drawing Layer Classes
-
-// MARK: Base Class
-
-
-
-
-
-
-
-
-
-
-
-
-
-// MARK: - Reference Lines
 
 
 // MARK: - ScrollableGraphView Settings Enums
