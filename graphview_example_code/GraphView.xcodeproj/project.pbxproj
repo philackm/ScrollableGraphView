@@ -15,6 +15,13 @@
 		294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */; };
 		29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */; };
 		29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590391F0501A3004D219C /* ReferenceLines.swift */; };
+		29A5903C1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */; };
+		29A5903E1F05035F004D219C /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903D1F05035F004D219C /* BarDrawingLayer.swift */; };
+		29A590401F050378004D219C /* DataPointDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903F1F050378004D219C /* DataPointDrawingLayer.swift */; };
+		29A590421F050397004D219C /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590411F050397004D219C /* GradientDrawingLayer.swift */; };
+		29A590441F0503AC004D219C /* FillDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590431F0503AC004D219C /* FillDrawingLayer.swift */; };
+		29A590461F0503BD004D219C /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */; };
+		29A590481F05049F004D219C /* LineDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590471F05049F004D219C /* LineDrawingLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +35,13 @@
 		294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphView.swift; path = ../../Classes/ScrollableGraphView.swift; sourceTree = "<group>"; };
 		29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+colorFromHex.swift"; path = "GraphView/UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
 		29A590391F0501A3004D219C /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLines.swift; path = ../../Classes/ReferenceLines.swift; sourceTree = "<group>"; };
+		29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDrawingLayer.swift; path = ../../Classes/Drawing/ScrollableGraphViewDrawingLayer.swift; sourceTree = "<group>"; };
+		29A5903D1F05035F004D219C /* BarDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarDrawingLayer.swift; path = ../../Classes/Drawing/BarDrawingLayer.swift; sourceTree = "<group>"; };
+		29A5903F1F050378004D219C /* DataPointDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataPointDrawingLayer.swift; path = ../../Classes/Drawing/DataPointDrawingLayer.swift; sourceTree = "<group>"; };
+		29A590411F050397004D219C /* GradientDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientDrawingLayer.swift; path = ../../Classes/Drawing/GradientDrawingLayer.swift; sourceTree = "<group>"; };
+		29A590431F0503AC004D219C /* FillDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillDrawingLayer.swift; path = ../../Classes/Drawing/FillDrawingLayer.swift; sourceTree = "<group>"; };
+		29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLineDrawingView.swift; path = ../../Classes/Drawing/ReferenceLineDrawingView.swift; sourceTree = "<group>"; };
+		29A590471F05049F004D219C /* LineDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineDrawingLayer.swift; path = ../../Classes/Drawing/LineDrawingLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +77,8 @@
 			isa = PBXGroup;
 			children = (
 				29A590391F0501A3004D219C /* ReferenceLines.swift */,
-				29A590381F0500F5004D219C /* Drawing */,
 				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
+				29A590381F0500F5004D219C /* Drawing */,
 			);
 			name = Classes;
 			path = GraphView;
@@ -95,6 +109,13 @@
 		29A590381F0500F5004D219C /* Drawing */ = {
 			isa = PBXGroup;
 			children = (
+				29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */,
+				29A5903D1F05035F004D219C /* BarDrawingLayer.swift */,
+				29A590471F05049F004D219C /* LineDrawingLayer.swift */,
+				29A5903F1F050378004D219C /* DataPointDrawingLayer.swift */,
+				29A590411F050397004D219C /* GradientDrawingLayer.swift */,
+				29A590431F0503AC004D219C /* FillDrawingLayer.swift */,
+				29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */,
 			);
 			name = Drawing;
 			sourceTree = "<group>";
@@ -170,7 +191,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29A590461F0503BD004D219C /* ReferenceLineDrawingView.swift in Sources */,
+				29A590421F050397004D219C /* GradientDrawingLayer.swift in Sources */,
+				29A590481F05049F004D219C /* LineDrawingLayer.swift in Sources */,
 				294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */,
+				29A5903E1F05035F004D219C /* BarDrawingLayer.swift in Sources */,
+				29A5903C1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift in Sources */,
+				29A590401F050378004D219C /* DataPointDrawingLayer.swift in Sources */,
+				29A590441F0503AC004D219C /* FillDrawingLayer.swift in Sources */,
 				29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */,
 				291839A41C72E6A400753A45 /* ViewController.swift in Sources */,
 				29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */,
