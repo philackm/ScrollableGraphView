@@ -20,18 +20,19 @@ class ViewController: UIViewController {
     lazy var data: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
     lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         graphView = ScrollableGraphView(frame: self.view.frame)
-        graphView = createDarkGraph(self.view.frame)
+        
+        let referenceLines = ReferenceLines()
+        graphView.addReferenceLines(referenceLines: referenceLines)
         
         graphView.set(data: data, withLabels: labels)
+        
         self.view.addSubview(graphView)
         
         setupConstraints()
-        
         addLabel(withText: "DARK (TAP HERE)")
     }
     
@@ -65,7 +66,8 @@ class ViewController: UIViewController {
     
     fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame)
-
+        let referenceLines = ReferenceLines()
+        
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
         graphView.lineWidth = 1
@@ -82,11 +84,6 @@ class ViewController: UIViewController {
         graphView.dataPointSpacing = 80
         graphView.dataPointSize = 2
         graphView.dataPointFillColor = UIColor.white
-
-        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        graphView.referenceLineLabelColor = UIColor.white
-        graphView.numberOfIntermediateReferenceLines = 5
         graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
@@ -96,11 +93,20 @@ class ViewController: UIViewController {
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
+        
+        
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.numberOfIntermediateReferenceLines = 5
+        
+        graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
     
     private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame:frame)
+        let referenceLines = ReferenceLines()
         
         graphView.dataPointType = ScrollableGraphViewDataPointType.circle
         graphView.shouldDrawBarLayer = true
@@ -113,10 +119,6 @@ class ViewController: UIViewController {
         graphView.barColor = UIColor.colorFromHex(hexString: "#555555")
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
-        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        graphView.referenceLineLabelColor = UIColor.white
-        graphView.numberOfIntermediateReferenceLines = 5
         graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
@@ -126,12 +128,20 @@ class ViewController: UIViewController {
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
+        
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.numberOfIntermediateReferenceLines = 5
+        
+        graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
     
     private func createDotGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
+        let referenceLines = ReferenceLines()
         
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
         graphView.lineColor = UIColor.clear
@@ -142,21 +152,22 @@ class ViewController: UIViewController {
         graphView.dataPointLabelColor = UIColor.white
         graphView.dataPointFillColor = UIColor.white
         
-        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        graphView.referenceLineLabelColor = UIColor.white
-        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
-        
-        graphView.numberOfIntermediateReferenceLines = 9
-        
         graphView.rangeMax = 50
         
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
+        referenceLines.numberOfIntermediateReferenceLines = 9
+        
+        graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
     
     private func createPinkMountainGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
+        let referenceLines = ReferenceLines()
         
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
         graphView.lineColor = UIColor.clear
@@ -170,19 +181,19 @@ class ViewController: UIViewController {
         graphView.dataPointLabelColor = UIColor.white
       
         graphView.dataPointLabelsSparsity = 3
-
-        graphView.referenceLineThickness = 1
-        graphView.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
-        graphView.referenceLineLabelColor = UIColor.white
-        graphView.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
-        
-        graphView.numberOfIntermediateReferenceLines = 1
         
         graphView.shouldAdaptRange = true
         
         graphView.rangeMax = 50
         
+        referenceLines.referenceLineThickness = 1
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
+        referenceLines.numberOfIntermediateReferenceLines = 1
+        
+        graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
     

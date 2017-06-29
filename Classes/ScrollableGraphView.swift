@@ -49,6 +49,7 @@ import UIKit
     /// Whether the bars should be drawn with rounded corners
     @IBInspectable open var shouldRoundBarCorners: Bool = false
     
+    
     // Fill Styles
     // ###########
     
@@ -86,6 +87,7 @@ import UIKit
     /// If fillType is set to .Gradient, then this defines whether the gradient is rendered as a linear gradient or radial gradient.
     open var fillGradientType = ScrollableGraphViewGradientType.linear
     
+
     // Spacing
     // #######
     
@@ -162,53 +164,6 @@ import UIKit
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
     @IBInspectable open var shouldAnimateOnStartup: Bool = true
     
-    // Reference Lines
-    // ###############
-    
-    /// Whether or not to show the y-axis reference lines and labels.
-    @IBInspectable open var shouldShowReferenceLines: Bool = true
-    /// The colour for the reference lines.
-    @IBInspectable open var referenceLineColor: UIColor = UIColor.black
-    /// The thickness of the reference lines.
-    @IBInspectable open var referenceLineThickness: CGFloat = 0.5
-    
-    @IBInspectable var referenceLinePosition_: Int {
-        get { return referenceLinePosition.rawValue }
-        set {
-            if let enumValue = ScrollableGraphViewReferenceLinePosition(rawValue: newValue) {
-                referenceLinePosition = enumValue
-            }
-        }
-    }
-    /// Where the labels should be displayed on the reference lines.
-    open var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.left
-    /// The type of reference lines. Currently only .Cover is available.
-    open var referenceLineType = ScrollableGraphViewReferenceLineType.cover
-    
-    /// How many reference lines should be between the minimum and maximum reference lines. If you want a total of 4 reference lines, you would set this to 2. This can be set to 0 for no intermediate reference lines.This can be used to create reference lines at specific intervals. If the desired result is to have a reference line at every 10 units on the y-axis, you could, for example, set rangeMax to 100, rangeMin to 0 and numberOfIntermediateReferenceLines to 9.
-    @IBInspectable open var numberOfIntermediateReferenceLines: Int = 3
-    /// Whether or not to add labels to the intermediate reference lines.
-    @IBInspectable open var shouldAddLabelsToIntermediateReferenceLines: Bool = true
-    /// Whether or not to add units specified by the referenceLineUnits variable to the labels on the intermediate reference lines.
-    @IBInspectable open var shouldAddUnitsToIntermediateReferenceLineLabels: Bool = false
-    
-    // Reference Line Labels
-    // #####################
-    
-    /// The font to be used for the reference line labels.
-    open var referenceLineLabelFont = UIFont.systemFont(ofSize: 8)
-    /// The colour of the reference line labels.
-    @IBInspectable open var referenceLineLabelColor: UIColor = UIColor.black
-    
-    /// Whether or not to show the units on the reference lines.
-    @IBInspectable open var shouldShowReferenceLineUnits: Bool = true
-    /// The units that the y-axis is in. This string is used for labels on the reference lines.
-    @IBInspectable open var referenceLineUnits: String?
-    /// The number of decimal places that should be shown on the reference line labels.
-    @IBInspectable open var referenceLineNumberOfDecimalPlaces: Int = 0
-    /// The NSNumberFormatterStyle that reference lines should use to display
-    @IBInspectable open var referenceLineNumberStyle: NumberFormatter.Style = .none
-    
     // Data Point Labels
     // #################
     
@@ -224,7 +179,12 @@ import UIKit
     open var dataPointLabelFont: UIFont? = UIFont.systemFont(ofSize: 10)
     /// Used to force the graph to show every n-th dataPoint label
     @IBInspectable open var dataPointLabelsSparsity: Int = 1
-  
+    
+    // Reference Line Settings
+    // #######################
+    
+    var referenceLines: ReferenceLines? = nil
+    
     // MARK: - Private State
     // #####################
     
@@ -390,9 +350,12 @@ import UIKit
         addDrawingLayers(inViewport: viewport)
         
         // References Lines
-        if(shouldShowReferenceLines) {
-            addReferenceLines(inViewport: viewport)
+        if(referenceLines != nil) {
+            addReferenceViewDrawingView()
         }
+        //if(shouldShowReferenceLines) {
+        //    addReferenceLines(inViewport: viewport)
+        //}
         
         // X-Axis Labels
         self.insertSubview(labelsView, aboveSubview: drawingView)
@@ -482,8 +445,23 @@ import UIKit
         }
     }
     
-    private func addReferenceLines(inViewport viewport: CGRect) {
+    public func addReferenceLines(referenceLines: ReferenceLines) {
+        
+        self.referenceLines = referenceLines
+        
+    }
+    
+    private func addReferenceViewDrawingView() {
+        
+        guard let referenceLines = self.referenceLines else {
+            // We can only add this if the settings arent nil.
+            return
+        }
+        
+        let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
         var referenceLineBottomMargin = bottomMargin
+        
+        // Have to adjust the bottom line if we are showing data point labels (x-axis).
         if(shouldShowLabels && dataPointLabelFont != nil) {
             referenceLineBottomMargin += (dataPointLabelFont!.pointSize + dataPointLabelTopMargin + dataPointLabelBottomMargin)
         }
@@ -492,26 +470,12 @@ import UIKit
             frame: viewport,
             topMargin: topMargin,
             bottomMargin: referenceLineBottomMargin,
-            referenceLineColor: self.referenceLineColor,
-            referenceLineThickness: self.referenceLineThickness)
-        
-        // Reference line settings.
-        referenceLineView?.referenceLinePosition = self.referenceLinePosition
-        referenceLineView?.referenceLineType = self.referenceLineType
-        
-        referenceLineView?.numberOfIntermediateReferenceLines = self.numberOfIntermediateReferenceLines
-        
-        // Reference line label settings.
-        referenceLineView?.shouldAddLabelsToIntermediateReferenceLines = self.shouldAddLabelsToIntermediateReferenceLines
-        referenceLineView?.shouldAddUnitsToIntermediateReferenceLineLabels = self.shouldAddUnitsToIntermediateReferenceLineLabels
-        
-        referenceLineView?.labelUnits = referenceLineUnits
-        referenceLineView?.labelFont = self.referenceLineLabelFont
-        referenceLineView?.labelColor = self.referenceLineLabelColor
-        referenceLineView?.labelDecimalPlaces = self.referenceLineNumberOfDecimalPlaces
-        referenceLineView?.labelNumberStyle = self.referenceLineNumberStyle
+            referenceLineColor: referenceLines.referenceLineColor,
+            referenceLineThickness: referenceLines.referenceLineThickness,
+            referenceLineSettings: referenceLines)
         
         referenceLineView?.set(range: self.range)
+        
         self.addSubview(referenceLineView!)
     }
     
@@ -1603,25 +1567,7 @@ private class FillDrawingLayer : ScrollableGraphViewDrawingLayer {
 // MARK: - Reference Lines
 private class ReferenceLineDrawingView : UIView {
     
-    // PUBLIC PROPERTIES
-    
-    // Reference line settings.
-    var referenceLineColor: UIColor = UIColor.black
-    var referenceLineThickness: CGFloat = 0.5
-    var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.left
-    var referenceLineType = ScrollableGraphViewReferenceLineType.cover
-    
-    var numberOfIntermediateReferenceLines = 3 // Number of reference lines between the min and max line.
-    
-    // Reference line label settings.
-    var shouldAddLabelsToIntermediateReferenceLines: Bool = true
-    var shouldAddUnitsToIntermediateReferenceLineLabels: Bool = false
-    
-    var labelUnits: String?
-    var labelFont: UIFont = UIFont.systemFont(ofSize: 8)
-    var labelColor: UIColor = UIColor.black
-    var labelDecimalPlaces: Int = 2
-    var labelNumberStyle: NumberFormatter.Style = .none
+    var settings: ReferenceLines = ReferenceLines()
     
     // PRIVATE PROPERTIES
     
@@ -1642,7 +1588,7 @@ private class ReferenceLineDrawingView : UIView {
     
     private var lineWidth: CGFloat {
         get {
-            if(self.referenceLineType == ScrollableGraphViewReferenceLineType.cover) {
+            if(self.settings.referenceLineType == ScrollableGraphViewReferenceLineType.cover) {
                 return self.bounds.width
             }
             else {
@@ -1653,7 +1599,7 @@ private class ReferenceLineDrawingView : UIView {
     
     private var units: String {
         get {
-            if let units = self.labelUnits {
+            if let units = self.settings.referenceLineUnits {
                 return " \(units)"
             } else {
                 return ""
@@ -1666,7 +1612,7 @@ private class ReferenceLineDrawingView : UIView {
     private let referenceLineLayer = CAShapeLayer()
     private let referenceLinePath = UIBezierPath()
     
-    init(frame: CGRect, topMargin: CGFloat, bottomMargin: CGFloat, referenceLineColor: UIColor, referenceLineThickness: CGFloat) {
+    init(frame: CGRect, topMargin: CGFloat, bottomMargin: CGFloat, referenceLineColor: UIColor, referenceLineThickness: CGFloat, referenceLineSettings: ReferenceLines) {
         super.init(frame: frame)
         
         self.topMargin = topMargin
@@ -1676,6 +1622,8 @@ private class ReferenceLineDrawingView : UIView {
         self.referenceLineLayer.frame = self.frame
         self.referenceLineLayer.strokeColor = referenceLineColor.cgColor
         self.referenceLineLayer.lineWidth = referenceLineThickness
+        
+        self.settings = referenceLineSettings
         
         self.layer.addSublayer(referenceLineLayer)
     }
@@ -1715,16 +1663,16 @@ private class ReferenceLineDrawingView : UIView {
         
         let initialRect = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y + topMargin, width: self.bounds.size.width, height: self.bounds.size.height - (topMargin + bottomMargin))
         
-        createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.numberOfIntermediateReferenceLines, for: referenceLinePath)
+        createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.settings.numberOfIntermediateReferenceLines, for: referenceLinePath)
         
         return referenceLinePath
     }
     
     private func referenceNumberFormatter() -> NumberFormatter {
         let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = labelNumberStyle
-        numberFormatter.minimumFractionDigits = labelDecimalPlaces
-        numberFormatter.maximumFractionDigits = labelDecimalPlaces
+        numberFormatter.numberStyle = self.settings.referenceLineNumberStyle
+        numberFormatter.minimumFractionDigits = self.settings.referenceLineNumberOfDecimalPlaces
+        numberFormatter.maximumFractionDigits = self.settings.referenceLineNumberOfDecimalPlaces
         
         return numberFormatter
     }
@@ -1775,13 +1723,13 @@ private class ReferenceLineDrawingView : UIView {
     }
     
     private func createReferenceLineFrom(from lineStart: CGPoint, to lineEnd: CGPoint, in path: UIBezierPath) {
-        if(shouldAddLabelsToIntermediateReferenceLines) {
+        if(self.settings.shouldAddLabelsToIntermediateReferenceLines) {
             
             let value = calculateYAxisValue(for: lineStart)
             let numberFormatter = referenceNumberFormatter()
             var valueString = numberFormatter.string(from: value as NSNumber)!
             
-            if(shouldAddUnitsToIntermediateReferenceLineLabels) {
+            if(self.settings.shouldAddUnitsToIntermediateReferenceLineLabels) {
                 valueString += " \(units)"
             }
             
@@ -1817,7 +1765,7 @@ private class ReferenceLineDrawingView : UIView {
         // Add the lines and tags depending on the settings for where we want them.
         var gaps = [(start: CGFloat, end: CGFloat)]()
         
-        switch(self.referenceLinePosition) {
+        switch(self.settings.referenceLinePosition) {
             
         case .left:
             gaps.append((start: leftLabelStart.x, end: leftLabelEnd.x))
@@ -1891,7 +1839,7 @@ private class ReferenceLineDrawingView : UIView {
     }
     
     private func boundingSize(forText text: String) -> CGSize {
-        return (text as NSString).size(attributes: [NSFontAttributeName:labelFont])
+        return (text as NSString).size(attributes: [NSFontAttributeName:self.settings.referenceLineLabelFont])
     }
     
     private func calculateYAxisValue(for point: CGPoint) -> Double {
@@ -1919,8 +1867,8 @@ private class ReferenceLineDrawingView : UIView {
         let label = UILabel()
         
         label.text = text
-        label.textColor = labelColor
-        label.font = labelFont
+        label.textColor = self.settings.referenceLineLabelColor
+        label.font = self.settings.referenceLineLabelFont
         
         return label
     }
