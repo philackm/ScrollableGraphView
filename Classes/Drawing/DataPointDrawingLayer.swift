@@ -53,7 +53,7 @@ internal class DataPointDrawingLayer: ScrollableGraphViewDrawingLayer {
     }
     
     private func createCircleDataPoint(centre: CGPoint) -> UIBezierPath {
-        return UIBezierPath(arcCenter: centre, radius: dataPointSize, startAngle: 0, endAngle: CGFloat(2.0 * M_PI), clockwise: true)
+        return UIBezierPath(arcCenter: centre, radius: dataPointSize, startAngle: 0, endAngle: CGFloat(2.0 * Double.pi), clockwise: true)
     }
     
     private func createSquareDataPoint(centre: CGPoint) -> UIBezierPath {
