@@ -14,7 +14,7 @@
 		291839AC1C72E6A400753A45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 291839AA1C72E6A400753A45 /* LaunchScreen.storyboard */; };
 		294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */; };
 		29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */; };
-		29A590371F04EAA7004D219C /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590361F04EAA7004D219C /* ReferenceLines.swift */; };
+		29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590391F0501A3004D219C /* ReferenceLines.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		291839AD1C72E6A400753A45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphView.swift; path = ../../Classes/ScrollableGraphView.swift; sourceTree = "<group>"; };
 		29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+colorFromHex.swift"; path = "GraphView/UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
-		29A590361F04EAA7004D219C /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceLines.swift; sourceTree = "<group>"; };
+		29A590391F0501A3004D219C /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLines.swift; path = ../../Classes/ReferenceLines.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +62,9 @@
 		291839A01C72E6A400753A45 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				29A590391F0501A3004D219C /* ReferenceLines.swift */,
+				29A590381F0500F5004D219C /* Drawing */,
 				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
-				29A590361F04EAA7004D219C /* ReferenceLines.swift */,
 			);
 			name = Classes;
 			path = GraphView;
@@ -89,6 +90,13 @@
 			);
 			name = "Supporting Files";
 			path = GraphView;
+			sourceTree = "<group>";
+		};
+		29A590381F0500F5004D219C /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Drawing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */,
-				29A590371F04EAA7004D219C /* ReferenceLines.swift in Sources */,
+				29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */,
 				291839A41C72E6A400753A45 /* ViewController.swift in Sources */,
 				29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */,
 				291839A21C72E6A400753A45 /* AppDelegate.swift in Sources */,
