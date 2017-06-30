@@ -23,13 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        graphView = ScrollableGraphView(frame: self.view.frame)
-        
-        let referenceLines = ReferenceLines()
-        graphView.addReferenceLines(referenceLines: referenceLines)
-        
-        let linePlot = LinePlot()
-        graphView.addPlot(plot: linePlot)
+        graphView = createDarkGraph(self.view.frame)
         
         graphView.set(data: data, withLabels: labels)
         
@@ -69,8 +63,8 @@ class ViewController: UIViewController {
     
     fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame)
-        let referenceLines = ReferenceLines()
         
+        // Setup the line plot.
         let linePlot = LinePlot()
         
         linePlot.lineWidth = 1
@@ -79,22 +73,26 @@ class ViewController: UIViewController {
         
         linePlot.shouldFill = true
         linePlot.fillType = ScrollableGraphViewFillType.gradient
-        linePlot.fillColor = UIColor.colorFromHex(hexString: "#555555")
         linePlot.fillGradientType = ScrollableGraphViewGradientType.linear
         linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
         linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
         
-        let linePlot2 = LinePlot()
-        
-        linePlot2.lineWidth = 2
-        linePlot2.lineColor = UIColor.white
+        let dotPlot = DataPointPlot() // Add dots as well.
+        dotPlot.dataPointSize = 2
+        dotPlot.dataPointFillColor = UIColor.white
 
+        // Setup the reference lines.
+        let referenceLines = ReferenceLines()
         
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.numberOfIntermediateReferenceLines = 5
+        
+        // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
 
         graphView.dataPointSpacing = 80
-        graphView.dataPointSize = 2
-        graphView.dataPointFillColor = UIColor.white
         graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
@@ -104,30 +102,35 @@ class ViewController: UIViewController {
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
-        
-        
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.numberOfIntermediateReferenceLines = 5
-        
-        
-        
-        
+        // Add everything to the graph.
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.addPlot(plot: linePlot)
-        graphView.addPlot(plot: linePlot2)
+        graphView.addPlot(plot: dotPlot)
         
         return graphView
     }
     
     private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame:frame)
+        
+        
+        
+        // Setup the plot
+        
+        
+        // Setup the reference lines
+        
+        
+        // Setup the graph
+        
+        
+        // Add everything
+        
+        
         let referenceLines = ReferenceLines()
         
-        graphView.dataPointType = ScrollableGraphViewDataPointType.circle
+
         graphView.shouldDrawBarLayer = true
-        graphView.shouldDrawDataPoint = false
     
         //graphView.lineColor = UIColor.clear
         graphView.barWidth = 25
@@ -158,25 +161,31 @@ class ViewController: UIViewController {
     private func createDotGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
+        
+        // Setup the plot
+        let plot = DataPointPlot()
+        
+        plot.dataPointSize = 5
+        plot.dataPointFillColor = UIColor.white
+        
+        // Setup the reference lines
         let referenceLines = ReferenceLines()
-        
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
-        //graphView.lineColor = UIColor.clear
-        
-        graphView.dataPointSize = 5
-        graphView.dataPointSpacing = 80
-        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.dataPointLabelColor = UIColor.white
-        graphView.dataPointFillColor = UIColor.white
-        
-        graphView.rangeMax = 50
-        
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.5)
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         referenceLines.numberOfIntermediateReferenceLines = 9
         
+        // Setup the graph
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
+        
+        graphView.dataPointSpacing = 80
+        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.dataPointLabelColor = UIColor.white
+        graphView.rangeMax = 50
+        
+        // Add everything
+        graphView.addPlot(plot: plot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
@@ -184,28 +193,16 @@ class ViewController: UIViewController {
     private func createPinkMountainGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame:frame)
-        let referenceLines = ReferenceLines()
         
+        // Setup the plot
         let linePlot = LinePlot()
         
         linePlot.lineColor = UIColor.clear
         linePlot.shouldFill = true
         linePlot.fillColor = UIColor.colorFromHex(hexString: "#FF0080")
         
-        
-        
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
-        
-        graphView.shouldDrawDataPoint = false
-        graphView.dataPointSpacing = 20
-        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.dataPointLabelColor = UIColor.white
-      
-        graphView.dataPointLabelsSparsity = 3
-        
-        graphView.shouldAdaptRange = true
-        
-        graphView.rangeMax = 50
+        // Setup the reference lines
+        let referenceLines = ReferenceLines()
         
         referenceLines.referenceLineThickness = 1
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 10)
@@ -214,6 +211,18 @@ class ViewController: UIViewController {
         referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         referenceLines.numberOfIntermediateReferenceLines = 1
         
+        // Setup the graph
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
+        
+        graphView.dataPointSpacing = 20
+        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        graphView.dataPointLabelColor = UIColor.white
+        
+        graphView.dataPointLabelsSparsity = 3
+        graphView.shouldAdaptRange = true
+        graphView.rangeMax = 50
+        
+        // Add everything
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView

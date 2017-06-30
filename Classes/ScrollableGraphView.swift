@@ -73,20 +73,6 @@ import UIKit
     open var fillGradientType = ScrollableGraphViewGradientType.linear
     */
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // Bar styles
     // ##########
     
@@ -102,6 +88,30 @@ import UIKit
     @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
     /// Whether the bars should be drawn with rounded corners
     @IBInspectable open var shouldRoundBarCorners: Bool = false
+    
+    
+    // Data Point Drawing
+    // ##################
+    
+    /*
+    /// Whether or not to draw a symbol for each data point.
+    @IBInspectable open var shouldDrawDataPoint: Bool = true
+    /// The shape to draw for each data point.
+    open var dataPointType = ScrollableGraphViewDataPointType.circle
+    /// The size of the shape to draw for each data point.
+    @IBInspectable open var dataPointSize: CGFloat = 5
+    /// The colour with which to fill the shape.
+    @IBInspectable open var dataPointFillColor: UIColor = UIColor.black
+    /// If dataPointType is set to .Custom then you,can provide a closure to create any kind of shape you would like to be displayed instead of just a circle or square. The closure takes a CGPoint which is the centre of the shape and it should return a complete UIBezierPath.
+    open var customDataPointPath: ((_ centre: CGPoint) -> UIBezierPath)?
+    */
+    
+    
+    
+    
+    
+    
+    
     
     
     // Fill Styles
@@ -150,19 +160,7 @@ import UIKit
     /// The maximum value for the y-axis. This is ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
     @IBInspectable open var rangeMax: Double = 100
     
-    // Data Point Drawing
-    // ##################
-    
-    /// Whether or not to draw a symbol for each data point.
-    @IBInspectable open var shouldDrawDataPoint: Bool = true
-    /// The shape to draw for each data point.
-    open var dataPointType = ScrollableGraphViewDataPointType.circle
-    /// The size of the shape to draw for each data point.
-    @IBInspectable open var dataPointSize: CGFloat = 5
-    /// The colour with which to fill the shape.
-    @IBInspectable open var dataPointFillColor: UIColor = UIColor.black
-    /// If dataPointType is set to .Custom then you,can provide a closure to create any kind of shape you would like to be displayed instead of just a circle or square. The closure takes a CGPoint which is the centre of the shape and it should return a complete UIBezierPath.
-    open var customDataPointPath: ((_ centre: CGPoint) -> UIBezierPath)?
+
     
     // Adapting & Animations
     // #####################
@@ -439,7 +437,7 @@ import UIKit
             case let plot as LinePlot:
                 addSubLayers(layers: plot.layers(forViewport: viewport))
             case let plot as DataPointPlot:
-                print(plot.identifier)
+                addSubLayers(layers: plot.layers(forViewport: viewport))
             case let plot as BarPlot:
                 print(plot.identifier)
             default:
@@ -471,11 +469,13 @@ import UIKit
          */
         
         // Data Point layer
+        /*
         if(shouldDrawDataPoint) {
             dataPointLayer = DataPointDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
             dataPointLayer?.graphViewDrawingDelegate = self
             drawingView.layer.insertSublayer(dataPointLayer!, above: lineLayer)
         }
+         */
         
         // Gradient and Fills
         /*
