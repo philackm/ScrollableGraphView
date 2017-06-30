@@ -310,7 +310,7 @@ import UIKit
             switch(plot) {
             case let plot as LinePlot:
                 addSubLayers(layers: plot.layers(forViewport: viewport))
-            case let plot as DataPointPlot:
+            case let plot as DotPlot:
                 addSubLayers(layers: plot.layers(forViewport: viewport))
             case let plot as BarPlot:
                 addSubLayers(layers: plot.layers(forViewport: viewport))

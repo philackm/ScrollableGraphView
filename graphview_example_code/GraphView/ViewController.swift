@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
         linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
         
-        let dotPlot = DataPointPlot(identifier: "dot") // Add dots as well.
+        let dotPlot = DotPlot(identifier: "dot") // Add dots as well.
         dotPlot.dataPointSize = 2
         dotPlot.dataPointFillColor = UIColor.white
 
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame:frame)
         
         // Setup the plot
-        let plot = DataPointPlot(identifier: "dot")
+        let plot = DotPlot(identifier: "dot")
         
         plot.dataPointSize = 5
         plot.dataPointFillColor = UIColor.white
