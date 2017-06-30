@@ -111,34 +111,28 @@ class ViewController: UIViewController {
     }
     
     private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
+        
         let graphView = ScrollableGraphView(frame:frame)
         
-        
-        
         // Setup the plot
+        let barPlot = BarPlot()
         
+        barPlot.shouldDrawBarLayer = true
+        barPlot.barWidth = 25
+        barPlot.barLineWidth = 1
+        barPlot.barLineColor = UIColor.colorFromHex(hexString: "#777777")
+        barPlot.barColor = UIColor.colorFromHex(hexString: "#555555")
         
         // Setup the reference lines
-        
-        
-        // Setup the graph
-        
-        
-        // Add everything
-        
-        
         let referenceLines = ReferenceLines()
         
-
-        graphView.shouldDrawBarLayer = true
-    
-        //graphView.lineColor = UIColor.clear
-        graphView.barWidth = 25
-        graphView.barLineWidth = 1
-        graphView.barLineColor = UIColor.colorFromHex(hexString: "#777777")
-        graphView.barColor = UIColor.colorFromHex(hexString: "#555555")
-        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.numberOfIntermediateReferenceLines = 5
         
+        // Setup the graph
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
@@ -148,12 +142,8 @@ class ViewController: UIViewController {
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
-        
-        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
-        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
-        referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.numberOfIntermediateReferenceLines = 5
-        
+        // Add everything
+        graphView.addPlot(plot: barPlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }

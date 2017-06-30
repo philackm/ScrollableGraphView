@@ -76,6 +76,7 @@ import UIKit
     // Bar styles
     // ##########
     
+    /*
     /// Whether bars should be drawn or not. If you want a bar graph, this should be set to true.
     @IBInspectable open var shouldDrawBarLayer: Bool = false
     /// The width of an individual bar on the graph.
@@ -88,7 +89,7 @@ import UIKit
     @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
     /// Whether the bars should be drawn with rounded corners
     @IBInspectable open var shouldRoundBarCorners: Bool = false
-    
+    */
     
     // Data Point Drawing
     // ##################
@@ -439,7 +440,7 @@ import UIKit
             case let plot as DataPointPlot:
                 addSubLayers(layers: plot.layers(forViewport: viewport))
             case let plot as BarPlot:
-                print(plot.identifier)
+                addSubLayers(layers: plot.layers(forViewport: viewport))
             default:
                 print("not a concrete plot")
             }
@@ -498,6 +499,7 @@ import UIKit
         }
          */
         
+        /*
         // The bar layer
         if (shouldDrawBarLayer) {
             // Bar Layer
@@ -510,6 +512,7 @@ import UIKit
             barLayer?.graphViewDrawingDelegate = self
             drawingView.layer.insertSublayer (barLayer!, below: lineLayer)
         }
+         */
     }
     
     public func addReferenceLines(referenceLines: ReferenceLines) {
