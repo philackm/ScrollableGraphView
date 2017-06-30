@@ -8,11 +8,7 @@ public enum PlotType {
 }
 
 open class Plot {
-    var identifier: String
-    
-    init() {
-        identifier = "Plot"
-    }
+    var identifier: String!
 }
 
 open class LinePlot : Plot {
@@ -93,9 +89,9 @@ open class LinePlot : Plot {
     private var fillLayer: FillDrawingLayer?
     private var gradientLayer: GradientDrawingLayer?
     
-    override init() {
+    init(identifier: String) {
         super.init()
-        self.identifier = "LinePlot"
+        self.identifier = identifier
     }
     
     func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
@@ -149,9 +145,9 @@ open class DataPointPlot : Plot {
     
     private var dataPointLayer: DataPointDrawingLayer?
     
-    override init() {
+    init(identifier: String) {
         super.init()
-        self.identifier = "DataPointPlot"
+        self.identifier = identifier
     }
     
     func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
@@ -190,9 +186,9 @@ open class BarPlot : Plot {
     
     private var barLayer: BarDrawingLayer?
     
-    override init() {
+    init(identifier: String) {
         super.init()
-        self.identifier = "BarPlot"
+        self.identifier = identifier
     }
     
     func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {

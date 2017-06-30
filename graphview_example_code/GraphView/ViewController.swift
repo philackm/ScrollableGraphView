@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame: frame)
         
         // Setup the line plot.
-        let linePlot = LinePlot()
+        let linePlot = LinePlot(identifier: "line")
         
         linePlot.lineWidth = 1
         linePlot.lineColor = UIColor.colorFromHex(hexString: "#777777")
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
         linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
         
-        let dotPlot = DataPointPlot() // Add dots as well.
+        let dotPlot = DataPointPlot(identifier: "dot") // Add dots as well.
         dotPlot.dataPointSize = 2
         dotPlot.dataPointFillColor = UIColor.white
 
@@ -115,7 +115,7 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame:frame)
         
         // Setup the plot
-        let barPlot = BarPlot()
+        let barPlot = BarPlot(identifier: "bar")
         
         barPlot.shouldDrawBarLayer = true
         barPlot.barWidth = 25
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame:frame)
         
         // Setup the plot
-        let plot = DataPointPlot()
+        let plot = DataPointPlot(identifier: "dot")
         
         plot.dataPointSize = 5
         plot.dataPointFillColor = UIColor.white
@@ -185,7 +185,7 @@ class ViewController: UIViewController {
         let graphView = ScrollableGraphView(frame:frame)
         
         // Setup the plot
-        let linePlot = LinePlot()
+        let linePlot = LinePlot(identifier: "line")
         
         linePlot.lineColor = UIColor.clear
         linePlot.shouldFill = true
