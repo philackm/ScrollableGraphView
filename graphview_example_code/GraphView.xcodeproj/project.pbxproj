@@ -17,6 +17,8 @@
 		299482EB1F060CBE007BCDCA /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EA1F060CBE007BCDCA /* LinePlot.swift */; };
 		299482ED1F060CDC007BCDCA /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EC1F060CDC007BCDCA /* DotPlot.swift */; };
 		299482EF1F060CEA007BCDCA /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EE1F060CEA007BCDCA /* BarPlot.swift */; };
+		299482F21F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */; };
+		299482F41F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */; };
 		29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590391F0501A3004D219C /* ReferenceLines.swift */; };
 		29A5903C1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */; };
 		29A5903E1F05035F004D219C /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903D1F05035F004D219C /* BarDrawingLayer.swift */; };
@@ -41,6 +43,8 @@
 		299482EA1F060CBE007BCDCA /* LinePlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinePlot.swift; path = ../../Classes/Plots/LinePlot.swift; sourceTree = "<group>"; };
 		299482EC1F060CDC007BCDCA /* DotPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DotPlot.swift; path = ../../Classes/Plots/DotPlot.swift; sourceTree = "<group>"; };
 		299482EE1F060CEA007BCDCA /* BarPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarPlot.swift; path = ../../Classes/Plots/BarPlot.swift; sourceTree = "<group>"; };
+		299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDataSource.swift; path = ../../Classes/Protocols/ScrollableGraphViewDataSource.swift; sourceTree = "<group>"; };
+		299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDrawingDelegate.swift; path = ../../Classes/Protocols/ScrollableGraphViewDrawingDelegate.swift; sourceTree = "<group>"; };
 		29A590391F0501A3004D219C /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLines.swift; path = ../../Classes/ReferenceLines.swift; sourceTree = "<group>"; };
 		29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDrawingLayer.swift; path = ../../Classes/Drawing/ScrollableGraphViewDrawingLayer.swift; sourceTree = "<group>"; };
 		29A5903D1F05035F004D219C /* BarDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarDrawingLayer.swift; path = ../../Classes/Drawing/BarDrawingLayer.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 			children = (
 				29A590391F0501A3004D219C /* ReferenceLines.swift */,
 				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
+				299482F01F060F72007BCDCA /* Protocols */,
 				29A590491F0509AA004D219C /* Plots */,
 				29A590381F0500F5004D219C /* Drawing */,
 			);
@@ -113,6 +118,15 @@
 			);
 			name = "Supporting Files";
 			path = GraphView;
+			sourceTree = "<group>";
+		};
+		299482F01F060F72007BCDCA /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */,
+				299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		29A590381F0500F5004D219C /* Drawing */ = {
@@ -223,6 +237,8 @@
 				299482EB1F060CBE007BCDCA /* LinePlot.swift in Sources */,
 				29A5903A1F0501A3004D219C /* ReferenceLines.swift in Sources */,
 				299482EF1F060CEA007BCDCA /* BarPlot.swift in Sources */,
+				299482F41F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift in Sources */,
+				299482F21F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift in Sources */,
 				291839A41C72E6A400753A45 /* ViewController.swift in Sources */,
 				29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */,
 				299482ED1F060CDC007BCDCA /* DotPlot.swift in Sources */,
