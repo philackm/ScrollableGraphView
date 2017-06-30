@@ -115,9 +115,9 @@
 			isa = PBXGroup;
 			children = (
 				29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */,
-				29A5903D1F05035F004D219C /* BarDrawingLayer.swift */,
 				29A590471F05049F004D219C /* LineDrawingLayer.swift */,
 				29A5903F1F050378004D219C /* DataPointDrawingLayer.swift */,
+				29A5903D1F05035F004D219C /* BarDrawingLayer.swift */,
 				29A590411F050397004D219C /* GradientDrawingLayer.swift */,
 				29A590431F0503AC004D219C /* FillDrawingLayer.swift */,
 				29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */,

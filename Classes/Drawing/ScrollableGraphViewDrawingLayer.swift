@@ -8,8 +8,6 @@ internal protocol ScrollableGraphViewDrawingDelegate {
     func graphPoint(forIndex index: Int) -> GraphPoint
     func calculatePosition(atIndex index: Int, value: Double) -> CGPoint
     func currentViewport() -> CGRect
-    
-    func currentPath() -> UIBezierPath
 }
 
 

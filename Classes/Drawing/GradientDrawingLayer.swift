@@ -16,7 +16,6 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
         
         mask.frame = CGRect(x: 0, y: 0, width: self.viewportWidth, height: self.viewportHeight)
         mask.fillRule = kCAFillRuleEvenOdd
-        mask.path = self.graphViewDrawingDelegate?.currentPath().cgPath
         mask.lineJoin = self.lineJoin
         
         return mask
