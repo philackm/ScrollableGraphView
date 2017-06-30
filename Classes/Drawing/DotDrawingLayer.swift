@@ -1,7 +1,7 @@
 
 import UIKit
 
-internal class DataPointDrawingLayer: ScrollableGraphViewDrawingLayer {
+internal class DotDrawingLayer: ScrollableGraphViewDrawingLayer {
     
     private var dataPointPath = UIBezierPath()
     private var dataPointSize: CGFloat = 5

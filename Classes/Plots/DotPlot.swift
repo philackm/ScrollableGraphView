@@ -20,7 +20,7 @@ open class DotPlot : Plot {
     // Private State
     // #############
     
-    private var dataPointLayer: DataPointDrawingLayer?
+    private var dataPointLayer: DotDrawingLayer?
     
     init(identifier: String) {
         super.init()
@@ -35,7 +35,7 @@ open class DotPlot : Plot {
     private func createLayers(viewport: CGRect) {
         // Data Point layer
         if(shouldDrawDataPoint) {
-            dataPointLayer = DataPointDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
+            dataPointLayer = DotDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
         }
     }
 }
