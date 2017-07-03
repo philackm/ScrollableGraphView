@@ -16,7 +16,6 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
     private var leftmostPointPadding: CGFloat = 50
     private var rightmostPointPadding: CGFloat = 50
     
-    
     init(frame: CGRect, lineWidth: CGFloat, lineColor: UIColor, lineStyle: ScrollableGraphViewLineStyle, lineJoin: String, lineCap: String, shouldFill: Bool, lineCurviness: CGFloat) {
         
         self.lineStyle = lineStyle
@@ -41,6 +40,10 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
     
     internal func createLinePath() -> UIBezierPath {
         
+        guard let owner = owner else {
+            return UIBezierPath()
+        }
+        
         // Can't really do anything without the delegate.
         guard let delegate = self.graphViewDrawingDelegate else {
             return currentLinePath
@@ -62,7 +65,7 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         // Connect the line to the starting edge if we are filling it.
         if(shouldFill) {
             // Add a line from the base of the graph to the first data point.
-            let firstDataPoint = delegate.graphPoint(forIndex: activePointsInterval.lowerBound)
+            let firstDataPoint = owner.graphPoint(forIndex: activePointsInterval.lowerBound)
             
             let viewportLeftZero = CGPoint(x: firstDataPoint.location.x - (leftmostPointPadding), y: zeroYPosition)
             let leftFarEdgeTop = CGPoint(x: firstDataPoint.location.x - (leftmostPointPadding + viewportWidth), y: zeroYPosition)
@@ -74,15 +77,15 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
             pathSegmentAdder(viewportLeftZero, CGPoint(x: firstDataPoint.location.x, y: firstDataPoint.location.y), currentLinePath)
         }
         else {
-            let firstDataPoint = delegate.graphPoint(forIndex: activePointsInterval.lowerBound)
+            let firstDataPoint = owner.graphPoint(forIndex: activePointsInterval.lowerBound)
             currentLinePath.move(to: firstDataPoint.location)
         }
         
         // Connect each point on the graph with a segment.
         for i in activePointsInterval.lowerBound ..< activePointsInterval.upperBound - 1 {
             
-            let startPoint = delegate.graphPoint(forIndex: i).location
-            let endPoint = delegate.graphPoint(forIndex: i+1).location
+            let startPoint = owner.graphPoint(forIndex: i).location
+            let endPoint = owner.graphPoint(forIndex: i+1).location
             
             pathSegmentAdder(startPoint, endPoint, currentLinePath)
         }
@@ -90,7 +93,7 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         // Connect the line to the ending edge if we are filling it.
         if(shouldFill) {
             // Add a line from the last data point to the base of the graph.
-            let lastDataPoint = delegate.graphPoint(forIndex: activePointsInterval.upperBound - 1).location
+            let lastDataPoint = owner.graphPoint(forIndex: activePointsInterval.upperBound - 1).location
             
             let viewportRightZero = CGPoint(x: lastDataPoint.x + (rightmostPointPadding), y: zeroYPosition)
             let rightFarEdgeTop = CGPoint(x: lastDataPoint.x + (rightmostPointPadding + viewportWidth), y: zeroYPosition)

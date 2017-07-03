@@ -13,6 +13,7 @@ internal class ScrollableGraphViewDrawingLayer : CAShapeLayer {
     var viewportHeight: CGFloat = 0
     var zeroYPosition: CGFloat = 0
     
+    weak var owner: Plot?
     var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate? = nil // TODO: Move this to the plot. Plots have 1 or more drawing layers. Can access the drawing delegate through the parent plot.
     
     var active = true

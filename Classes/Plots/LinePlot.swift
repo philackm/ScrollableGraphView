@@ -110,5 +110,9 @@ open class LinePlot : Plot {
                 gradientLayer = GradientDrawingLayer(frame: viewport, startColor: fillGradientStartColor, endColor: fillGradientEndColor, gradientType: fillGradientType, lineDrawingLayer: lineLayer!)
             }
         }
+        
+        lineLayer?.owner = self
+        fillLayer?.owner = self
+        gradientLayer?.owner = self
     }
 }

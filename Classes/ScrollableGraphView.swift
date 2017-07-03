@@ -881,10 +881,12 @@ import UIKit
     }
     
     // TODO, make the drawing layer get this from its owning plot instead of going all the away around.
+    /*
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
         // TODO: For testing: Need to just return any of the graph points, because they should be the same at this point.
         return plots.first?.graphPoint(forIndex: index) ?? GraphPoint()
     }
+    */
     
     internal func currentViewport() -> CGRect {
         return CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)

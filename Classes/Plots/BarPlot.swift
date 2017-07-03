@@ -46,6 +46,8 @@ open class BarPlot : Plot {
                                        barLineWidth: barLineWidth,
                                        barLineColor: barLineColor,
                                        shouldRoundCorners: shouldRoundBarCorners)
+            
+            barLayer?.owner = self
         }
     }
 }

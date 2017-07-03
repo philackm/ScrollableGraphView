@@ -36,6 +36,8 @@ open class DotPlot : Plot {
         // Data Point layer
         if(shouldDrawDataPoint) {
             dataPointLayer = DotDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
+            
+            dataPointLayer?.owner = self
         }
     }
 }

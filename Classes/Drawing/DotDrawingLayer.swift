@@ -41,7 +41,7 @@ internal class DotDrawingLayer: ScrollableGraphViewDrawingLayer {
             
             var location = CGPoint.zero
             
-            if let pointLocation = self.graphViewDrawingDelegate?.graphPoint(forIndex: i).location {
+            if let pointLocation = owner?.graphPoint(forIndex: i).location {
                 location = pointLocation
             }
             
