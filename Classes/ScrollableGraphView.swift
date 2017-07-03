@@ -58,21 +58,7 @@ import UIKit
     @IBInspectable open var shouldAdaptRange: Bool = false
     /// If shouldAdaptRange is set to true then this specifies whether or not the points on the graph should animate to their new positions. Default is set to true.
     @IBInspectable open var shouldAnimateOnAdapt: Bool = true
-    /// How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
-    @IBInspectable open var animationDuration: Double = 1
-    
-    @IBInspectable var adaptAnimationType_: Int {
-        get { return adaptAnimationType.rawValue }
-        set {
-            if let enumValue = ScrollableGraphViewAnimationType(rawValue: newValue) {
-                adaptAnimationType = enumValue
-            }
-        }
-    }
-    /// The animation style.
-    open var adaptAnimationType = ScrollableGraphViewAnimationType.easeOut
-    /// If adaptAnimationType is set to .Custom, then this is the easing function you would like applied for the animation.
-    open var customAnimationEasingFunction: ((_ t: Double) -> Double)?
+
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
     @IBInspectable open var shouldAnimateOnStartup: Bool = true
     
@@ -126,20 +112,11 @@ import UIKit
     private var labelPool = LabelPool()
     
     // Graph Drawing
-    private var graphPoints = [GraphPoint]()
     private var drawingView = UIView()
-    
     private var plots: [Plot] = [Plot]()
     
     // Reference Lines
     private var referenceLineView: ReferenceLineDrawingView?
-    
-    // Animation
-    private var displayLink: CADisplayLink!
-    private var previousTimestamp: CFTimeInterval = 0
-    private var currentTimestamp: CFTimeInterval = 0
-    
-    private var currentAnimations = [GraphPointAnimation]()
     
     // Active Points & Range Calculation
     
@@ -172,7 +149,7 @@ import UIKit
     }
     
     deinit {
-        displayLink?.invalidate()
+        //displayLink?.invalidate()
     }
     
     open override func prepareForInterfaceBuilder() {
@@ -237,6 +214,7 @@ import UIKit
         let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
         
         // Create all the GraphPoints which which are used for drawing.
+        /*
         for i in 0 ..< data.count {
             #if TARGET_INTERFACE_BUILDER
             let value = data[i]
@@ -247,6 +225,12 @@ import UIKit
             let position = calculatePosition(atIndex: i, value: value)
             let point = GraphPoint(position: position)
             graphPoints.append(point)
+        }
+        */
+        
+        for plot in plots {
+            plot.setup()
+            plot.createGraphPoints(data: data, shouldAnimateOnStartup: shouldAnimateOnStartup, range: self.range)
         }
         
         // Drawing Layers
@@ -269,9 +253,11 @@ import UIKit
         
         #if !TARGET_INTERFACE_BUILDER
         // Animation loop for when the range adapts
+            /*
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
         displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         displayLink.isPaused = true
+             */
         #endif
         
         isCurrentlySettingUp = false
@@ -291,12 +277,9 @@ import UIKit
             labelView.removeFromSuperview()
         }
         
-        graphPoints.removeAll()
-        
-        currentAnimations.removeAll()
-        displayLink?.invalidate()
-        previousTimestamp = 0
-        currentTimestamp = 0
+        for plot in plots {
+            plot.reset()
+        }
         
         previousActivePointsInterval = -1 ..< -1
         activePointsInterval = -1 ..< -1
@@ -496,6 +479,7 @@ import UIKit
     }
     
     public func addPlot(plot: Plot) {
+        plot.graphViewDrawingDelegate = self
         self.plots.append(plot)
     }
     
@@ -505,99 +489,6 @@ import UIKit
     
     // MARK: - Private Methods
     // #######################
-    
-    // MARK: Animation
-    // ###############
-    
-    // Animation update loop for co-domain changes.
-    @objc private func animationUpdate() {
-        let dt = timeSinceLastFrame()
-        
-        for animation in currentAnimations {
-            
-            animation.update(withTimestamp: dt)
-            
-            if animation.finished {
-                dequeue(animation: animation)
-            }
-        }
-        
-        updatePaths()
-    }
-    
-    private func animate(point: GraphPoint, to position: CGPoint, withDelay delay: Double = 0) {
-        let currentPoint = CGPoint(x: point.x, y: point.y)
-        let animation = GraphPointAnimation(fromPoint: currentPoint, toPoint: position, forGraphPoint: point)
-        animation.animationEasing = getAnimationEasing()
-        animation.duration = animationDuration
-        animation.delay = delay
-        enqueue(animation: animation)
-    }
-    
-    private func getAnimationEasing() -> (Double) -> Double {
-        switch(self.adaptAnimationType) {
-        case .elastic:
-            return Easings.easeOutElastic
-        case .easeOut:
-            return Easings.easeOutQuad
-        case .custom:
-            if let customEasing = customAnimationEasingFunction {
-                return customEasing
-            }
-            else {
-                fallthrough
-            }
-        default:
-            return Easings.easeOutQuad
-        }
-    }
-    
-    private func enqueue(animation: GraphPointAnimation) {
-        if (currentAnimations.count == 0) {
-            // Need to kick off the loop.
-            displayLink.isPaused = false
-        }
-        currentAnimations.append(animation)
-    }
-    
-    private func dequeue(animation: GraphPointAnimation) {
-        if let index = currentAnimations.index(of: animation) {
-            currentAnimations.remove(at: index)
-        }
-        
-        if(currentAnimations.count == 0) {
-            // Stop animation loop.
-            displayLink.isPaused = true
-        }
-    }
-    
-    private func dequeueAllAnimations() {
-        
-        for animation in currentAnimations {
-            animation.animationDidFinish()
-        }
-        
-        currentAnimations.removeAll()
-        displayLink.isPaused = true
-    }
-    
-    private func timeSinceLastFrame() -> Double {
-        if previousTimestamp == 0 {
-            previousTimestamp = displayLink.timestamp
-        } else {
-            previousTimestamp = currentTimestamp
-        }
-        
-        currentTimestamp = displayLink.timestamp
-        
-        var dt = currentTimestamp - previousTimestamp
-        
-        if dt > 0.032 {
-            dt = 0.032
-        }
-        
-        return dt
-    }
     
     // MARK: Layout Calculations
     // #########################
@@ -738,30 +629,12 @@ import UIKit
             // Need to update the graph points so they are in their right positions for the new viewport.
             // Animate them into position if animation is enabled, but make sure to stop any current animations first.
             #if !TARGET_INTERFACE_BUILDER
-                dequeueAllAnimations()
+                stopAnimations()
             #endif
             startAnimations()
             
             // The labels will also need to be repositioned if the viewport has changed.
             repositionActiveLabels()
-        }
-    }
-    
-    // Update any paths with the new path based on visible data points.
-    private func updatePaths() {
-        
-        zeroYPosition = calculatePosition(atIndex: 0, value: self.range.min).y
-        
-        if let drawingLayers = drawingView.layer.sublayers {
-            for layer in drawingLayers {
-                if let layer = layer as? ScrollableGraphViewDrawingLayer {
-                    // The bar layer needs the zero Y position to set the bottom of the bar
-                    layer.zeroYPosition = zeroYPosition
-                    // Need to make sure this is set in createLinePath
-                    assert (layer.zeroYPosition > 0);
-                    layer.updatePath()
-                }
-            }
         }
     }
     
@@ -835,7 +708,6 @@ import UIKit
     }
   
     private func startAnimations(withStaggerValue stagger: Double = 0) {
-        
         var pointsToAnimate = 0 ..< 0
         
         #if !TARGET_INTERFACE_BUILDER
@@ -844,25 +716,14 @@ import UIKit
         }
         #endif
         
-        // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
-        //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
-        var index = 0
-        for i in pointsToAnimate {
-            let newPosition = calculatePosition(atIndex: i, value: data[i])
-            let point = graphPoints[i]
-            animate(point: point, to: newPosition, withDelay: Double(index) * stagger)
-            index += 1
+        for plot in plots {
+            plot.startAnimations(forPoints: pointsToAnimate, withData: data, withStaggerValue: stagger)
         }
-        
-        // Update any non-visible & non-animating points so they come on to screen at the right scale.
-        for i in 0 ..< graphPoints.count {
-            if(i > pointsToAnimate.lowerBound && i < pointsToAnimate.upperBound || graphPoints[i].currentlyAnimatingToPosition) {
-                continue
-            }
-            
-            let newPosition = calculatePosition(atIndex: i, value: data[i])
-            graphPoints[i].x = newPosition.x
-            graphPoints[i].y = newPosition.y
+    }
+    
+    private func stopAnimations() {
+        for plot in plots {
+            plot.dequeueAllAnimations()
         }
     }
     
@@ -903,12 +764,32 @@ import UIKit
         return range
     }
     
+    // TODO, make the drawing layer get this from its owning plot instead of going all the away around.
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
-        return graphPoints[index]
+        // TODO: For testing: Need to just return any of the graph points, because they should be the same at this point.
+        return plots.first?.graphPoint(forIndex: index) ?? GraphPoint()
     }
     
     internal func currentViewport() -> CGRect {
         return CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
+    }
+    
+    // Update any paths with the new path based on visible data points.
+    internal func updatePaths() {
+        
+        zeroYPosition = calculatePosition(atIndex: 0, value: self.range.min).y
+        
+        if let drawingLayers = drawingView.layer.sublayers {
+            for layer in drawingLayers {
+                if let layer = layer as? ScrollableGraphViewDrawingLayer {
+                    // The bar layer needs the zero Y position to set the bottom of the bar
+                    layer.zeroYPosition = zeroYPosition
+                    // Need to make sure this is set in createLinePath
+                    assert (layer.zeroYPosition > 0);
+                    layer.updatePath()
+                }
+            }
+        }
     }
 }
 
@@ -966,111 +847,6 @@ private class LabelPool {
     }
 }
 
-// MARK: - GraphPoints and Animation Classes
-// #########################################
-
-internal class GraphPoint {
-    
-    var location = CGPoint(x: 0, y: 0)
-    var currentlyAnimatingToPosition = false
-    
-    fileprivate var x: CGFloat {
-        get {
-            return location.x
-        }
-        set {
-            location.x = newValue
-        }
-    }
-    
-    fileprivate var y: CGFloat {
-        get {
-            return location.y
-        }
-        set {
-            location.y = newValue
-        }
-    }
-    
-    init(position: CGPoint = CGPoint.zero) {
-        x = position.x
-        y = position.y
-    }
-}
-
-private class GraphPointAnimation : Equatable {
-    
-    // Public Properties
-    var animationEasing = Easings.easeOutQuad
-    var duration: Double = 1
-    var delay: Double = 0
-    private(set) var finished = false
-    private(set) var animationKey: String
-    
-    // Private State
-    private var startingPoint: CGPoint
-    private var endingPoint: CGPoint
-    
-    private var elapsedTime: Double = 0
-    private var graphPoint: GraphPoint?
-    private var multiplier: Double = 1
-    
-    static private var animationsCreated = 0
-    
-    init(fromPoint: CGPoint, toPoint: CGPoint, forGraphPoint graphPoint: GraphPoint, forKey key: String = "animation\(animationsCreated)") {
-        self.startingPoint = fromPoint
-        self.endingPoint = toPoint
-        self.animationKey = key
-        self.graphPoint = graphPoint
-        self.graphPoint?.currentlyAnimatingToPosition = true
-        
-        GraphPointAnimation.animationsCreated += 1
-    }
-    
-    func update(withTimestamp dt: Double) {
-        
-        if(!finished) {
-            
-            if elapsedTime > delay {
-                
-                let animationElapsedTime = elapsedTime - delay
-                
-                let changeInX = endingPoint.x - startingPoint.x
-                let changeInY = endingPoint.y - startingPoint.y
-                
-                // t is in the range of 0 to 1, indicates how far through the animation it is.
-                let t = animationElapsedTime / duration
-                let interpolation = animationEasing(t)
-                
-                let x = startingPoint.x + changeInX * CGFloat(interpolation)
-                let y = startingPoint.y + changeInY * CGFloat(interpolation)
-                
-                if(animationElapsedTime >= duration) {
-                    animationDidFinish()
-                }
-                
-                graphPoint?.x = CGFloat(x)
-                graphPoint?.y = CGFloat(y)
-                
-                elapsedTime += dt * multiplier
-            }
-                // Keep going until we are passed the delay
-            else {
-                elapsedTime += dt * multiplier
-            }
-        }
-    }
-    
-    func animationDidFinish() {
-        self.graphPoint?.currentlyAnimatingToPosition = false
-        self.finished = true
-    }
-    
-    static func ==(lhs: GraphPointAnimation, rhs: GraphPointAnimation) -> Bool {
-        return lhs.animationKey == rhs.animationKey
-    }
-}
-
 // MARK: - ScrollableGraphView Settings Enums
 // ##########################################
 
@@ -1117,14 +893,4 @@ private class GraphPointAnimation : Equatable {
     case rightToLeft
 }
 
-// Simplified easing functions from: http://www.joshondesign.com/2013/03/01/improvedEasingEquations
-private struct Easings {
-    
-    static let easeInQuad =  { (t:Double) -> Double in  return t*t; }
-    static let easeOutQuad = { (t:Double) -> Double in  return 1 - Easings.easeInQuad(1-t); }
-    
-    static let easeOutElastic = { (t: Double) -> Double in
-        var p = 0.3;
-        return pow(2,-10*t) * sin((t-p/4)*(2*Double.pi)/p) + 1;
-    }
-}
+

@@ -23,14 +23,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addLabel(withText: "DARK (TAP HERE)")
         graphView = createDarkGraph(self.view.frame)
         
         graphView.set(data: data, withLabels: labels)
-        
-        self.view.addSubview(graphView)
+        self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
-        addLabel(withText: "DARK (TAP HERE)")
     }
     
     func didTap(_ gesture: UITapGestureRecognizer) {
@@ -77,9 +76,15 @@ class ViewController: UIViewController {
         linePlot.fillGradientStartColor = UIColor.colorFromHex(hexString: "#555555")
         linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
         
+        linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        linePlot.animationDuration = 1.5
+        
         let dotPlot = DotPlot(identifier: "dot") // Add dots as well.
         dotPlot.dataPointSize = 2
         dotPlot.dataPointFillColor = UIColor.white
+        
+        dotPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        dotPlot.animationDuration = 1.5
 
         // Setup the reference lines.
         let referenceLines = ReferenceLines()
@@ -97,8 +102,8 @@ class ViewController: UIViewController {
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        graphView.animationDuration = 1.5
+        // graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic // moved to plot
+        // graphView.animationDuration = 1.5 // moved to plot
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
@@ -123,6 +128,9 @@ class ViewController: UIViewController {
         barPlot.barLineColor = UIColor.colorFromHex(hexString: "#777777")
         barPlot.barColor = UIColor.colorFromHex(hexString: "#555555")
         
+        barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        barPlot.animationDuration = 1.5
+        
         // Setup the reference lines
         let referenceLines = ReferenceLines()
         
@@ -137,8 +145,7 @@ class ViewController: UIViewController {
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        graphView.animationDuration = 1.5
+        
         graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
         
