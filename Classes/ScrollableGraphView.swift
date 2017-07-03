@@ -510,6 +510,14 @@ import UIKit
     }
     */
     
+    // Limitation: Can only be used when reloading the same number of data points!
+    public func reload() {
+        stopAnimations()
+        rangeDidChange()
+        updateUI()
+        updatePaths()
+    }
+    
     public func addPlot(plot: Plot) {
         plot.graphViewDrawingDelegate = self
         self.plots.append(plot)
@@ -725,7 +733,16 @@ import UIKit
     private func rangeDidChange() {
         
         // If shouldAnimateOnAdapt is enabled it will kickoff any animations that need to occur.
-        startAnimations()
+        if(shouldAnimateOnAdapt) {
+            startAnimations()
+        }
+        else {
+            // Otherwise we should simple just move the data to their positions.
+            for plot in plots {
+                let newData = getData(forPlot: plot, andActiveInterval: activePointsInterval)
+                plot.setPlotPointPositions(forNewlyActivatedPoints: intervalForActivePoints(), withData: newData)
+            }
+        }
         
         referenceLineView?.set(range: range)
     }

@@ -12,7 +12,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     var graphConstraints = [NSLayoutConstraint]()
     
     var label = UILabel()
-    var labelConstraints = [NSLayoutConstraint]()
+    var reloadLabel = UILabel()
     
     // Data
     let numberOfDataItems = 29
@@ -27,7 +27,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
     //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
     lazy var barPlotData: [Double] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-    lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
     lazy var xAxisLabels: [String] =  self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
     
     override func viewDidLoad() {
@@ -36,8 +36,10 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         graphView = createMultiPlotGraph(self.view.frame)
         //graphView.set(data: data)
         
+        addReloadLabel(withText: "RELOAD")
         addLabel(withText: "MULTI (TAP HERE)")
-        self.view.insertSubview(graphView, belowSubview: label)
+        
+        self.view.insertSubview(graphView, belowSubview: reloadLabel)
         
         setupConstraints()
     }
@@ -51,26 +53,44 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         
         switch(currentGraphType) {
         case .multi:
-            addLabel(withText: "MULTI")
             graphView = createMultiPlotGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "MULTI")
         case .dark:
-            addLabel(withText: "DARK")
             graphView = createDarkGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "DARK")
         case .dot:
-            addLabel(withText: "DOT")
             graphView = createDotGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "DOT")
         case .bar:
-            addLabel(withText: "BAR")
             graphView = createBarGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "BAR")
         case .pink:
-            addLabel(withText: "PINK")
             graphView = createPinkMountainGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "PINK")
         }
         
         //graphView.set(data: data)
-        self.view.insertSubview(graphView, belowSubview: label)
+        self.view.insertSubview(graphView, belowSubview: reloadLabel)
         
         setupConstraints()
+    }
+    
+    func reloadDidTap(_ gesture: UITapGestureRecognizer) {
+        blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 60)
+        orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40)
+        
+        linePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
+        //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+        barPlotData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+        dotPlotData = self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
+        xAxisLabels = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
+        
+        graphView.reload()
     }
     
     // Multi plot v1
@@ -330,10 +350,12 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
+        graphView.shouldAdaptRange = false
+        graphView.shouldAnimateOnAdapt = false
+        graphView.shouldAnimateOnStartup = false
         
-        graphView.dataPointSpacing = 80
-        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.dataPointLabelColor = UIColor.white
+        graphView.shouldShowLabels = false
+        graphView.dataPointSpacing = 25
         graphView.rangeMax = 50
         
         // Add everything
@@ -419,8 +441,28 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(didTap))
         label.addGestureRecognizer(tapGestureRecogniser)
         
-        self.view.insertSubview(label, aboveSubview: graphView)
+        self.view.insertSubview(label, aboveSubview: reloadLabel)
         self.view.addConstraints([rightConstraint, topConstraint, heightConstraint, widthConstraint])
+    }
+    
+    private func addReloadLabel(withText text: String) {
+        
+        reloadLabel.removeFromSuperview()
+        reloadLabel = createLabel(withText: text)
+        reloadLabel.isUserInteractionEnabled = true
+        
+        let leftConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.left, multiplier: 1, constant: 20)
+        
+        let topConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self.view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 20)
+        
+        let heightConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 40)
+        let widthConstraint = NSLayoutConstraint(item: reloadLabel, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: reloadLabel.frame.width * 1.5)
+        
+        let tapGestureRecogniser = UITapGestureRecognizer(target: self, action: #selector(reloadDidTap))
+        reloadLabel.addGestureRecognizer(tapGestureRecogniser)
+        
+        self.view.insertSubview(reloadLabel, aboveSubview: graphView)
+        self.view.addConstraints([leftConstraint, topConstraint, heightConstraint, widthConstraint])
     }
     
     private func createLabel(withText text: String) -> UILabel {
@@ -451,6 +493,26 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
             
             if(arc4random() % 100 < 10) {
                 randomNumber *= 3
+            }
+            
+            data.append(randomNumber)
+        }
+        return data
+    }
+    
+    private func generateRandomData(_ numberOfItems: Int, variance: Double, from: Double) -> [Double] {
+        
+        var data = [Double]()
+        for _ in 0 ..< numberOfItems {
+            
+            let randomVariance = Double(arc4random()).truncatingRemainder(dividingBy: variance)
+            var randomNumber = from
+            
+            if(arc4random() % 100 < 50) {
+                randomNumber += randomVariance
+            }
+            else {
+                randomNumber -= randomVariance
             }
             
             data.append(randomNumber)

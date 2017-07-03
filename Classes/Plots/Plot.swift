@@ -199,7 +199,7 @@ open class Plot {
     // And when setting up.
     public func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
         
-        for i in newPoints.startIndex ... newPoints.endIndex {
+        for i in newPoints.startIndex ..< newPoints.endIndex {
             
             // 10...20 indices
             // 0...10 data positions
