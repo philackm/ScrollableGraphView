@@ -141,6 +141,9 @@ open class Plot {
     
     public func startAnimations(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withStaggerValue stagger: Double) {
         
+        updatePlotPointPositions(forPoints: pointsToAnimate, withData: data, withDelay: stagger)
+        
+        /*
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
         var index = 0
@@ -161,8 +164,10 @@ open class Plot {
             graphPoints[i].x = newPosition.x
             graphPoints[i].y = newPosition.y
         }
+        */
     }
     
+    /*
     public func createGraphPoints(data: [Double], shouldAnimateOnStartup: Bool, range: (min: Double, max: Double)) {
         for i in 0 ..< data.count {
 
@@ -171,6 +176,73 @@ open class Plot {
             let position = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
             let point = GraphPoint(position: position)
             graphPoints.append(point)
+        }
+    }
+    */
+    
+    // New functions to deal with getting data incrementally rather than all at once.
+    // ##############################################################################
+    
+    public func createPlotPoints(numberOfPoints: Int, range: (min: Double, max: Double)) {
+        for i in 0 ..< numberOfPoints {
+            
+            let value = range.min
+            
+            let position = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
+            let point = GraphPoint(position: position)
+            graphPoints.append(point)
+        }
+    }
+    
+    // When active interval changes, need to set the position for any NEWLY ACTIVATED points
+    // Needs to be called when the active interval has changed.
+    // And when setting up.
+    public func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
+        
+        for i in newPoints.startIndex ... newPoints.endIndex {
+            
+            // 10...20 indices
+            // 0...10 data positions
+            //0 to (end - start)
+            let dataPosition = i - newPoints.startIndex
+            
+            let value = data[dataPosition]
+            
+            let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
+            graphPoints[i].x = newPosition.x
+            graphPoints[i].y = newPosition.y
+        }
+    }
+    
+    public func setPlotPointPositions(forNewlyActivatedPoints activatedPoints: [Int], withData data: [Double]) {
+        
+        var index = 0
+        for activatedPointIndex in activatedPoints {
+            
+            let dataPosition = index
+            let value = data[dataPosition]
+            
+            let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: activatedPointIndex, value: value)
+            graphPoints[activatedPointIndex].x = newPosition.x
+            graphPoints[activatedPointIndex].y = newPosition.y
+            
+            index += 1
+        }
+    }
+    
+    // When the range changes, we need to set the position for any visible points, either animating or setting directly
+    // depending on the settings.
+    // Needs to be called when the range has changed.
+    // TODO: Rename to animatePlotPointPositions
+    public func updatePlotPointPositions(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withDelay delay: Double) {
+        
+        // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
+        var dataIndex = 0
+        for pointIndex in pointsToAnimate {
+            let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: pointIndex, value: data[dataIndex])
+            let point = graphPoints[pointIndex]
+            animate(point: point, to: newPosition, withDelay: Double(dataIndex) * delay)
+            dataIndex += 1
         }
     }
     

@@ -8,7 +8,7 @@ import UIKit
 class ViewController: UIViewController, ScrollableGraphViewDataSource {
 
     var graphView: ScrollableGraphView!
-    var currentGraphType = GraphType.dark
+    var currentGraphType = GraphType.multi
     var graphConstraints = [NSLayoutConstraint]()
     
     var label = UILabel()
@@ -21,18 +21,22 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     //lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
     
     // Data for new delegate based method
+    lazy var blueLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 60)
+    lazy var orangeLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 20)
+    
     lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
-    lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+    //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var barPlotData: [Double] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
     lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
     lazy var xAxisLabels: [String] =  self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        graphView = createDarkGraph(self.view.frame)
-        graphView.set(data: data)
+        graphView = createMultiPlotGraph(self.view.frame)
+        //graphView.set(data: data)
         
-        addLabel(withText: "DARK (TAP HERE)")
+        addLabel(withText: "MULTI (TAP HERE)")
         self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
@@ -46,6 +50,9 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         graphView.removeFromSuperview()
         
         switch(currentGraphType) {
+        case .multi:
+            addLabel(withText: "MULTI")
+            graphView = createMultiPlotGraph(self.view.frame)
         case .dark:
             addLabel(withText: "DARK")
             graphView = createDarkGraph(self.view.frame)
@@ -60,10 +67,70 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
             graphView = createPinkMountainGraph(self.view.frame)
         }
         
-        graphView.set(data: data)
+        //graphView.set(data: data)
         self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
+    }
+    
+    fileprivate func createMultiPlotGraph(_ frame: CGRect) -> ScrollableGraphView {
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
+        
+        // Setup the line plot.
+        let blueLinePlot = LinePlot(identifier: "multiBlue")
+        
+        blueLinePlot.lineWidth = 1
+        blueLinePlot.lineColor = UIColor.colorFromHex(hexString: "#0000ff")
+        blueLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        
+        blueLinePlot.shouldFill = true
+        blueLinePlot.fillType = ScrollableGraphViewFillType.solid
+        blueLinePlot.fillColor = UIColor.colorFromHex(hexString: "#0000ff").withAlphaComponent(0.5)
+        
+        blueLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        blueLinePlot.animationDuration = 1.5
+        
+        // Setup the second line plot.
+        let orangeLinePlot = LinePlot(identifier: "multiOrange")
+        
+        orangeLinePlot.lineWidth = 1
+        orangeLinePlot.lineColor = UIColor.colorFromHex(hexString: "#ff0000")
+        orangeLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        orangeLinePlot.fillColor = UIColor.colorFromHex(hexString: "#ff0000").withAlphaComponent(0.5)
+        
+        orangeLinePlot.shouldFill = true
+        orangeLinePlot.fillType = ScrollableGraphViewFillType.solid
+        
+        orangeLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        orangeLinePlot.animationDuration = 1.5
+        
+        // Setup the reference lines.
+        let referenceLines = ReferenceLines()
+        
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.white
+        referenceLines.numberOfIntermediateReferenceLines = 5
+        
+        // Setup the graph
+        graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        
+        graphView.dataPointSpacing = 80
+        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        
+        graphView.shouldAnimateOnStartup = true
+        graphView.shouldAdaptRange = true
+        // graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic // moved to plot
+        // graphView.animationDuration = 1.5 // moved to plot
+        graphView.rangeMax = 50
+        graphView.shouldRangeAlwaysStartAtZero = true
+        
+        // Add everything to the graph.
+        graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.addPlot(plot: blueLinePlot)
+        graphView.addPlot(plot: orangeLinePlot)
+        
+        return graphView
     }
     
     fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
@@ -85,7 +152,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
         linePlot.animationDuration = 1.5
         
-        let dotPlot = DotPlot(identifier: "dot") // Add dots as well.
+        let dotPlot = DotPlot(identifier: "overlaydot") // Add dots as well.
         dotPlot.dataPointSize = 2
         dotPlot.dataPointFillColor = UIColor.white
         
@@ -319,6 +386,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     
     // The type of the current graph we are showing.
     enum GraphType {
+        case multi
         case dark
         case bar
         case dot
@@ -326,6 +394,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         
         mutating func next() {
             switch(self) {
+            case .multi:
+                self = GraphType.dark
             case .dark:
                 self = GraphType.bar
             case .bar:
@@ -333,7 +403,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
             case .dot:
                 self = GraphType.pink
             case .pink:
-                self = GraphType.dark
+                self = GraphType.multi
             }
         }
     }
@@ -344,8 +414,18 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     
     // Implementation for ScrollableGraphViewDataSource protocol
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
+        
+        //print("Requesting data for point index: \(pointIndex)")
+        
         switch(plot.identifier) {
+            
+        case "multiBlue":
+            return blueLinePlotData[pointIndex]
+        case "multiOrange":
+            return orangeLinePlotData[pointIndex]
         case "line":
+            return linePlotData[pointIndex]
+        case "overlaydot":
             return linePlotData[pointIndex]
         case "bar":
             return barPlotData[pointIndex]
@@ -360,17 +440,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return xAxisLabels[pointIndex] // ensure that you have a label to return for the index
     }
     
-    func numberOfPoints(forPlot plot: Plot) -> Int {
-        switch(plot.identifier) {
-        case "line":
-            return linePlotData.count
-        case "bar":
-            return barPlotData.count
-        case "dot":
-            return dotPlotData.count
-        default:
-            return 0
-        }
+    func numberOfPoints() -> Int {
+        return numberOfDataItems
     }
 }
 

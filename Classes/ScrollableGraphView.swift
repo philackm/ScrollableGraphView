@@ -43,7 +43,13 @@ import UIKit
     // ###########
     
     /// If this is set to true, then the range will automatically be detected from the data the graph is given.
-    @IBInspectable open var shouldAutomaticallyDetectRange: Bool = false
+    //@IBInspectable open var shouldAutomaticallyDetectRange: Bool = false
+    // This is removed and now the user is responsible for setting a decent range. 
+    // This is because we don't want to have to check all of the data unless we have to.
+    // Automatically checking the range requires us to inspect every data point at the start
+    // If we dont do this, then we only ever touch the data that the user sees on screen.
+    
+    
     /// Forces the graph's minimum to always be zero. Used in conjunction with shouldAutomaticallyDetectRange or shouldAdaptRange, if you want to force the minimum to stay at 0 rather than the detected minimum.
     @IBInspectable open var shouldRangeAlwaysStartAtZero: Bool = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
     /// The minimum value for the y-axis. This is ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
@@ -157,7 +163,7 @@ import UIKit
     
     open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4])
+        // set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4])
     }
     
     private func setup() {
@@ -171,7 +177,8 @@ import UIKit
         self.viewportWidth = self.frame.width
         self.viewportHeight = self.frame.height
         
-        totalGraphWidth = graphWidth(forNumberOfDataPoints: data.count)
+        let numberOfDataPoints = dataSource?.numberOfPoints() ?? 0
+        totalGraphWidth = graphWidth(forNumberOfDataPoints: numberOfDataPoints) // CHANGED
         self.contentSize = CGSize(width: totalGraphWidth, height: viewportHeight)
         
         // Scrolling direction.
@@ -192,18 +199,24 @@ import UIKit
         
         // Calculate the initial range depending on settings.
         let initialActivePointsInterval = calculateActivePointsInterval()
-        let detectedRange = calculateRange(forEntireDataset: self.data)
         
+        //let detectedRange = calculateRange(forEntireDataset: self.data) // CHANGED
+        /*
         if(shouldAutomaticallyDetectRange) {
             self.range = detectedRange
         }
         else {
-            self.range = (min: rangeMin, max: rangeMax)
+            
         }
+        */
         
-        if (shouldAdaptRange) { // This supercedes the shouldAutomaticallyDetectRange option
+        // CHANGED: Need to calculate the range across all plots to get the min and max for all plots.
+        if (shouldAdaptRange) { // This overwrites anything specified by rangeMin and rangeMax
             let range = calculateRange(forActivePointsInterval: initialActivePointsInterval)
             self.range = range
+        }
+        else {
+            self.range = (min: rangeMin, max: rangeMax) // just use what the user specified instead.
         }
         
         // If the graph was given all 0s as data, we can't use a range of 0->0, so make sure we have a sensible range at all times.
@@ -232,7 +245,16 @@ import UIKit
         
         for plot in plots {
             plot.setup()
-            plot.createGraphPoints(data: data, shouldAnimateOnStartup: shouldAnimateOnStartup, range: self.range)
+            
+            //plot.createGraphPoints(data: data, shouldAnimateOnStartup: shouldAnimateOnStartup, range: self.range) // CHANGED
+            
+            plot.createPlotPoints(numberOfPoints: numberOfDataPoints, range: range)
+            
+            // If we are not animating on startup then just set all the plot positions to their respective values
+            if(!shouldAnimateOnStartup) {
+                let dataForInitialPoints = getData(forPlot: plot, andActiveInterval: initialActivePointsInterval)
+                plot.setPlotPointPositions(forNewlyActivatedPoints: initialActivePointsInterval, withData: dataForInitialPoints)
+            }
         }
         
         // Drawing Layers
@@ -362,7 +384,11 @@ import UIKit
     private func updateUI() {
         
         // Make sure we have data, if don't, just get out. We can't do anything without any data.
-        guard data.count > 0 else {
+        guard let dataSource = dataSource else {
+            return
+        }
+        
+        guard dataSource.numberOfPoints() > 0 else { // CHANGED
             return
         }
         
@@ -399,6 +425,9 @@ import UIKit
             
             // If adaption is enabled we want to
             if(shouldAdaptRange) {
+                // TODO: This is currently called every single frame...
+                // We need to only calculate the range if the active points interval has changed!
+                // This is really wasteful.
                 let newRange = calculateRange(forActivePointsInterval: newActivePointsInterval)
                 self.range = newRange
             }
@@ -464,7 +493,8 @@ import UIKit
     // MARK: - Public Methods
     // ######################
     
-    open func set(data: [Double]) {
+    /*
+    open func set(data: [Double]) { // CHANGED
         
         // If we are setting exactly the same data and labels, there's no need to re-init everything.
         if(self.data == data) {
@@ -478,6 +508,7 @@ import UIKit
             updateUI()
         }
     }
+    */
     
     public func addPlot(plot: Plot) {
         plot.graphViewDrawingDelegate = self
@@ -494,6 +525,30 @@ import UIKit
     // MARK: Layout Calculations
     // #########################
     
+    private func getData(forPlot plot: Plot, andActiveInterval activeInterval: CountableRange<Int>) -> [Double] {
+        
+        var dataForInterval = [Double]()
+        
+        for i in activeInterval.startIndex ..< activeInterval.endIndex {
+            let dataForIndexI = dataSource?.value(forPlot: plot, atIndex: i) ?? 0
+            dataForInterval.append(dataForIndexI)
+        }
+        
+        return dataForInterval
+    }
+    
+    private func getData(forPlot plot: Plot, andNewlyActivatedPoints activatedPoints: [Int]) -> [Double] {
+        
+        var dataForActivatedPoints = [Double]()
+        
+        for activatedPoint in activatedPoints {
+            let dataForActivatedPoint = dataSource?.value(forPlot: plot, atIndex: activatedPoint) ?? 0
+            dataForActivatedPoints.append(dataForActivatedPoint)
+        }
+        
+        return dataForActivatedPoints
+    }
+    
     private func calculateActivePointsInterval() -> CountableRange<Int> {
         
         // Calculate the "active points"
@@ -501,8 +556,13 @@ import UIKit
         let max = Int(((offsetWidth + viewportWidth)) / dataPointSpacing)
         
         // Add and minus two so the path goes "off the screen" so we can't see where it ends.
+        //let maxPossible = data.count - 1 // CHANGED
         let minPossible = 0
-        let maxPossible = data.count - 1
+        var maxPossible = 0
+        
+        if let numberOfPoints = dataSource?.numberOfPoints() {
+            maxPossible = numberOfPoints - 1
+        }
         
         let numberOfPointsOffscreen = 2
         
@@ -512,9 +572,51 @@ import UIKit
         return actualMin..<actualMax.advanced(by: 1)
     }
     
+    // CHANGED: Change this to get the min and max of ALL plots.
     private func calculateRange(forActivePointsInterval interval: CountableRange<Int>) -> (min: Double, max: Double) {
         
-        let dataForActivePoints = data[interval]
+        var ranges = [(min: Double, max: Double)]()
+        
+        for plot in plots {
+            let rangeForPlot = calculateRange(forPlot: plot, forActivePointsInterval: interval)
+            ranges.append(rangeForPlot)
+        }
+        
+        let minOfRanges = min(ofAllRanges: ranges)
+        let maxOfRanges = max(ofAllRanges: ranges)
+        
+        return (min: minOfRanges, max: maxOfRanges)
+    }
+    
+    private func max(ofAllRanges ranges: [(min: Double, max: Double)]) -> Double {
+        
+        var max: Double = ranges[0].max
+        
+        for range in ranges {
+            if(range.max > max) {
+                max = range.max
+            }
+        }
+        
+        return max
+    }
+    
+    private func min(ofAllRanges ranges: [(min: Double, max: Double)]) -> Double {
+        var min: Double = ranges[0].min
+        
+        for range in ranges {
+            if(range.min < min) {
+                min = range.min
+            }
+        }
+        
+        return min
+    }
+    
+    // Calculate the range for a single plot
+    private func calculateRange(forPlot plot: Plot, forActivePointsInterval interval: CountableRange<Int>) -> (min: Double, max: Double) {
+        
+        let dataForActivePoints = getData(forPlot: plot, andActiveInterval: interval)
         
         // We don't have any active points, return defaults.
         if(dataForActivePoints.count == 0) {
@@ -527,10 +629,12 @@ import UIKit
         }
     }
     
-    private func calculateRange(forEntireDataset data: [Double]) -> (min: Double, max: Double) {
+    /*
+    private func calculateRange(forEntireDataset data: [Double]) -> (min: Double, max: Double) { // CHANGED
         let range = calculateRange(for: self.data)
         return clean(range: range)
     }
+    */
     
     private func calculateRange<T: Collection>(for data: T) -> (min: Double, max: Double) where T.Iterator.Element == Double {
         
@@ -597,16 +701,26 @@ import UIKit
     // If the active points (the points we can actually see) change, then we need to update the path.
     private func activePointsDidChange() {
         
-      let deactivatedPoints = determineDeactivatedPoints()
-      let activatedPoints = determineActivatedPoints()
-      
-      updatePaths()
-      if(shouldShowLabels) {
-        let deactivatedLabelPoints = filterPointsForLabels(fromPoints: deactivatedPoints)
-        let activatedLabelPoints = filterPointsForLabels(fromPoints: activatedPoints)
-        updateLabels(deactivatedPoints: deactivatedLabelPoints, activatedPoints: activatedLabelPoints)
-      }
-  }
+        let deactivatedPoints = determineDeactivatedPoints()
+        let activatedPoints = determineActivatedPoints()
+        
+        // The plots need to know which points became active and what their values
+        // are so the plots can display them properly.
+        if(!isInitialSetup) {
+            for plot in plots {
+                let newData = getData(forPlot: plot, andNewlyActivatedPoints: activatedPoints)
+                plot.setPlotPointPositions(forNewlyActivatedPoints: activatedPoints, withData: newData)
+            }
+        }
+        
+        updatePaths()
+        
+        if(shouldShowLabels) {
+            let deactivatedLabelPoints = filterPointsForLabels(fromPoints: deactivatedPoints)
+            let activatedLabelPoints = filterPointsForLabels(fromPoints: activatedPoints)
+            updateLabels(deactivatedPoints: deactivatedLabelPoints, activatedPoints: activatedLabelPoints)
+        }
+    }
   
     private func rangeDidChange() {
         
@@ -659,7 +773,7 @@ import UIKit
             
             // self.range.min is the current ranges minimum that has been detected
             // self.rangeMin is the minimum that should be used as specified by the user
-            let rangeMin = (shouldAutomaticallyDetectRange || shouldAdaptRange) ? self.range.min : self.rangeMin
+            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
             let position = calculatePosition(atIndex: point, value: rangeMin)
             
             label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2, y: position.y + dataPointLabelTopMargin), size: label.frame.size)
@@ -673,7 +787,7 @@ import UIKit
     private func repositionActiveLabels() {
         for label in labelPool.activeLabels {
             
-            let rangeMin = (shouldAutomaticallyDetectRange || shouldAdaptRange) ? self.range.min : self.rangeMin
+            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
             let position = calculatePosition(atIndex: 0, value: rangeMin)
             
             label.frame.origin.y = position.y + dataPointLabelTopMargin
@@ -718,7 +832,8 @@ import UIKit
         #endif
         
         for plot in plots {
-            plot.startAnimations(forPoints: pointsToAnimate, withData: data, withStaggerValue: stagger)
+            let dataForPointsToAnimate = getData(forPlot: plot, andActiveInterval: pointsToAnimate)
+            plot.startAnimations(forPoints: pointsToAnimate, withData: dataForPointsToAnimate, withStaggerValue: stagger) // CHANGED
         }
     }
     
@@ -737,8 +852,8 @@ import UIKit
         
         // self.range.min/max is the current ranges min/max that has been detected
         // self.rangeMin/Max is the min/max that should be used as specified by the user
-        let rangeMax = (shouldAutomaticallyDetectRange || shouldAdaptRange) ? self.range.max : self.rangeMax
-        let rangeMin = (shouldAutomaticallyDetectRange || shouldAdaptRange) ? self.range.min : self.rangeMin
+        let rangeMax = (shouldAdaptRange) ? self.range.max : self.rangeMax
+        let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
         
         //                                                     y = the y co-ordinate in the view for the value in the graph
         //     ( ( value - max )               )               value = the value on the graph for which we want to know its corresponding location on the y axis in the view
