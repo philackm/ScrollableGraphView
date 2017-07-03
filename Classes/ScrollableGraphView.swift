@@ -62,8 +62,8 @@ import UIKit
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
     @IBInspectable open var shouldAnimateOnStartup: Bool = true
     
-    // Data Point Labels
-    // #################
+    // Data Point Labels // TODO: These can go into reference line settings.
+    // #####################################################################
     
     /// Whether or not to show the labels on the x-axis for each point.
     @IBInspectable open var shouldShowLabels: Bool = true

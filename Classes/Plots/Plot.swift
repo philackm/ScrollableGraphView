@@ -8,6 +8,8 @@ open class Plot {
     
     var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate! = nil
     
+    // TODO: Each plot should have one or more drawing layers?
+    
     // Animation Settings
     // ##################
     

@@ -94,8 +94,8 @@
 		291839A01C72E6A400753A45 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				29A2477A1F09ECC600F75511 /* Reference */,
 				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
+				29A2477A1F09ECC600F75511 /* Reference */,
 				299482F01F060F72007BCDCA /* Protocols */,
 				29A590491F0509AA004D219C /* Plots */,
 				29A590381F0500F5004D219C /* Drawing */,

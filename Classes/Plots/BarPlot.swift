@@ -36,6 +36,8 @@ open class BarPlot : Plot {
     
     private func createLayers(viewport: CGRect) {
         // The bar layer
+        // TODO: Remove these shouldDraw variables from the various plots/reference lines.
+        // The existence of the object means that we should be drawing it.
         if (shouldDrawBarLayer) {
             // Bar Layer
             barLayer = BarDrawingLayer(frame: viewport,
