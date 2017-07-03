@@ -88,7 +88,6 @@ import UIKit
     
     // Graph Data for Display
     private var data = [Double]()
-    private var labels = [String]()
     
     private var isInitialSetup = true
     private var dataNeedsReloading = true
@@ -118,6 +117,9 @@ import UIKit
     // Reference Lines
     private var referenceLineView: ReferenceLineDrawingView?
     
+    // Data Source
+    public var dataSource: ScrollableGraphViewDataSource?
+    
     // Active Points & Range Calculation
     
     private var previousActivePointsInterval: CountableRange<Int> = -1 ..< -1
@@ -140,7 +142,8 @@ import UIKit
     // MARK: - INIT, SETUP & VIEWPORT RESIZING
     // #######################################
     
-    override public init(frame: CGRect) {
+    public init(frame: CGRect, dataSource: ScrollableGraphViewDataSource) {
+        self.dataSource = dataSource
         super.init(frame: frame)
     }
     
@@ -154,8 +157,7 @@ import UIKit
     
     open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        
-        set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4], withLabels: ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"])
+        set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4])
     }
     
     private func setup() {
@@ -462,16 +464,15 @@ import UIKit
     // MARK: - Public Methods
     // ######################
     
-    open func set(data: [Double], withLabels labels: [String]) {
+    open func set(data: [Double]) {
         
         // If we are setting exactly the same data and labels, there's no need to re-init everything.
-        if(self.data == data && self.labels == labels) {
+        if(self.data == data) {
             return
         }
         
         self.dataNeedsReloading = true
         self.data = data
-        self.labels = labels
         
         if(!isInitialSetup) {
             updateUI()
@@ -643,14 +644,14 @@ import UIKit
         
         // Disable any labels for the deactivated points.
         for point in deactivatedPoints {
-            labelPool.activateLabel(forPointIndex: point)
+            labelPool.deactivateLabel(forPointIndex: point)
         }
         
         // Grab an unused label and update it to the right position for the newly activated poitns
         for point in activatedPoints {
             let label = labelPool.activateLabel(forPointIndex: point)
             
-            label.text = (point < labels.count) ? labels[point] : ""
+            label.text = (dataSource?.label(atIndex: point) ?? "")
             label.textColor = dataPointLabelColor
             label.font = dataPointLabelFont
             

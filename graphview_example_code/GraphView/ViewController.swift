@@ -1,13 +1,13 @@
 //
 //  Simple example usage of ScrollableGraphView.swift
-//  #######################################
+//  #################################################
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ScrollableGraphViewDataSource {
 
-    var graphView = ScrollableGraphView()
+    var graphView: ScrollableGraphView!
     var currentGraphType = GraphType.dark
     var graphConstraints = [NSLayoutConstraint]()
     
@@ -18,15 +18,21 @@ class ViewController: UIViewController {
     let numberOfDataItems = 29
     
     lazy var data: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
-    lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
+    //lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
+    
+    // Data for new delegate based method
+    lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var xAxisLabels: [String] =  self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addLabel(withText: "DARK (TAP HERE)")
         graphView = createDarkGraph(self.view.frame)
+        graphView.set(data: data)
         
-        graphView.set(data: data, withLabels: labels)
+        addLabel(withText: "DARK (TAP HERE)")
         self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
@@ -54,14 +60,14 @@ class ViewController: UIViewController {
             graphView = createPinkMountainGraph(self.view.frame)
         }
         
-        graphView.set(data: data, withLabels: labels)
+        graphView.set(data: data)
         self.view.insertSubview(graphView, belowSubview: label)
         
         setupConstraints()
     }
     
     fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
-        let graphView = ScrollableGraphView(frame: frame)
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the line plot.
         let linePlot = LinePlot(identifier: "line")
@@ -117,7 +123,7 @@ class ViewController: UIViewController {
     
     private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
         
-        let graphView = ScrollableGraphView(frame:frame)
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the plot
         let barPlot = BarPlot(identifier: "bar")
@@ -157,7 +163,7 @@ class ViewController: UIViewController {
     
     private func createDotGraph(_ frame: CGRect) -> ScrollableGraphView {
         
-        let graphView = ScrollableGraphView(frame:frame)
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the plot
         let plot = DotPlot(identifier: "dot")
@@ -189,7 +195,7 @@ class ViewController: UIViewController {
     
     private func createPinkMountainGraph(_ frame: CGRect) -> ScrollableGraphView {
         
-        let graphView = ScrollableGraphView(frame:frame)
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the plot
         let linePlot = LinePlot(identifier: "line")
@@ -334,6 +340,37 @@ class ViewController: UIViewController {
     
     override var prefersStatusBarHidden : Bool {
         return true
+    }
+    
+    // Implementation for ScrollableGraphViewDataSource protocol
+    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
+        switch(plot.identifier) {
+        case "line":
+            return linePlotData[pointIndex]
+        case "bar":
+            return barPlotData[pointIndex]
+        case "dot":
+            return dotPlotData[pointIndex]
+        default:
+            return 0
+        }
+    }
+    
+    func label(atIndex pointIndex: Int) -> String {
+        return xAxisLabels[pointIndex] // ensure that you have a label to return for the index
+    }
+    
+    func numberOfPoints(forPlot plot: Plot) -> Int {
+        switch(plot.identifier) {
+        case "line":
+            return linePlotData.count
+        case "bar":
+            return barPlotData.count
+        case "dot":
+            return dotPlotData.count
+        default:
+            return 0
+        }
     }
 }
 
