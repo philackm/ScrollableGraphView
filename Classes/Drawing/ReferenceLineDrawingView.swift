@@ -7,6 +7,9 @@ internal class ReferenceLineDrawingView : UIView {
     
     // PRIVATE PROPERTIES
     
+    // TODO: Remove old intermediate reference line settings and remove recursive versions.
+    // TODO: Change min and max lines to be drawn only if specified by the user. e.g., [0, 0.5, 1]
+    
     private var intermediateLineWidthMultiplier: CGFloat = 1 //FUTURE: Can make the intermediate lines shorter using this.
     private var referenceLineWidth: CGFloat = 100 // FUTURE: Used when referenceLineType == .Edge
     
@@ -99,7 +102,15 @@ internal class ReferenceLineDrawingView : UIView {
         
         let initialRect = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y + topMargin, width: self.bounds.size.width, height: self.bounds.size.height - (topMargin + bottomMargin))
         
-        createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.settings.numberOfIntermediateReferenceLines, for: referenceLinePath)
+        switch(settings.positionType) {
+        case .relative:
+            createReferenceLines(in: initialRect, atRelativePositions: self.settings.relativePositions, forPath: referenceLinePath)
+        case .absolute:
+            createReferenceLines(in: initialRect, atAbsolutePositions: self.settings.absolutePositions, forPath: referenceLinePath)
+        }
+        
+        // old reference lines.
+        //createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.settings.numberOfIntermediateReferenceLines, for: referenceLinePath)
         
         return referenceLinePath
     }
@@ -113,6 +124,36 @@ internal class ReferenceLineDrawingView : UIView {
         return numberFormatter
     }
     
+    private func createReferenceLines(in rect: CGRect, atRelativePositions relativePositions: [Double], forPath path: UIBezierPath) {
+        
+        let height = rect.size.height
+        
+        for relativePosition in relativePositions {
+            
+            let yPosition = height * CGFloat(1 - relativePosition)
+            
+            let lineStart = CGPoint(x: 0, y: rect.origin.y + yPosition)
+            let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
+            
+            createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
+        }
+    }
+    
+    // FIX: Numbers for aboslute positions are incorrect.
+    private func createReferenceLines(in rect: CGRect, atAbsolutePositions absolutePositions: [Double], forPath path: UIBezierPath) {
+        
+        for absolutePosition in absolutePositions {
+            
+            let yPosition = calculateYPositionForYAxisValue(value: absolutePosition)
+            
+            let lineStart = CGPoint(x: 0, y: rect.origin.y + yPosition)
+            let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
+            
+            createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
+        }
+    }
+    
+    /*
     private func createIntermediateReferenceLines(in rect: CGRect, numberOfIntermediateReferenceLines: Int, for path: UIBezierPath) {
         
         let height = rect.size.height
@@ -126,6 +167,7 @@ internal class ReferenceLineDrawingView : UIView {
             createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
         }
     }
+    */
     
     // FUTURE: Can use the recursive version to create a ruler like look on the edge.
     @discardableResult
@@ -297,6 +339,20 @@ internal class ReferenceLineDrawingView : UIView {
         }
         
         return Double(value)
+    }
+    
+    private func calculateYPositionForYAxisValue(value: Double) -> CGFloat {
+        
+        // just a re-arrangement of calculateYAxisValue
+        
+        let graphHeight = self.frame.size.height - (topMargin + bottomMargin)
+        var y = ((CGFloat(value - self.currentRange.max) / CGFloat(self.currentRange.min - self.currentRange.max)) * graphHeight) + topMargin
+        
+        if (y == 0) {
+            y = 0
+        }
+        
+        return y
     }
     
     private func createLabel(withText text: String) -> UILabel {

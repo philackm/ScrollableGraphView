@@ -210,7 +210,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
         referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.numberOfIntermediateReferenceLines = 5
+        referenceLines.relativePositions = [0.5, 0.8, 0.9]
         
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
@@ -267,7 +267,10 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
         referenceLines.referenceLineLabelColor = UIColor.white
-        referenceLines.numberOfIntermediateReferenceLines = 5
+        
+        referenceLines.positionType = .absolute
+        referenceLines.absolutePositions = [10, 20, 55, 96]
+        
         
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
