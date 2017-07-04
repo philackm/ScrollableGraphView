@@ -27,10 +27,7 @@ open class ReferenceLines {
     /// The type of reference lines. Currently only .Cover is available.
     open var referenceLineType = ScrollableGraphViewReferenceLineType.cover
     
-    /// How many reference lines should be between the minimum and maximum reference lines. If you want a total of 4 reference lines, you would set this to 2. This can be set to 0 for no intermediate reference lines.This can be used to create reference lines at specific intervals. If the desired result is to have a reference line at every 10 units on the y-axis, you could, for example, set rangeMax to 100, rangeMin to 0 and numberOfIntermediateReferenceLines to 9.
-    @IBInspectable open var numberOfIntermediateReferenceLines: Int = 3
-    
-    @IBInspectable open var positionType = ReferenceLinePositionType.relative
+    @IBInspectable open var positionType = ReferenceLinePositioningType.relative
     @IBInspectable open var relativePositions: [Double] = [0.25, 0.5, 0.75]
     @IBInspectable open var absolutePositions: [Double] = [25, 50, 75]
     @IBInspectable open var includeMinMax: Bool = true
@@ -59,7 +56,7 @@ open class ReferenceLines {
     @IBInspectable open var referenceLineNumberStyle: NumberFormatter.Style = .none
 }
 
-public enum ReferenceLinePositionType {
+public enum ReferenceLinePositioningType {
     case relative
     case absolute
 }

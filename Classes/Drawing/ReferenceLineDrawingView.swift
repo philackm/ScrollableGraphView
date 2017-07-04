@@ -6,12 +6,7 @@ internal class ReferenceLineDrawingView : UIView {
     var settings: ReferenceLines = ReferenceLines()
     
     // PRIVATE PROPERTIES
-    
-    // TODO: Remove old intermediate reference line settings and remove recursive versions.
-    // TODO: Change min and max lines to be drawn only if specified by the user. e.g., [0, 0.5, 1]
-    
-    private var intermediateLineWidthMultiplier: CGFloat = 1 //FUTURE: Can make the intermediate lines shorter using this.
-    private var referenceLineWidth: CGFloat = 100 // FUTURE: Used when referenceLineType == .Edge
+    // ##################
     
     private var labelMargin: CGFloat = 4
     private var leftLabelInset: CGFloat = 10
@@ -21,9 +16,6 @@ internal class ReferenceLineDrawingView : UIView {
     private var currentRange: (min: Double, max: Double) = (0,100)
     private var topMargin: CGFloat = 10
     private var bottomMargin: CGFloat = 10
-    
-    // Partition recursion depth // FUTURE: For .Edge
-    // private var referenceLinePartitions: Int = 3
     
     private var lineWidth: CGFloat {
         get {
@@ -163,53 +155,6 @@ internal class ReferenceLineDrawingView : UIView {
             
             createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
         }
-    }
-    
-    /*
-    private func createIntermediateReferenceLines(in rect: CGRect, numberOfIntermediateReferenceLines: Int, for path: UIBezierPath) {
-        
-        let height = rect.size.height
-        let spacePerPartition = height / CGFloat(numberOfIntermediateReferenceLines + 1)
-        
-        for i in 0 ..< numberOfIntermediateReferenceLines {
-            
-            let lineStart = CGPoint(x: 0, y: rect.origin.y + (spacePerPartition * CGFloat(i + 1)))
-            let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
-            
-            createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
-        }
-    }
-    */
-    
-    // FUTURE: Can use the recursive version to create a ruler like look on the edge.
-    @discardableResult
-    private func recursiveCreateIntermediateReferenceLines(in rect: CGRect, width: CGFloat, for path: UIBezierPath, remainingPartitions: Int) -> UIBezierPath {
-        
-        if(remainingPartitions <= 0) {
-            return path
-        }
-        
-        let lineStart = CGPoint(x: 0, y: rect.origin.y + (rect.size.height / 2))
-        let lineEnd = CGPoint(x: lineStart.x + width, y: lineStart.y)
-        
-        createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
-        
-        let topRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y,
-            width: rect.size.width,
-            height: rect.size.height / 2)
-        
-        let bottomRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y + (rect.size.height / 2),
-            width: rect.size.width,
-            height: rect.size.height / 2)
-        
-        recursiveCreateIntermediateReferenceLines(in: topRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
-        recursiveCreateIntermediateReferenceLines(in: bottomRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
-        
-        return path
     }
     
     private func createReferenceLineFrom(from lineStart: CGPoint, to lineEnd: CGPoint, in path: UIBezierPath) {
@@ -355,7 +300,7 @@ internal class ReferenceLineDrawingView : UIView {
     
     private func calculateYPositionForYAxisValue(value: Double) -> CGFloat {
         
-        // just a re-arrangement of calculateYAxisValue
+        // Just an algebraic re-arrangement of calculateYAxisValue
         
         let graphHeight = self.frame.size.height - (topMargin + bottomMargin)
         var y = ((CGFloat(value - self.currentRange.max) / CGFloat(self.currentRange.min - self.currentRange.max)) * graphHeight) + topMargin
@@ -389,4 +334,46 @@ internal class ReferenceLineDrawingView : UIView {
         self.frame.size.height = viewportHeight
         self.referenceLineLayer.path = createReferenceLinesPath().cgPath
     }
+    
+    
+    // FUTURE:
+    // Partition recursion depth // FUTURE: For .Edge
+    // private var referenceLinePartitions: Int = 3
+    // Can make the intermediate lines shorter using this.
+    private var intermediateLineWidthMultiplier: CGFloat = 1
+    // Used when referenceLineType == .Edge
+    private var referenceLineWidth: CGFloat = 100 // TODO: Remove references to this from the current code.
+    
+    /*
+    // FUTURE: Can use the recursive version to create a ruler like look on the edge.
+    @discardableResult
+    private func recursiveCreateIntermediateReferenceLines(in rect: CGRect, width: CGFloat, for path: UIBezierPath, remainingPartitions: Int) -> UIBezierPath {
+        
+        if(remainingPartitions <= 0) {
+            return path
+        }
+        
+        let lineStart = CGPoint(x: 0, y: rect.origin.y + (rect.size.height / 2))
+        let lineEnd = CGPoint(x: lineStart.x + width, y: lineStart.y)
+        
+        createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
+        
+        let topRect = CGRect(
+            x: rect.origin.x,
+            y: rect.origin.y,
+            width: rect.size.width,
+            height: rect.size.height / 2)
+        
+        let bottomRect = CGRect(
+            x: rect.origin.x,
+            y: rect.origin.y + (rect.size.height / 2),
+            width: rect.size.width,
+            height: rect.size.height / 2)
+        
+        recursiveCreateIntermediateReferenceLines(in: topRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
+        recursiveCreateIntermediateReferenceLines(in: bottomRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
+        
+        return path
+    }
+    */
 }
