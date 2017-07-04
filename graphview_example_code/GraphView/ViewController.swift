@@ -24,7 +24,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     lazy var blueLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 60)
     lazy var orangeLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 40)
     
-    lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
+    //lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var linePlotData: [Double] = [10, 20, 25, 30, 15, 35, 45, 50, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
     //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
     lazy var barPlotData: [Double] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
     lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
@@ -269,7 +270,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelColor = UIColor.white
         
         referenceLines.positionType = .absolute
-        referenceLines.absolutePositions = [10, 20, 55, 96]
+        referenceLines.absolutePositions = [10, 20, 25, 30]
         
         
         // Setup the graph

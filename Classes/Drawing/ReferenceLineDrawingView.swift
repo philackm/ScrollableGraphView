@@ -139,14 +139,16 @@ internal class ReferenceLineDrawingView : UIView {
         }
     }
     
-    // FIX: Numbers for aboslute positions are incorrect.
     private func createReferenceLines(in rect: CGRect, atAbsolutePositions absolutePositions: [Double], forPath path: UIBezierPath) {
         
         for absolutePosition in absolutePositions {
             
             let yPosition = calculateYPositionForYAxisValue(value: absolutePosition)
             
-            let lineStart = CGPoint(x: 0, y: rect.origin.y + yPosition)
+            // don't need to add rect.origin.y to yPosition like we do for relativePositions,
+            // as we calculate the position for the y axis value in the previous line,
+            // this already takes into account margins, etc.
+            let lineStart = CGPoint(x: 0, y: yPosition)
             let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
             
             createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
