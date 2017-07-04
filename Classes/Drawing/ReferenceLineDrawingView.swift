@@ -86,19 +86,21 @@ internal class ReferenceLineDrawingView : UIView {
         }
         labels.removeAll()
         
-        let maxLineStart = CGPoint(x: 0, y: topMargin)
-        let maxLineEnd = CGPoint(x: lineWidth, y: topMargin)
-        
-        let minLineStart = CGPoint(x: 0, y: self.bounds.height - bottomMargin)
-        let minLineEnd = CGPoint(x: lineWidth, y: self.bounds.height - bottomMargin)
-        
-        let numberFormatter = referenceNumberFormatter()
-        
-        let maxString = numberFormatter.string(from: self.currentRange.max as NSNumber)! + units
-        let minString = numberFormatter.string(from: self.currentRange.min as NSNumber)! + units
-        
-        addLine(withTag: maxString, from: maxLineStart, to: maxLineEnd, in: referenceLinePath)
-        addLine(withTag: minString, from: minLineStart, to: minLineEnd, in: referenceLinePath)
+        if(self.settings.includeMinMax) {
+            let maxLineStart = CGPoint(x: 0, y: topMargin)
+            let maxLineEnd = CGPoint(x: lineWidth, y: topMargin)
+            
+            let minLineStart = CGPoint(x: 0, y: self.bounds.height - bottomMargin)
+            let minLineEnd = CGPoint(x: lineWidth, y: self.bounds.height - bottomMargin)
+            
+            let numberFormatter = referenceNumberFormatter()
+            
+            let maxString = numberFormatter.string(from: self.currentRange.max as NSNumber)! + units
+            let minString = numberFormatter.string(from: self.currentRange.min as NSNumber)! + units
+            
+            addLine(withTag: maxString, from: maxLineStart, to: maxLineEnd, in: referenceLinePath)
+            addLine(withTag: minString, from: minLineStart, to: minLineEnd, in: referenceLinePath)
+        }
         
         let initialRect = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y + topMargin, width: self.bounds.size.width, height: self.bounds.size.height - (topMargin + bottomMargin))
         
@@ -127,6 +129,14 @@ internal class ReferenceLineDrawingView : UIView {
     private func createReferenceLines(in rect: CGRect, atRelativePositions relativePositions: [Double], forPath path: UIBezierPath) {
         
         let height = rect.size.height
+        var relativePositions = relativePositions
+        
+        // If we are including the min and max already need to make sure we don't redraw them.
+        if(self.settings.includeMinMax) {
+            relativePositions = relativePositions.filter({ (x:Double) -> Bool in
+                return (x != 0 && x != 1)
+            })
+        }
         
         for relativePosition in relativePositions {
             
