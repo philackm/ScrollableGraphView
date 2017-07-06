@@ -84,7 +84,7 @@ open class LinePlot : Plot {
         self.identifier = identifier
     }
     
-    func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
+    override func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
         createLayers(viewport: viewport)
         return [lineLayer, fillLayer, gradientLayer]
     }

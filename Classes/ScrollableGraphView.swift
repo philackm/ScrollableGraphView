@@ -314,16 +314,7 @@ import UIKit
     private func addDrawingLayersForPlots(inViewport viewport: CGRect) {
         
         for plot in plots {
-            switch(plot) {
-            case let plot as LinePlot:
-                addSubLayers(layers: plot.layers(forViewport: viewport))
-            case let plot as DotPlot:
-                addSubLayers(layers: plot.layers(forViewport: viewport))
-            case let plot as BarPlot:
-                addSubLayers(layers: plot.layers(forViewport: viewport))
-            default:
-                print("not a concrete plot")
-            }
+            addSubLayers(layers: plot.layers(forViewport: viewport))
         }
     }
     

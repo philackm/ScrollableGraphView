@@ -8,8 +8,6 @@ open class Plot {
     
     var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate! = nil
     
-    // TODO: Each plot should have one or more drawing layers?
-    
     // Animation Settings
     // ##################
     
@@ -38,6 +36,12 @@ open class Plot {
     private var currentTimestamp: CFTimeInterval = 0
     
     private var graphPoints = [GraphPoint]()
+    
+    // MARK: Different plot types should implement:
+    // ############################################
+    func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
+        return []
+    }
     
     // MARK: Plot Animation
     // ####################

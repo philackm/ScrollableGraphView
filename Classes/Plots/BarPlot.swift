@@ -29,7 +29,7 @@ open class BarPlot : Plot {
         self.identifier = identifier
     }
     
-    func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
+    override func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
         createLayers(viewport: viewport)
         return [barLayer]
     }
