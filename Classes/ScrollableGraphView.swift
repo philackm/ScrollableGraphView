@@ -42,14 +42,6 @@ import UIKit
     // Graph Range
     // ###########
     
-    /// If this is set to true, then the range will automatically be detected from the data the graph is given.
-    //@IBInspectable open var shouldAutomaticallyDetectRange: Bool = false
-    // This is removed and now the user is responsible for setting a decent range. 
-    // This is because we don't want to have to check all of the data unless we have to.
-    // Automatically checking the range requires us to inspect every data point at the start
-    // If we dont do this, then we only ever touch the data that the user sees on screen.
-    
-    
     /// Forces the graph's minimum to always be zero. Used in conjunction with shouldAutomaticallyDetectRange or shouldAdaptRange, if you want to force the minimum to stay at 0 rather than the detected minimum.
     @IBInspectable open var shouldRangeAlwaysStartAtZero: Bool = false // Used in conjunction with shouldAutomaticallyDetectRange, if you want to force the min to stay at 0.
     /// The minimum value for the y-axis. This is ignored when shouldAutomaticallyDetectRange or shouldAdaptRange = true
@@ -67,22 +59,6 @@ import UIKit
 
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
     @IBInspectable open var shouldAnimateOnStartup: Bool = true
-    
-    // Data Point Labels // TODO: These can go into reference line settings.
-    // #####################################################################
-    
-    /// Whether or not to show the labels on the x-axis for each point.
-    @IBInspectable open var shouldShowLabels: Bool = true
-    /// How far from the "minimum" reference line the data point labels should be rendered.
-    @IBInspectable open var dataPointLabelTopMargin: CGFloat = 10
-    /// How far from the bottom of the view the data point labels should be rendered.
-    @IBInspectable open var dataPointLabelBottomMargin: CGFloat = 0
-    /// The font for the data point labels.
-    @IBInspectable open var dataPointLabelColor: UIColor = UIColor.black
-    /// The colour for the data point labels.
-    open var dataPointLabelFont: UIFont? = UIFont.systemFont(ofSize: 10)
-    /// Used to force the graph to show every n-th dataPoint label
-    @IBInspectable open var dataPointLabelsSparsity: Int = 1
     
     // Reference Line Settings
     // #######################
@@ -311,8 +287,8 @@ import UIKit
     }
     
     // TODO: Plot layer ordering.
+    // TODO: Plot removal.
     private func addDrawingLayersForPlots(inViewport viewport: CGRect) {
-        
         for plot in plots {
             addSubLayers(layers: plot.layers(forViewport: viewport))
         }
@@ -333,25 +309,27 @@ import UIKit
             return
         }
         
-        let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
-        var referenceLineBottomMargin = bottomMargin
-        
-        // Have to adjust the bottom line if we are showing data point labels (x-axis).
-        if(shouldShowLabels && dataPointLabelFont != nil) {
-            referenceLineBottomMargin += (dataPointLabelFont!.pointSize + dataPointLabelTopMargin + dataPointLabelBottomMargin)
+        if(referenceLines.shouldShowReferenceLines) {
+            let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
+            var referenceLineBottomMargin = bottomMargin
+            
+            // Have to adjust the bottom line if we are showing data point labels (x-axis).
+            if(referenceLines.shouldShowLabels && referenceLines.dataPointLabelFont != nil) {
+                referenceLineBottomMargin += (referenceLines.dataPointLabelFont!.pointSize + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
+            }
+            
+            referenceLineView = ReferenceLineDrawingView(
+                frame: viewport,
+                topMargin: topMargin,
+                bottomMargin: referenceLineBottomMargin,
+                referenceLineColor: referenceLines.referenceLineColor,
+                referenceLineThickness: referenceLines.referenceLineThickness,
+                referenceLineSettings: referenceLines)
+            
+            referenceLineView?.set(range: self.range)
+            
+            self.addSubview(referenceLineView!)
         }
-        
-        referenceLineView = ReferenceLineDrawingView(
-            frame: viewport,
-            topMargin: topMargin,
-            bottomMargin: referenceLineBottomMargin,
-            referenceLineColor: referenceLines.referenceLineColor,
-            referenceLineThickness: referenceLines.referenceLineThickness,
-            referenceLineSettings: referenceLines)
-        
-        referenceLineView?.set(range: self.range)
-        
-        self.addSubview(referenceLineView!)
     }
     
     // If the view has changed we have to make sure we're still displaying the right data.
@@ -364,7 +342,11 @@ import UIKit
         var availableGraphHeight = frame.height
         availableGraphHeight = availableGraphHeight - topMargin - bottomMargin
         
-        if(shouldShowLabels && dataPointLabelFont != nil) { availableGraphHeight -= (dataPointLabelFont!.pointSize + dataPointLabelTopMargin + dataPointLabelBottomMargin) }
+        if let referenceLines = referenceLines {
+            if(referenceLines.shouldShowLabels && referenceLines.dataPointLabelFont != nil) {
+                availableGraphHeight -= (referenceLines.dataPointLabelFont!.pointSize + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
+            }
+        }
         
         if availableGraphHeight > 0 {
             updateUI()
@@ -713,10 +695,12 @@ import UIKit
         
         updatePaths()
         
-        if(shouldShowLabels) {
-            let deactivatedLabelPoints = filterPointsForLabels(fromPoints: deactivatedPoints)
-            let activatedLabelPoints = filterPointsForLabels(fromPoints: activatedPoints)
-            updateLabels(deactivatedPoints: deactivatedLabelPoints, activatedPoints: activatedLabelPoints)
+        if let ref = self.referenceLines {
+            if(ref.shouldShowLabels) {
+                let deactivatedLabelPoints = filterPointsForLabels(fromPoints: deactivatedPoints)
+                let activatedLabelPoints = filterPointsForLabels(fromPoints: activatedPoints)
+                updateLabels(deactivatedPoints: deactivatedLabelPoints, activatedPoints: activatedLabelPoints)
+            }
         }
     }
   
@@ -760,47 +744,6 @@ import UIKit
         }
     }
     
-    // Update any labels for any new points that have been activated and deactivated.
-    private func updateLabels(deactivatedPoints: [Int], activatedPoints: [Int]) {
-        
-        // Disable any labels for the deactivated points.
-        for point in deactivatedPoints {
-            labelPool.deactivateLabel(forPointIndex: point)
-        }
-        
-        // Grab an unused label and update it to the right position for the newly activated poitns
-        for point in activatedPoints {
-            let label = labelPool.activateLabel(forPointIndex: point)
-            
-            label.text = (dataSource?.label(atIndex: point) ?? "")
-            label.textColor = dataPointLabelColor
-            label.font = dataPointLabelFont
-            
-            label.sizeToFit()
-            
-            // self.range.min is the current ranges minimum that has been detected
-            // self.rangeMin is the minimum that should be used as specified by the user
-            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
-            let position = calculatePosition(atIndex: point, value: rangeMin)
-            
-            label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2, y: position.y + dataPointLabelTopMargin), size: label.frame.size)
-            
-            let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
-
-            labelsView.addSubview(label)
-        }
-    }
-    
-    private func repositionActiveLabels() {
-        for label in labelPool.activeLabels {
-            
-            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
-            let position = calculatePosition(atIndex: 0, value: rangeMin)
-            
-            label.frame.origin.y = position.y + dataPointLabelTopMargin
-        }
-    }
-    
     // Returns the indices of any points that became inactive (that is, "off screen"). (No order)
     private func determineDeactivatedPoints() -> [Int] {
         let prevSet = Set(previousActivePointsInterval)
@@ -820,14 +763,8 @@ import UIKit
         
         return Array(activatedPoints)
     }
-  
-    private func filterPointsForLabels(fromPoints points:[Int]) -> [Int] {
-        
-        if(self.dataPointLabelsSparsity == 1) {
-            return points
-        }
-        return points.filter({ $0 % self.dataPointLabelsSparsity == 0 })
-    }
+    
+    // Animations
   
     private func startAnimations(withStaggerValue stagger: Double = 0) {
         var pointsToAnimate = 0 ..< 0
@@ -850,6 +787,70 @@ import UIKit
         }
     }
     
+    // Labels. // TODO in 4.1, refactor all label adding & positioning code.
+    
+    // Update any labels for any new points that have been activated and deactivated.
+    private func updateLabels(deactivatedPoints: [Int], activatedPoints: [Int]) {
+        
+        guard let ref = self.referenceLines else {
+            return
+        }
+            
+        // Disable any labels for the deactivated points.
+        for point in deactivatedPoints {
+            labelPool.deactivateLabel(forPointIndex: point)
+        }
+        
+        // Grab an unused label and update it to the right position for the newly activated poitns
+        for point in activatedPoints {
+            let label = labelPool.activateLabel(forPointIndex: point)
+            
+            label.text = (dataSource?.label(atIndex: point) ?? "")
+            label.textColor = ref.dataPointLabelColor
+            label.font = ref.dataPointLabelFont
+            
+            label.sizeToFit()
+            
+            // self.range.min is the current ranges minimum that has been detected
+            // self.rangeMin is the minimum that should be used as specified by the user
+            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
+            let position = calculatePosition(atIndex: point, value: rangeMin)
+            
+            label.frame = CGRect(origin: CGPoint(x: position.x - label.frame.width / 2, y: position.y + ref.dataPointLabelTopMargin), size: label.frame.size)
+            
+            let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
+            
+            labelsView.addSubview(label)
+        }
+    }
+    
+    private func repositionActiveLabels() {
+        
+        guard let ref = self.referenceLines else {
+            return
+        }
+        
+        for label in labelPool.activeLabels {
+            
+            let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
+            let position = calculatePosition(atIndex: 0, value: rangeMin)
+            
+            label.frame.origin.y = position.y + ref.dataPointLabelTopMargin
+        }
+    }
+    
+    private func filterPointsForLabels(fromPoints points:[Int]) -> [Int] {
+        
+        guard let ref = self.referenceLines else {
+            return points
+        }
+        
+        if(ref.dataPointLabelsSparsity == 1) {
+            return points
+        }
+        return points.filter({ $0 % ref.dataPointLabelsSparsity == 0 })
+    }
+    
     // MARK: - Drawing Delegate
     // ########################
     
@@ -863,7 +864,8 @@ import UIKit
         let rangeMin = (shouldAdaptRange) ? self.range.min : self.rangeMin
         
         //                                                     y = the y co-ordinate in the view for the value in the graph
-        //     ( ( value - max )               )               value = the value on the graph for which we want to know its corresponding location on the y axis in the view
+        //                                                     value = the value on the graph for which we want to know its
+        //     ( ( value - max )               )                        corresponding location on the y axis in the view
         // y = ( ( ----------- ) * graphHeight ) + topMargin   t = the top margin
         //     ( (  min - max  )               )               h = the height of the graph space without margins
         //                                                     min = the range's current mininum
@@ -871,7 +873,12 @@ import UIKit
         
         // Calculate the position on in the view for the value specified.
         var graphHeight = viewportHeight - topMargin - bottomMargin
-        if(shouldShowLabels && dataPointLabelFont != nil) { graphHeight -= (dataPointLabelFont!.pointSize + dataPointLabelTopMargin + dataPointLabelBottomMargin) }
+        
+        if let ref = self.referenceLines {
+            if(ref.shouldShowLabels && ref.dataPointLabelFont != nil) {
+                graphHeight -= (ref.dataPointLabelFont!.pointSize + ref.dataPointLabelTopMargin + ref.dataPointLabelBottomMargin)
+            }
+        }
         
         let x = (CGFloat(index) * dataPointSpacing) + leftmostPointPadding
         let y = (CGFloat((value - rangeMax) / (rangeMin - rangeMax)) * graphHeight) + topMargin
@@ -890,14 +897,6 @@ import UIKit
     internal func paddingForPoints() -> (leftmostPointPadding: CGFloat, rightmostPointPadding: CGFloat) {
         return (leftmostPointPadding: leftmostPointPadding, rightmostPointPadding: rightmostPointPadding)
     }
-    
-    // TODO, make the drawing layer get this from its owning plot instead of going all the away around.
-    /*
-    internal func graphPoint(forIndex index: Int) -> GraphPoint {
-        // TODO: For testing: Need to just return any of the graph points, because they should be the same at this point.
-        return plots.first?.graphPoint(forIndex: index) ?? GraphPoint()
-    }
-    */
     
     internal func currentViewport() -> CGRect {
         return CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)

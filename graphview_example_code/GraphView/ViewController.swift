@@ -218,11 +218,12 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.relativePositions = [0, 0.5, 0.8, 0.9, 1]
         
+        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
+        
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
         graphView.dataPointSpacing = 80
-        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(1)
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
@@ -278,12 +279,13 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.absolutePositions = [10, 20, 25, 30]
         referenceLines.includeMinMax = false
         
+        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        
         
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
 
         graphView.dataPointSpacing = 80
-        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
@@ -322,9 +324,10 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineColor = UIColor.white.withAlphaComponent(0.2)
         referenceLines.referenceLineLabelColor = UIColor.white
         
+        referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
+        
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
-        graphView.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
@@ -355,13 +358,14 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         
+        referenceLines.shouldShowLabels = false
+        
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#00BFFF")
         graphView.shouldAdaptRange = false
         graphView.shouldAnimateOnAdapt = false
         graphView.shouldAnimateOnStartup = false
         
-        graphView.shouldShowLabels = false
         graphView.dataPointSpacing = 25
         graphView.rangeMax = 50
         
@@ -391,14 +395,14 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelColor = UIColor.white
         referenceLines.referenceLinePosition = ScrollableGraphViewReferenceLinePosition.both
         
+        referenceLines.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
+        referenceLines.dataPointLabelColor = UIColor.white
+        referenceLines.dataPointLabelsSparsity = 3
+        
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
         
         graphView.dataPointSpacing = 20
-        graphView.dataPointLabelFont = UIFont.boldSystemFont(ofSize: 10)
-        graphView.dataPointLabelColor = UIColor.white
-        
-        graphView.dataPointLabelsSparsity = 3
         graphView.shouldAdaptRange = true
         graphView.rangeMax = 50
         

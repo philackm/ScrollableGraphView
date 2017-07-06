@@ -24,8 +24,6 @@ open class ReferenceLines {
     }
     /// Where the labels should be displayed on the reference lines.
     open var referenceLinePosition = ScrollableGraphViewReferenceLinePosition.left
-    /// The type of reference lines. Currently only .Cover is available.
-    open var referenceLineType = ScrollableGraphViewReferenceLineType.cover
     
     @IBInspectable open var positionType = ReferenceLinePositioningType.relative
     @IBInspectable open var relativePositions: [Double] = [0.25, 0.5, 0.75]
@@ -36,7 +34,6 @@ open class ReferenceLines {
     @IBInspectable open var shouldAddLabelsToIntermediateReferenceLines: Bool = true
     /// Whether or not to add units specified by the referenceLineUnits variable to the labels on the intermediate reference lines.
     @IBInspectable open var shouldAddUnitsToIntermediateReferenceLineLabels: Bool = false
-    
     
     // Reference Line Labels
     // #####################
@@ -54,6 +51,22 @@ open class ReferenceLines {
     @IBInspectable open var referenceLineNumberOfDecimalPlaces: Int = 0
     /// The NSNumberFormatterStyle that reference lines should use to display
     @IBInspectable open var referenceLineNumberStyle: NumberFormatter.Style = .none
+    
+    // Data Point Labels // TODO: Refactor these into their own settings and allow for more label options (positioning)
+    // ################################################################################################################
+    
+    /// Whether or not to show the labels on the x-axis for each point.
+    @IBInspectable open var shouldShowLabels: Bool = true
+    /// How far from the "minimum" reference line the data point labels should be rendered.
+    @IBInspectable open var dataPointLabelTopMargin: CGFloat = 10
+    /// How far from the bottom of the view the data point labels should be rendered.
+    @IBInspectable open var dataPointLabelBottomMargin: CGFloat = 0
+    /// The font for the data point labels.
+    @IBInspectable open var dataPointLabelColor: UIColor = UIColor.black
+    /// The colour for the data point labels.
+    open var dataPointLabelFont: UIFont? = UIFont.systemFont(ofSize: 10)
+    /// Used to force the graph to show every n-th dataPoint label
+    @IBInspectable open var dataPointLabelsSparsity: Int = 1
 }
 
 public enum ReferenceLinePositioningType {
