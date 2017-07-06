@@ -69,7 +69,6 @@ import UIKit
     // #####################
     
     private var isInitialSetup = true
-    //private var dataNeedsReloading = true
     private var isCurrentlySettingUp = false
     
     private var viewportWidth: CGFloat = 0 {
