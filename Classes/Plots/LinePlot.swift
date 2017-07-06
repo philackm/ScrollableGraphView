@@ -116,3 +116,18 @@ open class LinePlot : Plot {
         gradientLayer?.owner = self
     }
 }
+
+@objc public enum ScrollableGraphViewLineStyle : Int {
+    case straight
+    case smooth
+}
+
+@objc public enum ScrollableGraphViewFillType : Int {
+    case solid
+    case gradient
+}
+
+@objc public enum ScrollableGraphViewGradientType : Int {
+    case linear
+    case radial
+}

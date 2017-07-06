@@ -221,7 +221,11 @@ open class Plot {
     }
 }
 
-
+@objc public enum ScrollableGraphViewAnimationType : Int {
+    case easeOut
+    case elastic
+    case custom
+}
 
 
 

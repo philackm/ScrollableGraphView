@@ -925,44 +925,6 @@ import UIKit
 // MARK: - ScrollableGraphView Settings Enums
 // ##########################################
 
-@objc public enum ScrollableGraphViewLineStyle : Int {
-    case straight
-    case smooth
-}
-
-@objc public enum ScrollableGraphViewFillType : Int {
-    case solid
-    case gradient
-}
-
-@objc public enum ScrollableGraphViewGradientType : Int {
-    case linear
-    case radial
-}
-
-@objc public enum ScrollableGraphViewDataPointType : Int {
-    case circle
-    case square
-    case custom
-}
-
-@objc public enum ScrollableGraphViewReferenceLinePosition : Int {
-    case left
-    case right
-    case both
-}
-
-@objc public enum ScrollableGraphViewReferenceLineType : Int {
-    case cover
-    //case Edge // FUTURE: Implement
-}
-
-@objc public enum ScrollableGraphViewAnimationType : Int {
-    case easeOut
-    case elastic
-    case custom
-}
-
 @objc public enum ScrollableGraphViewDirection : Int {
     case leftToRight
     case rightToLeft

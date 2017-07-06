@@ -69,7 +69,18 @@ open class ReferenceLines {
     @IBInspectable open var dataPointLabelsSparsity: Int = 1
 }
 
-public enum ReferenceLinePositioningType {
+
+@objc public enum ScrollableGraphViewReferenceLinePosition : Int {
+    case left
+    case right
+    case both
+}
+
+@objc public enum ReferenceLinePositioningType : Int {
     case relative
     case absolute
+}
+
+@objc public enum ScrollableGraphViewReferenceLineType : Int {
+    case cover
 }

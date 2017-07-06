@@ -41,3 +41,9 @@ open class DotPlot : Plot {
         dataPointLayer?.owner = self
     }
 }
+
+@objc public enum ScrollableGraphViewDataPointType : Int {
+    case circle
+    case square
+    case custom
+}
