@@ -39,13 +39,6 @@ open class Plot {
     
     private var graphPoints = [GraphPoint]()
     
-    // Initialisation
-    // ##############
-    
-    init() {
-
-    }
-    
     // MARK: Plot Animation
     // ####################
     
@@ -141,47 +134,8 @@ open class Plot {
     
     public func startAnimations(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withStaggerValue stagger: Double) {
         
-        updatePlotPointPositions(forPoints: pointsToAnimate, withData: data, withDelay: stagger)
-        
-        /*
-        // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
-        //let numberOfPointsToAnimate = pointsToAnimate.endIndex - pointsToAnimate.startIndex
-        var index = 0
-        for i in pointsToAnimate {
-            let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: data[i])
-            let point = graphPoints[i]
-            animate(point: point, to: newPosition, withDelay: Double(index) * stagger)
-            index += 1
-        }
-        
-        // Update any non-visible & non-animating points so they come on to screen at the right scale.
-        for i in 0 ..< graphPoints.count {
-            if(i > pointsToAnimate.lowerBound && i < pointsToAnimate.upperBound || graphPoints[i].currentlyAnimatingToPosition) {
-                continue
-            }
-            
-            let newPosition = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: data[i])
-            graphPoints[i].x = newPosition.x
-            graphPoints[i].y = newPosition.y
-        }
-        */
+        animatePlotPointPositions(forPoints: pointsToAnimate, withData: data, withDelay: stagger)
     }
-    
-    /*
-    public func createGraphPoints(data: [Double], shouldAnimateOnStartup: Bool, range: (min: Double, max: Double)) {
-        for i in 0 ..< data.count {
-
-            let value = (shouldAnimateOnStartup) ? range.min : data[i]
-            
-            let position = graphViewDrawingDelegate.calculatePosition(atIndex: i, value: value)
-            let point = GraphPoint(position: position)
-            graphPoints.append(point)
-        }
-    }
-    */
-    
-    // New functions to deal with getting data incrementally rather than all at once.
-    // ##############################################################################
     
     public func createPlotPoints(numberOfPoints: Int, range: (min: Double, max: Double)) {
         for i in 0 ..< numberOfPoints {
@@ -194,16 +148,15 @@ open class Plot {
         }
     }
     
-    // When active interval changes, need to set the position for any NEWLY ACTIVATED points
-    // Needs to be called when the active interval has changed.
-    // And when setting up.
+    // When active interval changes, need to set the position for any NEWLY ACTIVATED points, otherwise
+    // they will come on screen at the incorrect position.
+    // Needs to be called when the active interval has changed and during initial setup.
     public func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
         
         for i in newPoints.startIndex ..< newPoints.endIndex {
-            
-            // 10...20 indices
-            // 0...10 data positions
-            //0 to (end - start)
+            // e.g.
+            // indices: 10...20
+            // data positions: 0...10 = // 0 to (end - start)
             let dataPosition = i - newPoints.startIndex
             
             let value = data[dataPosition]
@@ -214,6 +167,7 @@ open class Plot {
         }
     }
     
+    // Same as a above, but can take an array with the indicies of the activated points rather than a range.
     public func setPlotPointPositions(forNewlyActivatedPoints activatedPoints: [Int], withData data: [Double]) {
         
         var index = 0
@@ -230,12 +184,10 @@ open class Plot {
         }
     }
     
-    // When the range changes, we need to set the position for any visible points, either animating or setting directly
+    // When the range changes, we need to set the position for any VISIBLE points, either animating or setting directly
     // depending on the settings.
     // Needs to be called when the range has changed.
-    // TODO: Rename to animatePlotPointPositions
-    public func updatePlotPointPositions(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withDelay delay: Double) {
-        
+    public func animatePlotPointPositions(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withDelay delay: Double) {
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         var dataIndex = 0
         for pointIndex in pointsToAnimate {
