@@ -221,7 +221,6 @@ import UIKit
         drawingView.backgroundColor = backgroundFillColor
         self.addSubview(drawingView)
         
-        //addDrawingLayers(inViewport: viewport)
         addDrawingLayersForPlots(inViewport: viewport)
         
         // References Lines
@@ -317,10 +316,7 @@ import UIKit
         guard dataSource.numberOfPoints() > 0 else {
             return
         }
-        
-        // If the data has been updated, we need to re-init everything
-        // TODO: dataNeedsReloading is never set anymore since we have refactored and the graph
-        // longer owns the data.
+
         if (isInitialSetup) {
             setup()
             
@@ -848,7 +844,6 @@ import UIKit
         }
     }
 }
-
 
 // MARK: - ScrollableGraphView Settings Enums
 // ##########################################
