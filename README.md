@@ -1,5 +1,11 @@
 # ScrollableGraphView
 
+# Announcement
+
+A new version (4) will be coming soon which adds multiple plots, dynamic reloading of data, more reference line customisation options and various bug fixes.
+
+The public interface will be incompatible with previous versions. You can always use specify to use version 3 in CocoaPods if you prefer to keep using the older version.
+
 ## About
 
 ![Example Application Usage](readme_images/IMG_5814_small.jpg)
