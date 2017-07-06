@@ -139,28 +139,25 @@ import UIKit
         
         isCurrentlySettingUp = true
         
-        // Make sure everything is in a clean state.
-        reset()
-        
         // Calculate the viewport and drawing frames.
         self.viewportWidth = self.frame.width
         self.viewportHeight = self.frame.height
         
         let numberOfDataPoints = dataSource?.numberOfPoints() ?? 0
-        totalGraphWidth = graphWidth(forNumberOfDataPoints: numberOfDataPoints) // CHANGED
+        totalGraphWidth = graphWidth(forNumberOfDataPoints: numberOfDataPoints)
         self.contentSize = CGSize(width: totalGraphWidth, height: viewportHeight)
         
         // Scrolling direction.
         #if TARGET_INTERFACE_BUILDER
             self.offsetWidth = 0
         #else
-        if (direction == .rightToLeft) {
-            self.offsetWidth = self.contentSize.width - viewportWidth
-        }
+            if (direction == .rightToLeft) {
+                self.offsetWidth = self.contentSize.width - viewportWidth
+            }
             // Otherwise start of all the way to the left.
-        else {
-            self.offsetWidth = 0
-        }
+            else {
+                self.offsetWidth = 0
+            }
         #endif
         
         // Set the scrollview offset.
@@ -169,17 +166,7 @@ import UIKit
         // Calculate the initial range depending on settings.
         let initialActivePointsInterval = calculateActivePointsInterval()
         
-        //let detectedRange = calculateRange(forEntireDataset: self.data) // CHANGED
-        /*
-        if(shouldAutomaticallyDetectRange) {
-            self.range = detectedRange
-        }
-        else {
-            
-        }
-        */
-        
-        // CHANGED: Need to calculate the range across all plots to get the min and max for all plots.
+        // Need to calculate the range across all plots to get the min and max for all plots.
         if (shouldAdaptRange) { // This overwrites anything specified by rangeMin and rangeMax
             let range = calculateRange(forActivePointsInterval: initialActivePointsInterval)
             self.range = range
@@ -193,7 +180,7 @@ import UIKit
             self.range = (min: 0, max: rangeMax)
         }
         
-        // DRAWING
+        // # DRAWING
         
         let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
         
@@ -212,10 +199,13 @@ import UIKit
         }
         */
         
+        // Initialise all plots during setup.
+        // This means all plots have to be added before the view appears on screen.
         for plot in plots {
-            plot.setup()
             
-            //plot.createGraphPoints(data: data, shouldAnimateOnStartup: shouldAnimateOnStartup, range: self.range) // CHANGED
+            #if !TARGET_INTERFACE_BUILDER
+                plot.setup() // Only init the animations for plots if we are not in IB
+            #endif
             
             plot.createPlotPoints(numberOfPoints: numberOfDataPoints, range: range)
             
@@ -244,39 +234,10 @@ import UIKit
         
         updateOffsetWidths()
         
-        #if !TARGET_INTERFACE_BUILDER
-        // Animation loop for when the range adapts
-            /*
-        displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-        displayLink.isPaused = true
-             */
-        #endif
-        
         isCurrentlySettingUp = false
         
         // Set the first active points interval. These are the points that are visible when the view loads.
         self.activePointsInterval = initialActivePointsInterval
-    }
-    
-    // Makes sure everything is in a clean state for when we want to reset the data for a graph.
-    private func reset() {
-        drawingView.removeFromSuperview()
-        referenceLineView?.removeFromSuperview()
-        
-        labelPool = LabelPool()
-        
-        for labelView in labelsView.subviews {
-            labelView.removeFromSuperview()
-        }
-        
-        for plot in plots {
-            plot.reset()
-        }
-        
-        previousActivePointsInterval = -1 ..< -1
-        activePointsInterval = -1 ..< -1
-        range = (0, 100)
     }
     
     // TODO in 4.1: Plot layer ordering.
@@ -745,7 +706,7 @@ import UIKit
         
         for plot in plots {
             let dataForPointsToAnimate = getData(forPlot: plot, andActiveInterval: pointsToAnimate)
-            plot.startAnimations(forPoints: pointsToAnimate, withData: dataForPointsToAnimate, withStaggerValue: stagger) // CHANGED
+            plot.startAnimations(forPoints: pointsToAnimate, withData: dataForPointsToAnimate, withStaggerValue: stagger)
         }
     }
     
