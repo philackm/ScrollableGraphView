@@ -4,7 +4,7 @@
 
 A new version (4) will be coming soon which adds multiple plots, dynamic reloading of data, more reference line customisation options and various bug fixes.
 
-The public interface will be incompatible with previous versions. You can always use specify to use version 3 in CocoaPods if you prefer to keep using the older version.
+The public interface will be incompatible with previous versions. If you prefer to keep using the older version, make sure to specify version 3 in your podfile.
 
 ## About
 
