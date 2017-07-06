@@ -12,7 +12,7 @@ open class Plot {
     // ##################
     
     /// How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
-    @IBInspectable open var animationDuration: Double = 1
+    @IBInspectable open var animationDuration: Double = 1.5
     
     @IBInspectable var adaptAnimationType_: Int {
         get { return adaptAnimationType.rawValue }
