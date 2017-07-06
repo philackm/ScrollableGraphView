@@ -887,6 +887,10 @@ import UIKit
         return range
     }
     
+    internal func paddingForPoints() -> (leftmostPointPadding: CGFloat, rightmostPointPadding: CGFloat) {
+        return (leftmostPointPadding: leftmostPointPadding, rightmostPointPadding: rightmostPointPadding)
+    }
+    
     // TODO, make the drawing layer get this from its owning plot instead of going all the away around.
     /*
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
