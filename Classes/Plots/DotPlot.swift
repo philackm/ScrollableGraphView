@@ -6,8 +6,6 @@ open class DotPlot : Plot {
     // Customisation
     // #############
     
-    /// Whether or not to draw a symbol for each data point.
-    @IBInspectable open var shouldDrawDataPoint: Bool = true
     /// The shape to draw for each data point.
     open var dataPointType = ScrollableGraphViewDataPointType.circle
     /// The size of the shape to draw for each data point.
@@ -33,11 +31,13 @@ open class DotPlot : Plot {
     }
     
     private func createLayers(viewport: CGRect) {
-        // Data Point layer
-        if(shouldDrawDataPoint) {
-            dataPointLayer = DotDrawingLayer(frame: viewport, fillColor: dataPointFillColor, dataPointType: dataPointType, dataPointSize: dataPointSize, customDataPointPath: customDataPointPath)
-            
-            dataPointLayer?.owner = self
-        }
+        dataPointLayer = DotDrawingLayer(
+            frame: viewport,
+            fillColor: dataPointFillColor,
+            dataPointType: dataPointType,
+            dataPointSize: dataPointSize,
+            customDataPointPath: customDataPointPath)
+
+        dataPointLayer?.owner = self
     }
 }

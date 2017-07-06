@@ -307,7 +307,6 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         // Setup the plot
         let barPlot = BarPlot(identifier: "bar")
         
-        barPlot.shouldDrawBarLayer = true
         barPlot.barWidth = 25
         barPlot.barLineWidth = 1
         barPlot.barLineColor = UIColor.colorFromHex(hexString: "#777777")
