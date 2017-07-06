@@ -69,7 +69,7 @@ import UIKit
     // #####################
     
     private var isInitialSetup = true
-    private var dataNeedsReloading = true
+    //private var dataNeedsReloading = true
     private var isCurrentlySettingUp = false
     
     private var viewportWidth: CGFloat = 0 {
@@ -321,7 +321,7 @@ import UIKit
         // If the data has been updated, we need to re-init everything
         // TODO: dataNeedsReloading is never set anymore since we have refactored and the graph
         // longer owns the data.
-        if (dataNeedsReloading) {
+        if (isInitialSetup) {
             setup()
             
             if(shouldAnimateOnStartup) {
@@ -329,9 +329,7 @@ import UIKit
             }
             
             // We're done setting up.
-            dataNeedsReloading = false
             isInitialSetup = false
-            
         }
         // Otherwise, the user is just scrolling and we just need to update everything.
         else {
@@ -699,7 +697,7 @@ import UIKit
         var pointsToAnimate = 0 ..< 0
         
         #if !TARGET_INTERFACE_BUILDER
-        if (shouldAnimateOnAdapt || (dataNeedsReloading && shouldAnimateOnStartup)) {
+        if (shouldAnimateOnAdapt || (isInitialSetup && shouldAnimateOnStartup)) {
             pointsToAnimate = activePointsInterval
         }
         #endif
