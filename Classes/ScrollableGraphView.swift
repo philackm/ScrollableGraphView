@@ -68,9 +68,6 @@ import UIKit
     // MARK: - Private State
     // #####################
     
-    // Graph Data for Display
-    private var data = [Double]()
-    
     private var isInitialSetup = true
     private var dataNeedsReloading = true
     private var isCurrentlySettingUp = false
@@ -87,11 +84,7 @@ import UIKit
     
     // Graph Line
     private var zeroYPosition: CGFloat = 0
-    
-    // Labels
-    private var labelsView = UIView()
-    private var labelPool = LabelPool()
-    
+
     // Graph Drawing
     private var drawingView = UIView()
     private var plots: [Plot] = [Plot]()
@@ -99,11 +92,14 @@ import UIKit
     // Reference Lines
     private var referenceLineView: ReferenceLineDrawingView?
     
+    // Labels
+    private var labelsView = UIView()
+    private var labelPool = LabelPool()
+    
     // Data Source
     public var dataSource: ScrollableGraphViewDataSource?
     
     // Active Points & Range Calculation
-    
     private var previousActivePointsInterval: CountableRange<Int> = -1 ..< -1
     private var activePointsInterval: CountableRange<Int> = -1 ..< -1 {
         didSet {
@@ -133,15 +129,12 @@ import UIKit
         super.init(coder: aDecoder)
     }
     
-    deinit {
-        //displayLink?.invalidate()
-    }
-    
     open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         // set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4])
     }
     
+    // TODO: Refactor setup process.
     private func setup() {
         
         isCurrentlySettingUp = true
@@ -286,8 +279,8 @@ import UIKit
         range = (0, 100)
     }
     
-    // TODO: Plot layer ordering.
-    // TODO: Plot removal.
+    // TODO in 4.1: Plot layer ordering.
+    // TODO in 4.1: Plot removal.
     private func addDrawingLayersForPlots(inViewport viewport: CGRect) {
         for plot in plots {
             addSubLayers(layers: plot.layers(forViewport: viewport))
@@ -305,7 +298,7 @@ import UIKit
     private func addReferenceViewDrawingView() {
         
         guard let referenceLines = self.referenceLines else {
-            // We can only add this if the settings arent nil.
+            // We can want to add this if the settings arent nil.
             return
         }
         
@@ -360,11 +353,13 @@ import UIKit
             return
         }
         
-        guard dataSource.numberOfPoints() > 0 else { // CHANGED
+        guard dataSource.numberOfPoints() > 0 else {
             return
         }
         
         // If the data has been updated, we need to re-init everything
+        // TODO: dataNeedsReloading is never set anymore since we have refactored and the graph
+        // longer owns the data.
         if (dataNeedsReloading) {
             setup()
             
@@ -377,7 +372,7 @@ import UIKit
             isInitialSetup = false
             
         }
-            // Otherwise, the user is just scrolling and we just need to update everything.
+        // Otherwise, the user is just scrolling and we just need to update everything.
         else {
             // Needs to update the viewportWidth and viewportHeight which is used to calculate which
             // points we can actually see.
@@ -399,7 +394,6 @@ import UIKit
             if(shouldAdaptRange) {
                 // TODO: This is currently called every single frame...
                 // We need to only calculate the range if the active points interval has changed!
-                // This is really wasteful.
                 let newRange = calculateRange(forActivePointsInterval: newActivePointsInterval)
                 self.range = newRange
             }
@@ -411,7 +405,6 @@ import UIKit
         drawingView.bounds.origin.x = offsetWidth
         
         updateOffsetsForGradients(offsetWidth: offsetWidth)
-        //gradientLayer?.offset = offsetWidth
         
         referenceLineView?.frame.origin.x = offsetWidth
     }
@@ -437,8 +430,6 @@ import UIKit
         
         // Gradient should extend over the entire viewport
         updateFramesForGradientLayers(viewportWidth: viewportWidth, viewportHeight: viewportHeight)
-        // gradientLayer?.frame.size.width = viewportWidth
-        // gradientLayer?.frame.size.height = viewportHeight
         
         // Reference lines should extend over the entire viewport
         referenceLineView?.set(viewportWidth: viewportWidth, viewportHeight: viewportHeight)
@@ -465,31 +456,6 @@ import UIKit
     // MARK: - Public Methods
     // ######################
     
-    /*
-    open func set(data: [Double]) { // CHANGED
-        
-        // If we are setting exactly the same data and labels, there's no need to re-init everything.
-        if(self.data == data) {
-            return
-        }
-        
-        self.dataNeedsReloading = true
-        self.data = data
-        
-        if(!isInitialSetup) {
-            updateUI()
-        }
-    }
-    */
-    
-    // Limitation: Can only be used when reloading the same number of data points!
-    public func reload() {
-        stopAnimations()
-        rangeDidChange()
-        updateUI()
-        updatePaths()
-    }
-    
     public func addPlot(plot: Plot) {
         plot.graphViewDrawingDelegate = self
         self.plots.append(plot)
@@ -499,35 +465,19 @@ import UIKit
         self.referenceLines = referenceLines
     }
     
+    // Limitation: Can only be used when reloading the same number of data points!
+    public func reload() {
+        stopAnimations()
+        rangeDidChange()
+        updateUI()
+        updatePaths()
+    }
+    
     // MARK: - Private Methods
     // #######################
     
     // MARK: Layout Calculations
     // #########################
-    
-    private func getData(forPlot plot: Plot, andActiveInterval activeInterval: CountableRange<Int>) -> [Double] {
-        
-        var dataForInterval = [Double]()
-        
-        for i in activeInterval.startIndex ..< activeInterval.endIndex {
-            let dataForIndexI = dataSource?.value(forPlot: plot, atIndex: i) ?? 0
-            dataForInterval.append(dataForIndexI)
-        }
-        
-        return dataForInterval
-    }
-    
-    private func getData(forPlot plot: Plot, andNewlyActivatedPoints activatedPoints: [Int]) -> [Double] {
-        
-        var dataForActivatedPoints = [Double]()
-        
-        for activatedPoint in activatedPoints {
-            let dataForActivatedPoint = dataSource?.value(forPlot: plot, atIndex: activatedPoint) ?? 0
-            dataForActivatedPoints.append(dataForActivatedPoint)
-        }
-        
-        return dataForActivatedPoints
-    }
     
     private func calculateActivePointsInterval() -> CountableRange<Int> {
         
@@ -536,7 +486,6 @@ import UIKit
         let max = Int(((offsetWidth + viewportWidth)) / dataPointSpacing)
         
         // Add and minus two so the path goes "off the screen" so we can't see where it ends.
-        //let maxPossible = data.count - 1 // CHANGED
         let minPossible = 0
         var maxPossible = 0
         
@@ -552,9 +501,11 @@ import UIKit
         return actualMin..<actualMax.advanced(by: 1)
     }
     
-    // CHANGED: Change this to get the min and max of ALL plots.
+    // Calculate the range across all plots.
     private func calculateRange(forActivePointsInterval interval: CountableRange<Int>) -> (min: Double, max: Double) {
         
+        // This calculates the range across all plots for the active points.
+        // So the maximum will be the max of all plots, same goes for min.
         var ranges = [(min: Double, max: Double)]()
         
         for plot in plots {
@@ -593,7 +544,7 @@ import UIKit
         return min
     }
     
-    // Calculate the range for a single plot
+    // Calculate the range for a single plot.
     private func calculateRange(forPlot plot: Plot, forActivePointsInterval interval: CountableRange<Int>) -> (min: Double, max: Double) {
         
         let dataForActivePoints = getData(forPlot: plot, andActiveInterval: interval)
@@ -608,13 +559,6 @@ import UIKit
             return clean(range: range)
         }
     }
-    
-    /*
-    private func calculateRange(forEntireDataset data: [Double]) -> (min: Double, max: Double) { // CHANGED
-        let range = calculateRange(for: self.data)
-        return clean(range: range)
-    }
-    */
     
     private func calculateRange<T: Collection>(for data: T) -> (min: Double, max: Double) where T.Iterator.Element == Double {
         
@@ -673,6 +617,30 @@ import UIKit
         else {
             return value
         }
+    }
+    
+    private func getData(forPlot plot: Plot, andActiveInterval activeInterval: CountableRange<Int>) -> [Double] {
+        
+        var dataForInterval = [Double]()
+        
+        for i in activeInterval.startIndex ..< activeInterval.endIndex {
+            let dataForIndexI = dataSource?.value(forPlot: plot, atIndex: i) ?? 0
+            dataForInterval.append(dataForIndexI)
+        }
+        
+        return dataForInterval
+    }
+    
+    private func getData(forPlot plot: Plot, andNewlyActivatedPoints activatedPoints: [Int]) -> [Double] {
+        
+        var dataForActivatedPoints = [Double]()
+        
+        for activatedPoint in activatedPoints {
+            let dataForActivatedPoint = dataSource?.value(forPlot: plot, atIndex: activatedPoint) ?? 0
+            dataForActivatedPoints.append(dataForActivatedPoint)
+        }
+        
+        return dataForActivatedPoints
     }
     
     // MARK: Events
@@ -787,7 +755,8 @@ import UIKit
         }
     }
     
-    // Labels. // TODO in 4.1, refactor all label adding & positioning code.
+    // Labels
+    // TODO in 4.1: refactor all label adding & positioning code.
     
     // Update any labels for any new points that have been activated and deactivated.
     private func updateLabels(deactivatedPoints: [Int], activatedPoints: [Int]) {

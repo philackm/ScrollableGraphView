@@ -37,8 +37,13 @@ open class Plot {
     
     private var graphPoints = [GraphPoint]()
     
+    deinit {
+        displayLink?.invalidate()
+    }
+    
     // MARK: Different plot types should implement:
     // ############################################
+    
     func layers(forViewport viewport: CGRect) -> [ScrollableGraphViewDrawingLayer?] {
         return []
     }
