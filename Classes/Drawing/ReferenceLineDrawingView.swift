@@ -19,12 +19,7 @@ internal class ReferenceLineDrawingView : UIView {
     
     private var lineWidth: CGFloat {
         get {
-            if(self.settings.referenceLineType == ScrollableGraphViewReferenceLineType.cover) {
-                return self.bounds.width
-            }
-            else {
-                return referenceLineWidth
-            }
+            return self.bounds.width
         }
     }
     
@@ -103,10 +98,6 @@ internal class ReferenceLineDrawingView : UIView {
             createReferenceLines(in: initialRect, atAbsolutePositions: self.settings.absolutePositions, forPath: referenceLinePath)
         }
         
-        // TODO: Remove this.
-        // old reference lines.
-        //createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.settings.numberOfIntermediateReferenceLines, for: referenceLinePath)
-        
         return referenceLinePath
     }
     
@@ -136,7 +127,7 @@ internal class ReferenceLineDrawingView : UIView {
             let yPosition = height * CGFloat(1 - relativePosition)
             
             let lineStart = CGPoint(x: 0, y: rect.origin.y + yPosition)
-            let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
+            let lineEnd = CGPoint(x: lineStart.x + lineWidth, y: lineStart.y)
             
             createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
         }
@@ -152,7 +143,7 @@ internal class ReferenceLineDrawingView : UIView {
             // as we calculate the position for the y axis value in the previous line,
             // this already takes into account margins, etc.
             let lineStart = CGPoint(x: 0, y: yPosition)
-            let lineEnd = CGPoint(x: lineStart.x + lineWidth * intermediateLineWidthMultiplier, y: lineStart.y)
+            let lineEnd = CGPoint(x: lineStart.x + lineWidth, y: lineStart.y)
             
             createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
         }
@@ -302,7 +293,6 @@ internal class ReferenceLineDrawingView : UIView {
     private func calculateYPositionForYAxisValue(value: Double) -> CGFloat {
         
         // Just an algebraic re-arrangement of calculateYAxisValue
-        
         let graphHeight = self.frame.size.height - (topMargin + bottomMargin)
         var y = ((CGFloat(value - self.currentRange.max) / CGFloat(self.currentRange.min - self.currentRange.max)) * graphHeight) + topMargin
         
@@ -335,46 +325,4 @@ internal class ReferenceLineDrawingView : UIView {
         self.frame.size.height = viewportHeight
         self.referenceLineLayer.path = createReferenceLinesPath().cgPath
     }
-    
-    
-    // FUTURE:
-    // Partition recursion depth // FUTURE: For .Edge
-    // private var referenceLinePartitions: Int = 3
-    // Can make the intermediate lines shorter using this.
-    private var intermediateLineWidthMultiplier: CGFloat = 1
-    // Used when referenceLineType == .Edge
-    private var referenceLineWidth: CGFloat = 100 // TODO: Remove references to this from the current code.
-    
-    /*
-    // FUTURE: Can use the recursive version to create a ruler like look on the edge.
-    @discardableResult
-    private func recursiveCreateIntermediateReferenceLines(in rect: CGRect, width: CGFloat, for path: UIBezierPath, remainingPartitions: Int) -> UIBezierPath {
-        
-        if(remainingPartitions <= 0) {
-            return path
-        }
-        
-        let lineStart = CGPoint(x: 0, y: rect.origin.y + (rect.size.height / 2))
-        let lineEnd = CGPoint(x: lineStart.x + width, y: lineStart.y)
-        
-        createReferenceLineFrom(from: lineStart, to: lineEnd, in: path)
-        
-        let topRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y,
-            width: rect.size.width,
-            height: rect.size.height / 2)
-        
-        let bottomRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y + (rect.size.height / 2),
-            width: rect.size.width,
-            height: rect.size.height / 2)
-        
-        recursiveCreateIntermediateReferenceLines(in: topRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
-        recursiveCreateIntermediateReferenceLines(in: bottomRect, width: width * intermediateLineWidthMultiplier, for: path, remainingPartitions: remainingPartitions - 1)
-        
-        return path
-    }
-    */
 }
