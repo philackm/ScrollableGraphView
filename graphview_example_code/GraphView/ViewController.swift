@@ -15,7 +15,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     var reloadLabel = UILabel()
     
     // Data
-    let numberOfDataItems = 29
+    var numberOfDataItems = 29
     
     lazy var data: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
     //lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
@@ -82,11 +82,16 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func reloadDidTap(_ gesture: UITapGestureRecognizer) {
+        
+        // TODO: Currently changing the number of data items is not supported.
+        // It is only possible to change the the actual values of the data before reloading.
+        // numberOfDataItems = 30
+
         blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 60)
         orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40)
         
         linePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
-        //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
+        //barPlotData =  self.generateRandomData(self.numberOfDataItems, max: 50)
         barPlotData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
         dotPlotData = self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
         xAxisLabels = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")

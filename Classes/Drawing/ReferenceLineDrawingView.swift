@@ -103,6 +103,7 @@ internal class ReferenceLineDrawingView : UIView {
             createReferenceLines(in: initialRect, atAbsolutePositions: self.settings.absolutePositions, forPath: referenceLinePath)
         }
         
+        // TODO: Remove this.
         // old reference lines.
         //createIntermediateReferenceLines(in: initialRect, numberOfIntermediateReferenceLines: self.settings.numberOfIntermediateReferenceLines, for: referenceLinePath)
         

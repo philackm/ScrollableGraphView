@@ -330,7 +330,6 @@ import UIKit
     private func addSubLayers(layers: [ScrollableGraphViewDrawingLayer?]) {
         for layer in layers {
             if let layer = layer {
-                layer.graphViewDrawingDelegate = self
                 drawingView.layer.addSublayer(layer)
             }
         }

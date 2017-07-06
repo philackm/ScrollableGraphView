@@ -45,7 +45,7 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         }
         
         // Can't really do anything without the delegate.
-        guard let delegate = self.graphViewDrawingDelegate else {
+        guard let delegate = self.owner?.graphViewDrawingDelegate else {
             return currentLinePath
         }
         
