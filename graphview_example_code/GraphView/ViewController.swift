@@ -14,22 +14,27 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     var label = UILabel()
     var reloadLabel = UILabel()
     
-    // Data
+    // Data for the different plots
+    
     var numberOfDataItems = 29
     
-    lazy var data: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
-    //lazy var labels: [String] = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
-    
-    // Data for new delegate based method
-    lazy var blueLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 60)
-    lazy var orangeLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 40)
-    
-    //lazy var linePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
-    lazy var linePlotData: [Double] = [10, 20, 25, 30, 15, 35, 45, 50, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-    //lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 50)
-    lazy var barPlotData: [Double] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    // Data for graphs with a single plot
+    lazy var simpleLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    lazy var darkLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50, shouldIncludeOutliers: true)
     lazy var dotPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
+    lazy var barPlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    lazy var pinkLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+    
+    // Data for graphs with multiple plots
+    lazy var blueLinePlotData: [Double] = self.generateRandomData(self.numberOfDataItems, max: 50)
+    lazy var orangeLinePlotData: [Double] =  self.generateRandomData(self.numberOfDataItems, max: 40, shouldIncludeOutliers: false)
+
+    // Labels for the x-axis
+    
     lazy var xAxisLabels: [String] =  self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
+    
+    // Init
+    // ####
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,73 +49,70 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         setupConstraints()
     }
     
-    func didTap(_ gesture: UITapGestureRecognizer) {
+    // Implementation for ScrollableGraphViewDataSource protocol
+    // #########################################################
+    
+    // You would usually only have a couple of cases here, one for each
+    // plot you want to display on the graph. However as this is showing
+    // off many graphs with different plots, we are using one big switch
+    // statement.
+    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         
-        currentGraphType.next()
-        
-        self.view.removeConstraints(graphConstraints)
-        graphView.removeFromSuperview()
-        
-        switch(currentGraphType) {
-        case .simple:
-            graphView = createSimpleGraph(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "SIMPLE")
-        case .multiOne:
-            graphView = createMultiPlotGraphOne(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "MULTI 1")
-        case .multiTwo:
-            graphView = createMultiPlotGraphTwo(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "MULTI 2")
-        case .dark:
-            graphView = createDarkGraph(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "DARK")
-        case .dot:
-            graphView = createDotGraph(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "DOT")
-        case .bar:
-            graphView = createBarGraph(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "BAR")
-        case .pink:
-            graphView = createPinkGraph(self.view.frame)
-            addReloadLabel(withText: "RELOAD")
-            addLabel(withText: "PINK")
+        switch(plot.identifier) {
+            
+        // Data for the graphs with a single plot
+        case "simple":
+            return simpleLinePlotData[pointIndex]
+        case "darkLine":
+            return darkLinePlotData[pointIndex]
+        case "darkLineDot":
+            return darkLinePlotData[pointIndex]
+        case "bar":
+            return barPlotData[pointIndex]
+        case "dot":
+            return dotPlotData[pointIndex]
+        case "pinkLine":
+            return pinkLinePlotData[pointIndex]
+            
+        // Data for MULTI graphs
+        case "multiBlue":
+            return blueLinePlotData[pointIndex]
+        case "multiBlueDot":
+            return blueLinePlotData[pointIndex]
+        case "multiOrange":
+            return orangeLinePlotData[pointIndex]
+        case "multiOrangeSquare":
+            return orangeLinePlotData[pointIndex]
+            
+        default:
+            return 0
         }
-        
-        self.view.insertSubview(graphView, belowSubview: reloadLabel)
-        
-        setupConstraints()
     }
     
-    func reloadDidTap(_ gesture: UITapGestureRecognizer) {
-        
-        // TODO: Currently changing the number of data items is not supported.
-        // It is only possible to change the the actual values of the data before reloading.
-        // numberOfDataItems = 30
-
-        blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 60)
-        orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40)
-        
-        linePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
-        //barPlotData =  self.generateRandomData(self.numberOfDataItems, max: 50)
-        barPlotData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-        dotPlotData = self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
-        xAxisLabels = self.generateSequentialLabels(self.numberOfDataItems, text: "FEB")
-        
-        graphView.reload()
+    func label(atIndex pointIndex: Int) -> String {
+        // Ensure that you have a label to return for the index
+        return xAxisLabels[pointIndex]
     }
     
+    func numberOfPoints() -> Int {
+        return numberOfDataItems
+    }
+    
+    // Creating Different Kinds of Graphs
+    // ##################################
+    
+    // The simplest kind of graph
+    // A single line plot, with no range adaption when scrolling
+    // No animations
+    // min: 0
+    // max: 100
     fileprivate func createSimpleGraph(_ frame: CGRect) -> ScrollableGraphView {
-        let linePlot = LinePlot(identifier: "line")
+        let linePlot = LinePlot(identifier: "simple")
         let referenceLines = ReferenceLines()
         
         // Compose the graph view by creating a graph, then adding the plot, followed by adding the reference lines.
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
+        graphView.shouldAnimateOnStartup = false
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         
@@ -118,8 +120,10 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     }
     
     // Multi plot v1
-    // TODO: This is obviously not great. Need to incorporate the dot drawing layer into
-    // the line plot as well.
+    // min: 0
+    // max: determined from active points
+    // The max reference line will be the max of all visible points
+    // Reference lines are placed relatively, at 0%, 20%, 40%, 60%, 80% and 100% of the max
     fileprivate func createMultiPlotGraphOne(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
@@ -181,6 +185,9 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     }
     
     // Multi plot v2
+    // min: 0
+    // max: determined from active points
+    // The max reference line will be the max of all visible points
     fileprivate func createMultiPlotGraphTwo(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
@@ -236,11 +243,12 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return graphView
     }
 
+    // Reference lines are positioned absolutely. will appear at specified values on y axis
     fileprivate func createDarkGraph(_ frame: CGRect) -> ScrollableGraphView {
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the line plot.
-        let linePlot = LinePlot(identifier: "line")
+        let linePlot = LinePlot(identifier: "darkLine")
         
         linePlot.lineWidth = 1
         linePlot.lineColor = UIColor.colorFromHex(hexString: "#777777")
@@ -253,14 +261,12 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         linePlot.fillGradientEndColor = UIColor.colorFromHex(hexString: "#444444")
         
         linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        linePlot.animationDuration = 1.5
         
-        let dotPlot = DotPlot(identifier: "overlaydot") // Add dots as well.
+        let dotPlot = DotPlot(identifier: "darkLineDot") // Add dots as well.
         dotPlot.dataPointSize = 2
         dotPlot.dataPointFillColor = UIColor.white
         
         dotPlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
-        dotPlot.animationDuration = 1.5
 
         // Setup the reference lines.
         let referenceLines = ReferenceLines()
@@ -270,23 +276,21 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.referenceLineLabelColor = UIColor.white
         
         referenceLines.positionType = .absolute
+        // Reference lines will be shown at these values on the y-axis.
         referenceLines.absolutePositions = [10, 20, 25, 30]
         referenceLines.includeMinMax = false
         
         referenceLines.dataPointLabelColor = UIColor.white.withAlphaComponent(0.5)
         
-        
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
-
         graphView.dataPointSpacing = 80
         
         graphView.shouldAnimateOnStartup = true
         graphView.shouldAdaptRange = true
-        // graphView.adaptAnimationType = ScrollableGraphViewAnimationType.elastic // moved to plot
-        // graphView.animationDuration = 1.5 // moved to plot
-        graphView.rangeMax = 50
         graphView.shouldRangeAlwaysStartAtZero = true
+        
+        graphView.rangeMax = 50
         
         // Add everything to the graph.
         graphView.addReferenceLines(referenceLines: referenceLines)
@@ -296,6 +300,9 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return graphView
     }
     
+    // min: 0
+    // max: 100
+    // Will not adapt min and max reference lines to range of visible points
     private func createBarGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
@@ -324,10 +331,9 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
         
         graphView.shouldAnimateOnStartup = true
-        graphView.shouldAdaptRange = true
         
-        graphView.rangeMax = 50
-        graphView.shouldRangeAlwaysStartAtZero = true
+        graphView.rangeMax = 100
+        graphView.rangeMin = 0
         
         // Add everything
         graphView.addPlot(plot: barPlot)
@@ -335,6 +341,10 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return graphView
     }
     
+    // min: 0
+    // max 50
+    // Will not adapt min and max reference lines to range of visible points
+    // no animations
     private func createDotGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
@@ -362,6 +372,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         
         graphView.dataPointSpacing = 25
         graphView.rangeMax = 50
+        graphView.rangeMin = 0
         
         // Add everything
         graphView.addPlot(plot: plot)
@@ -369,12 +380,15 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return graphView
     }
     
+    // min: min of visible points
+    // max: max of visible points
+    // Will adapt min and max reference lines to range of visible points
     private func createPinkGraph(_ frame: CGRect) -> ScrollableGraphView {
         
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         
         // Setup the plot
-        let linePlot = LinePlot(identifier: "line")
+        let linePlot = LinePlot(identifier: "pinkLine")
         
         linePlot.lineColor = UIColor.clear
         linePlot.shouldFill = true
@@ -396,15 +410,17 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         // Setup the graph
         graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#222222")
         
-        graphView.dataPointSpacing = 20
+        graphView.dataPointSpacing = 60
         graphView.shouldAdaptRange = true
-        graphView.rangeMax = 50
         
         // Add everything
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         return graphView
     }
+    
+    // Constraints and Helper Functions
+    // ################################
     
     private func setupConstraints() {
         
@@ -489,14 +505,82 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return label
     }
     
+    // Button tap events
+    
+    func didTap(_ gesture: UITapGestureRecognizer) {
+        
+        currentGraphType.next()
+        
+        self.view.removeConstraints(graphConstraints)
+        graphView.removeFromSuperview()
+        
+        switch(currentGraphType) {
+            
+        case .simple: // Show simple graph, no adapting, single line.
+            graphView = createSimpleGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "SIMPLE")
+        case .multiOne: // Show graph with multiple plots, with adapting and using dot plots to decorate the line
+            graphView = createMultiPlotGraphOne(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "MULTI 1")
+        case .multiTwo:
+            graphView = createMultiPlotGraphTwo(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "MULTI 2")
+        case .dark:
+            graphView = createDarkGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "DARK")
+        case .dot:
+            graphView = createDotGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "DOT")
+        case .bar:
+            graphView = createBarGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "BAR")
+        case .pink:
+            graphView = createPinkGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "PINK")
+        }
+        
+        self.view.insertSubview(graphView, belowSubview: reloadLabel)
+        
+        setupConstraints()
+    }
+    
+    func reloadDidTap(_ gesture: UITapGestureRecognizer) {
+        
+        // TODO: Currently changing the number of data items is not supported.
+        // It is only possible to change the the actual values of the data before reloading.
+        // numberOfDataItems = 30
+        
+        // data for graphs with a single plot
+        simpleLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        darkLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 50, shouldIncludeOutliers: true)
+        dotPlotData = self.generateRandomData(self.numberOfDataItems, variance: 4, from: 25)
+        barPlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        pinkLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 100, shouldIncludeOutliers: false)
+        
+        // data for graphs with multiple plots
+        blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
+        orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40, shouldIncludeOutliers: false)
+        
+        graphView.reload()
+    }
+    
     // Data Generation
-    private func generateRandomData(_ numberOfItems: Int, max: Double) -> [Double] {
+    private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Double] {
         var data = [Double]()
         for _ in 0 ..< numberOfItems {
             var randomNumber = Double(arc4random()).truncatingRemainder(dividingBy: max)
             
-            if(arc4random() % 100 < 10) {
-                randomNumber *= 3
+            if(shouldIncludeOutliers) {
+                if(arc4random() % 100 < 10) {
+                    randomNumber *= 3
+                }
             }
             
             data.append(randomNumber)
@@ -564,40 +648,6 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     
     override var prefersStatusBarHidden : Bool {
         return true
-    }
-    
-    // Implementation for ScrollableGraphViewDataSource protocol
-    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
-        
-        switch(plot.identifier) {
-            
-        case "multiBlue":
-            return blueLinePlotData[pointIndex]
-        case "multiBlueDot":
-            return blueLinePlotData[pointIndex]
-        case "multiOrange":
-            return orangeLinePlotData[pointIndex]
-        case "multiOrangeSquare":
-            return orangeLinePlotData[pointIndex]
-        case "line":
-            return linePlotData[pointIndex]
-        case "overlaydot":
-            return linePlotData[pointIndex]
-        case "bar":
-            return barPlotData[pointIndex]
-        case "dot":
-            return dotPlotData[pointIndex]
-        default:
-            return 0
-        }
-    }
-    
-    func label(atIndex pointIndex: Int) -> String {
-        return xAxisLabels[pointIndex] // ensure that you have a label to return for the index
-    }
-    
-    func numberOfPoints() -> Int {
-        return numberOfDataItems
     }
 }
 
