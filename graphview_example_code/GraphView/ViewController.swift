@@ -113,6 +113,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         // Compose the graph view by creating a graph, then adding the plot, followed by adding the reference lines.
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
         graphView.shouldAnimateOnStartup = false
+
+        
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         

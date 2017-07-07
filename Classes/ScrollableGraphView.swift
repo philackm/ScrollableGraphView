@@ -7,7 +7,7 @@ import UIKit
     // MARK: - Public Properties
     // Use these to customise the graph.
     // #################################
-
+    
     // Fill Styles
     // ###########
     
@@ -56,7 +56,7 @@ import UIKit
     @IBInspectable open var shouldAdaptRange: Bool = false
     /// If shouldAdaptRange is set to true then this specifies whether or not the points on the graph should animate to their new positions. Default is set to true.
     @IBInspectable open var shouldAnimateOnAdapt: Bool = true
-
+    
     /// Whether or not the graph should animate to their positions when the graph is first displayed.
     @IBInspectable open var shouldAnimateOnStartup: Bool = true
     
@@ -83,7 +83,7 @@ import UIKit
     
     // Graph Line
     private var zeroYPosition: CGFloat = 0
-
+    
     // Graph Drawing
     private var drawingView = UIView()
     private var plots: [Plot] = [Plot]()
@@ -96,7 +96,13 @@ import UIKit
     private var labelPool = LabelPool()
     
     // Data Source
-    public var dataSource: ScrollableGraphViewDataSource?
+    open var dataSource: ScrollableGraphViewDataSource? {
+        didSet {
+            if(plots.count > 0) {
+                reload()
+            }
+        }
+    }
     
     // Active Points & Range Calculation
     private var previousActivePointsInterval: CountableRange<Int> = -1 ..< -1
@@ -119,6 +125,10 @@ import UIKit
     // MARK: - INIT, SETUP & VIEWPORT RESIZING
     // #######################################
     
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
     public init(frame: CGRect, dataSource: ScrollableGraphViewDataSource) {
         self.dataSource = dataSource
         super.init(frame: frame)
@@ -128,32 +138,62 @@ import UIKit
         super.init(coder: aDecoder)
     }
     
+    // You can change how you want the graph to appear in interface builder here.
+    // This ONLY changes how it appears in interface builder, you will still need
+    // to setup the graph properly in your view controller for it to change in the
+    // actual application.
     open override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        // set(data: [10, 2, 34, 11, 22, 11, 44, 9, 12, 4])
+        
+        self.dataSource = self as? ScrollableGraphViewDataSource
+        self.shouldAnimateOnStartup = false
+        
+        // Customise how the reference lines look in IB
+        let referenceLines = ReferenceLines()
+        self.addReferenceLines(referenceLines: referenceLines)
     }
     
-    // TODO: Refactor setup process.
     private func setup() {
         
+        clipsToBounds = true
         isCurrentlySettingUp = true
         
-        // Calculate the viewport and drawing frames.
+        // 0.
+        // Save the viewport, that is, the size of the rectangle through which we view the graph.
+        
         self.viewportWidth = self.frame.width
         self.viewportHeight = self.frame.height
         
+        let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
+        
+        // 1.
+        // Add the subviews we will use to draw everything.
+        
+        // Add the drawing view in which we draw all the plots.
+        drawingView = UIView(frame: viewport)
+        drawingView.backgroundColor = backgroundFillColor
+        self.addSubview(drawingView)
+        
+        // Add the x-axis labels view.
+        self.insertSubview(labelsView, aboveSubview: drawingView)
+        
+        // 2.
+        // Calculate the total size of the graph, need to know this for the scrollview.
+        
+        // Calculate the drawing frames
         let numberOfDataPoints = dataSource?.numberOfPoints() ?? 0
         totalGraphWidth = graphWidth(forNumberOfDataPoints: numberOfDataPoints)
         self.contentSize = CGSize(width: totalGraphWidth, height: viewportHeight)
         
         // Scrolling direction.
+        
         #if TARGET_INTERFACE_BUILDER
             self.offsetWidth = 0
         #else
             if (direction == .rightToLeft) {
                 self.offsetWidth = self.contentSize.width - viewportWidth
             }
-            // Otherwise start of all the way to the left.
+                // Otherwise start of all the way to the left.
             else {
                 self.offsetWidth = 0
             }
@@ -162,76 +202,52 @@ import UIKit
         // Set the scrollview offset.
         self.contentOffset.x = self.offsetWidth
         
-        // Calculate the initial range depending on settings.
+        // 3.
+        // Calculate the points that we will be able to see when the view loads.
+        
         let initialActivePointsInterval = calculateActivePointsInterval()
         
-        // Need to calculate the range across all plots to get the min and max for all plots.
-        if (shouldAdaptRange) { // This overwrites anything specified by rangeMin and rangeMax
-            let range = calculateRange(forActivePointsInterval: initialActivePointsInterval)
-            self.range = range
+        // 4.
+        // Add the plots to the graph, we need these to calculate the range.
+        
+        while(queuedPlots.count > 0) {
+            if let plot = queuedPlots.dequeue() {
+                addPlotToGraph(plot: plot, activePointsInterval: initialActivePointsInterval)
+            }
         }
-        else {
-            self.range = (min: rangeMin, max: rangeMax) // just use what the user specified instead.
-        }
+        
+        // 5.
+        // Calculate the range for the points we can actually see.
+        
+        #if TARGET_INTERFACE_BUILDER
+            self.range = (min: rangeMin, max: rangeMax)
+        #else
+            // Need to calculate the range across all plots to get the min and max for all plots.
+            if (shouldAdaptRange) { // This overwrites anything specified by rangeMin and rangeMax
+                let range = calculateRange(forActivePointsInterval: initialActivePointsInterval)
+                self.range = range
+            }
+            else {
+                self.range = (min: rangeMin, max: rangeMax) // just use what the user specified instead.
+            }
+        #endif
         
         // If the graph was given all 0s as data, we can't use a range of 0->0, so make sure we have a sensible range at all times.
         if (self.range.min == 0 && self.range.max == 0) {
             self.range = (min: 0, max: rangeMax)
         }
         
-        // # DRAWING
-        
-        let viewport = CGRect(x: 0, y: 0, width: viewportWidth, height: viewportHeight)
-        
-        // Create all the GraphPoints which which are used for drawing.
-        /*
-        for i in 0 ..< data.count {
-            #if TARGET_INTERFACE_BUILDER
-            let value = data[i]
-            #else
-            let value = (shouldAnimateOnStartup) ? self.range.min : data[i]
-            #endif
-            
-            let position = calculatePosition(atIndex: i, value: value)
-            let point = GraphPoint(position: position)
-            graphPoints.append(point)
-        }
-        */
-        
-        // Initialise all plots during setup.
-        // This means all plots have to be added before the view appears on screen.
-        for plot in plots {
-            
-            #if !TARGET_INTERFACE_BUILDER
-                plot.setup() // Only init the animations for plots if we are not in IB
-            #endif
-            
-            plot.createPlotPoints(numberOfPoints: numberOfDataPoints, range: range)
-            
-            // If we are not animating on startup then just set all the plot positions to their respective values
-            if(!shouldAnimateOnStartup) {
-                let dataForInitialPoints = getData(forPlot: plot, andActiveInterval: initialActivePointsInterval)
-                plot.setPlotPointPositions(forNewlyActivatedPoints: initialActivePointsInterval, withData: dataForInitialPoints)
-            }
-        }
-        
-        // Drawing Layers
-        drawingView = UIView(frame: viewport)
-        drawingView.backgroundColor = backgroundFillColor
-        self.addSubview(drawingView)
-        
-        addDrawingLayersForPlots(inViewport: viewport)
-        
-        // References Lines
+        // 6.
+        // Add the reference lines, can only add this once we know the range.
+
         if(referenceLines != nil) {
             addReferenceViewDrawingView()
         }
         
-        // X-Axis Labels
-        self.insertSubview(labelsView, aboveSubview: drawingView)
+        // 7.
+        // We're now done setting up, update the offsets and change the flag.
         
         updateOffsetWidths()
-        
         isCurrentlySettingUp = false
         
         // Set the first active points interval. These are the points that are visible when the view loads.
@@ -270,6 +286,7 @@ import UIKit
                 referenceLineBottomMargin += (referenceLines.dataPointLabelFont!.pointSize + referenceLines.dataPointLabelTopMargin + referenceLines.dataPointLabelBottomMargin)
             }
             
+            referenceLineView?.removeFromSuperview()
             referenceLineView = ReferenceLineDrawingView(
                 frame: viewport,
                 topMargin: topMargin,
@@ -315,7 +332,7 @@ import UIKit
         guard dataSource.numberOfPoints() > 0 else {
             return
         }
-
+        
         if (isInitialSetup) {
             setup()
             
@@ -326,7 +343,7 @@ import UIKit
             // We're done setting up.
             isInitialSetup = false
         }
-        // Otherwise, the user is just scrolling and we just need to update everything.
+            // Otherwise, the user is just scrolling and we just need to update everything.
         else {
             // Needs to update the viewportWidth and viewportHeight which is used to calculate which
             // points we can actually see.
@@ -348,8 +365,10 @@ import UIKit
             if(shouldAdaptRange) {
                 // TODO: This is currently called every single frame...
                 // We need to only calculate the range if the active points interval has changed!
-                let newRange = calculateRange(forActivePointsInterval: newActivePointsInterval)
-                self.range = newRange
+                #if !TARGET_INTERFACE_BUILDER
+                    let newRange = calculateRange(forActivePointsInterval: newActivePointsInterval)
+                    self.range = newRange
+                #endif
             }
         }
     }
@@ -411,12 +430,26 @@ import UIKit
     // ######################
     
     public func addPlot(plot: Plot) {
-        plot.graphViewDrawingDelegate = self
-        self.plots.append(plot)
+        // If we aren't setup yet, save the plot to be added during setup.
+        if(isInitialSetup) {
+            enqueuePlot(plot)
+        }
+        // Otherwise, just add the plot directly.
+        else {
+            addPlotToGraph(plot: plot, activePointsInterval: self.activePointsInterval)
+        }
     }
     
     public func addReferenceLines(referenceLines: ReferenceLines) {
-        self.referenceLines = referenceLines
+        
+        // If we aren't setup yet, just save the reference lines and the setup will take care of it.
+        if(isInitialSetup) {
+            self.referenceLines = referenceLines
+        }
+        // Otherwise, add the reference lines, reload everything.
+        else {
+            addReferenceLinesToGraph(referenceLines: referenceLines)
+        }
     }
     
     // Limitation: Can only be used when reloading the same number of data points!
@@ -426,6 +459,63 @@ import UIKit
         updateUI()
         updatePaths()
     }
+    
+    // The functions for adding plots and reference lines need to be able to add plots
+    // both before and after the graph knows its viewport/size. 
+    // This needs to be the case so we can use it in interface builder as well as 
+    // just adding it programatically.
+    // These functions add the plots and reference lines to the graph.
+    // The public functions will either save the plots and reference lines (in the case
+    // don't have the required viewport information) or add it directly to the graph
+    // (the case where we already know the viewport information).
+    private func addPlotToGraph(plot: Plot, activePointsInterval: CountableRange<Int>) {
+        plot.graphViewDrawingDelegate = self
+        self.plots.append(plot)
+        initPlot(plot: plot, activePointsInterval: activePointsInterval)
+        startAnimations(withStaggerValue: 0.15)
+    }
+    
+    private func addReferenceLinesToGraph(referenceLines: ReferenceLines) {
+        self.referenceLines = referenceLines
+        addReferenceViewDrawingView()
+        
+        // Have to ensure that the labels are added if we are supposed to be showing them.
+        if let ref = self.referenceLines {
+            if(ref.shouldShowLabels) {
+                
+                var activatedPoints: [Int] = []
+                for i in activePointsInterval {
+                    activatedPoints.append(i)
+                }
+                
+                updateLabels(deactivatedPoints: [], activatedPoints: activatedPoints)
+            }
+        }
+    }
+    
+    private func initPlot(plot: Plot, activePointsInterval: CountableRange<Int>) {
+        
+        #if !TARGET_INTERFACE_BUILDER
+            plot.setup() // Only init the animations for plots if we are not in IB
+        #endif
+        
+        plot.createPlotPoints(numberOfPoints: dataSource!.numberOfPoints(), range: range) // TODO: removed forced unwrap
+        
+        // If we are not animating on startup then just set all the plot positions to their respective values
+        if(!shouldAnimateOnStartup) {
+            let dataForInitialPoints = getData(forPlot: plot, andActiveInterval: activePointsInterval)
+            plot.setPlotPointPositions(forNewlyActivatedPoints: activePointsInterval, withData: dataForInitialPoints)
+        }
+        
+        addSubLayers(layers: plot.layers(forViewport: currentViewport()))
+    }
+
+    private var queuedPlots: SGVQueue<Plot> = SGVQueue<Plot>()
+    
+    private func enqueuePlot(_ plot: Plot) {
+        queuedPlots.enqueue(element: plot)
+    }
+
     
     // MARK: - Private Methods
     // #######################
@@ -625,7 +715,7 @@ import UIKit
             }
         }
     }
-  
+    
     private func rangeDidChange() {
         
         // If shouldAnimateOnAdapt is enabled it will kickoff any animations that need to occur.
@@ -687,14 +777,14 @@ import UIKit
     }
     
     // Animations
-  
+    
     private func startAnimations(withStaggerValue stagger: Double = 0) {
         var pointsToAnimate = 0 ..< 0
         
         #if !TARGET_INTERFACE_BUILDER
-        if (shouldAnimateOnAdapt || (isInitialSetup && shouldAnimateOnStartup)) {
-            pointsToAnimate = activePointsInterval
-        }
+            if (shouldAnimateOnAdapt || (isInitialSetup && shouldAnimateOnStartup)) {
+                pointsToAnimate = activePointsInterval
+            }
         #endif
         
         for plot in plots {
@@ -718,7 +808,7 @@ import UIKit
         guard let ref = self.referenceLines else {
             return
         }
-            
+        
         // Disable any labels for the deactivated points.
         for point in deactivatedPoints {
             labelPool.deactivateLabel(forPointIndex: point)
@@ -852,4 +942,74 @@ import UIKit
     case rightToLeft
 }
 
+// Simple queue data structure for keeping track of which
+// plots have been added.
+fileprivate class SGVQueue<T> {
+    
+    var storage: [T]
+    
+    public var count: Int {
+        get {
+            return storage.count
+        }
+    }
+    
+    init() {
+        storage = [T]()
+    }
+    
+    public func enqueue(element: T) {
+        storage.insert(element, at: 0)
+    }
+    
+    public func dequeue() -> T? {
+        return storage.popLast()
+    }
+}
+
+// We have to be our own data source for interface builder.
+#if TARGET_INTERFACE_BUILDER
+extension ScrollableGraphView : ScrollableGraphViewDataSource {
+    
+    var numberOfDisplayItems: Int {
+        get {
+            return 30
+        }
+    }
+    
+    var linePlotData: [Double] {
+        get {
+            return self.generateRandomData(numberOfDisplayItems, max: 100, shouldIncludeOutliers: false)
+        }
+    }
+    
+    public func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
+        return linePlotData[pointIndex]
+    }
+    
+    public func label(atIndex pointIndex: Int) -> String {
+        return "\(pointIndex)"
+    }
+    
+    public func numberOfPoints() -> Int {
+        return numberOfDisplayItems
+    }
+    
+    private func generateRandomData(_ numberOfItems: Int, max: Double, shouldIncludeOutliers: Bool = true) -> [Double] {
+        var data = [Double]()
+        for _ in 0 ..< numberOfItems {
+            var randomNumber = Double(arc4random()).truncatingRemainder(dividingBy: max)
+            
+            if(shouldIncludeOutliers) {
+                if(arc4random() % 100 < 10) {
+                    randomNumber *= 3
+                }
+            }
+            
+            data.append(randomNumber)
+        }
+        return data
+    }
+}
+#endif
 
