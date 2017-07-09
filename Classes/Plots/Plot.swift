@@ -4,7 +4,7 @@ import UIKit
 open class Plot {
     
     // The id for this plot. Used when determining which data to give it in the dataSource
-    var identifier: String!
+    open var identifier: String!
     
     var graphViewDrawingDelegate: ScrollableGraphViewDrawingDelegate! = nil
     
