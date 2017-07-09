@@ -7,22 +7,22 @@ open class BarPlot : Plot {
     // #############
     
     /// The width of an individual bar on the graph.
-    @IBInspectable open var barWidth: CGFloat = 25;
+    open var barWidth: CGFloat = 25;
     /// The actual colour of the bar.
-    @IBInspectable open var barColor: UIColor = UIColor.gray
+    open var barColor: UIColor = UIColor.gray
     /// The width of the outline of the bar
-    @IBInspectable open var barLineWidth: CGFloat = 1
+    open var barLineWidth: CGFloat = 1
     /// The colour of the bar outline
-    @IBInspectable open var barLineColor: UIColor = UIColor.darkGray
+    open var barLineColor: UIColor = UIColor.darkGray
     /// Whether the bars should be drawn with rounded corners
-    @IBInspectable open var shouldRoundBarCorners: Bool = false
+    open var shouldRoundBarCorners: Bool = false
     
     // Private State
     // #############
     
     private var barLayer: BarDrawingLayer?
     
-    init(identifier: String) {
+    public init(identifier: String) {
         super.init()
         self.identifier = identifier
     }

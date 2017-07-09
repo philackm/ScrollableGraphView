@@ -12,9 +12,9 @@ open class Plot {
     // ##################
     
     /// How long the animation should take. Affects both the startup animation and the animation when the range of the y-axis adapts to onscreen points.
-    @IBInspectable open var animationDuration: Double = 1.5
+    open var animationDuration: Double = 1.5
     
-    @IBInspectable var adaptAnimationType_: Int {
+    open var adaptAnimationType_: Int {
         get { return adaptAnimationType.rawValue }
         set {
             if let enumValue = ScrollableGraphViewAnimationType(rawValue: newValue) {
@@ -141,12 +141,12 @@ open class Plot {
         return dt
     }
     
-    public func startAnimations(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withStaggerValue stagger: Double) {
+    internal func startAnimations(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withStaggerValue stagger: Double) {
         
         animatePlotPointPositions(forPoints: pointsToAnimate, withData: data, withDelay: stagger)
     }
     
-    public func createPlotPoints(numberOfPoints: Int, range: (min: Double, max: Double)) {
+    internal func createPlotPoints(numberOfPoints: Int, range: (min: Double, max: Double)) {
         for i in 0 ..< numberOfPoints {
             
             let value = range.min
@@ -160,7 +160,7 @@ open class Plot {
     // When active interval changes, need to set the position for any NEWLY ACTIVATED points, otherwise
     // they will come on screen at the incorrect position.
     // Needs to be called when the active interval has changed and during initial setup.
-    public func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
+    internal func setPlotPointPositions(forNewlyActivatedPoints newPoints: CountableRange<Int>, withData data: [Double]) {
         
         for i in newPoints.startIndex ..< newPoints.endIndex {
             // e.g.
@@ -177,7 +177,7 @@ open class Plot {
     }
     
     // Same as a above, but can take an array with the indicies of the activated points rather than a range.
-    public func setPlotPointPositions(forNewlyActivatedPoints activatedPoints: [Int], withData data: [Double]) {
+    internal func setPlotPointPositions(forNewlyActivatedPoints activatedPoints: [Int], withData data: [Double]) {
         
         var index = 0
         for activatedPointIndex in activatedPoints {
@@ -196,7 +196,7 @@ open class Plot {
     // When the range changes, we need to set the position for any VISIBLE points, either animating or setting directly
     // depending on the settings.
     // Needs to be called when the range has changed.
-    public func animatePlotPointPositions(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withDelay delay: Double) {
+    internal func animatePlotPointPositions(forPoints pointsToAnimate: CountableRange<Int>, withData data: [Double], withDelay delay: Double) {
         // For any visible points, kickoff the animation to their new position after the axis' min/max has changed.
         var dataIndex = 0
         for pointIndex in pointsToAnimate {
@@ -207,13 +207,13 @@ open class Plot {
         }
     }
     
-    public func setup() {
+    internal func setup() {
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
         displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         displayLink.isPaused = true
     }
     
-    public func reset() {
+    internal func reset() {
         currentAnimations.removeAll()
         graphPoints.removeAll()
         displayLink?.invalidate()

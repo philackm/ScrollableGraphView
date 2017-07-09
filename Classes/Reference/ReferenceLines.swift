@@ -67,6 +67,10 @@ open class ReferenceLines {
     open var dataPointLabelFont: UIFont? = UIFont.systemFont(ofSize: 10)
     /// Used to force the graph to show every n-th dataPoint label
     @IBInspectable open var dataPointLabelsSparsity: Int = 1
+    
+    public init() {
+        // Need this for external frameworks.
+    }
 }
 
 

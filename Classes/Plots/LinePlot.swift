@@ -7,13 +7,13 @@ open class LinePlot : Plot {
     // ################################
     
     /// Specifies how thick the graph of the line is. In points.
-    @IBInspectable open var lineWidth: CGFloat = 2
+    open var lineWidth: CGFloat = 2
     
     /// The color of the graph line. UIColor.
-    @IBInspectable open var lineColor: UIColor = UIColor.black
+    open var lineColor: UIColor = UIColor.black
     
     /// Whether the line is straight or curved.
-    @IBInspectable var lineStyle_: Int {
+    open var lineStyle_: Int {
         get { return lineStyle.rawValue }
         set {
             if let enumValue = ScrollableGraphViewLineStyle(rawValue: newValue) {
@@ -26,20 +26,20 @@ open class LinePlot : Plot {
     open var lineStyle = ScrollableGraphViewLineStyle.straight
     
     /// How each segment in the line should connect. Takes any of the Core Animation LineJoin values.
-    @IBInspectable open var lineJoin: String = kCALineJoinRound
+    open var lineJoin: String = kCALineJoinRound
     
     /// The line caps. Takes any of the Core Animation LineCap values.
-    @IBInspectable open var lineCap: String = kCALineCapRound
-    @IBInspectable open var lineCurviness: CGFloat = 0.5
+    open var lineCap: String = kCALineCapRound
+    open var lineCurviness: CGFloat = 0.5
     
     
     // Fill Settings
     // #############
     
     /// Specifies whether or not the plotted graph should be filled with a colour or gradient.
-    @IBInspectable open var shouldFill: Bool = false
+    open var shouldFill: Bool = false
     
-    @IBInspectable var fillType_: Int {
+    var fillType_: Int {
         get { return fillType.rawValue }
         set {
             if let enumValue = ScrollableGraphViewFillType(rawValue: newValue) {
@@ -52,15 +52,15 @@ open class LinePlot : Plot {
     open var fillType = ScrollableGraphViewFillType.solid
     
     /// If fillType is set to .Solid then this colour will be used to fill the graph.
-    @IBInspectable open var fillColor: UIColor = UIColor.black
+    open var fillColor: UIColor = UIColor.black
     
     /// If fillType is set to .Gradient then this will be the starting colour for the gradient.
-    @IBInspectable open var fillGradientStartColor: UIColor = UIColor.white
+    open var fillGradientStartColor: UIColor = UIColor.white
     
     /// If fillType is set to .Gradient, then this will be the ending colour for the gradient.
-    @IBInspectable open var fillGradientEndColor: UIColor = UIColor.black
+    open var fillGradientEndColor: UIColor = UIColor.black
     
-    @IBInspectable var fillGradientType_: Int {
+    open var fillGradientType_: Int {
         get { return fillGradientType.rawValue }
         set {
             if let enumValue = ScrollableGraphViewGradientType(rawValue: newValue) {
@@ -79,7 +79,7 @@ open class LinePlot : Plot {
     private var fillLayer: FillDrawingLayer?
     private var gradientLayer: GradientDrawingLayer?
     
-    init(identifier: String) {
+    public init(identifier: String) {
         super.init()
         self.identifier = identifier
     }
