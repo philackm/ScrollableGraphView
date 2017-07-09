@@ -1,15 +1,16 @@
-# ScrollableGraphView
+# ScrollableGraphView Major API Changes in v4
 
 # Overview
 
-The current graph has multiple issues:
+The older versions of the graph have multiple issues:
 
 - Setting data is a one time event that happens before the graph is shown, making it hard to update the data if it happens to change. Currently the entire graph has to be recreated.
 - Multiple plots on a single graph are unsupported.
 - Reference lines have limited customisation options and user specified locations for reference lines is lacking and clumsy.
 - Approximately 60 settings all specified as public properties on a single class, `ScrollableGraphView`. This makes both maintenance and adding new features difficult to achieve.
 
-The new proposed API aims to resolve these issues by:
+The new API aims to resolve these issues by:
+
 - Refactoring the current monolithic graph into multiple files and appropriate classes.
 - Using common delegate based patterns as a more robust way of providing the graph with data for multiple plots.
 - Reworking the way reference lines are specified and added to the graph.
@@ -21,21 +22,20 @@ The new proposed API aims to resolve these issues by:
 - [API - ScrollableGraphViewDataSource](#api---scrollablegraphviewdatasource-protocol)
 - [API - ReferenceLines](#api---referencelines-class)
 - [Example Usage](#example-usage)
-    - [Creating a Graph via Configuration File](#creating-a-graph-via-configuration-file)
     - [Creating a Graph and Configuring it Programmatically](#creating-a-graph-and-configuring-it-programmatically)
 - [List of New Protocols and Types](#list-of-new-protocols-and-types)
 
-API - ScrollableGraphView Class
+# API - ScrollableGraphView Class
 
 ## Creating a Graph
 
 ```swift
-init(frame: CGRect, dataSource: GraphViewDataSource)
+init(frame: CGRect, dataSource: ScrollableGraphViewDataSource)
 ```
 
 Returns a graph instance. The data source for the graph is an object which conforms to the `GraphViewDataSource` protocol.
 
-## Adding/Removing Plots
+## Adding
 
 ```swift
 func addPlot(plot: Plot)
@@ -107,10 +107,6 @@ var absolutePositions: [Double]
 
 An array of positions specified in absolute values where the reference lines will be rendered.
 
-# API - Encapsulating Customisation Settings
-
-Refactoring is required to organise the customisation settings. The `PlotConfiguration` and `GraphConfiguration` classes will encapsulate the settings for the plot and graph respectively. These data structures are then passed to the graph via the `setConfiguration` and `addPlot` methods.
-
 ## Example Usage
 
 ### Creating a Graph and Configuring it Programmatically
@@ -144,7 +140,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         referenceLines.positionType = .relative
         referenceLines.relativePositions = [0, 0.5, 0.8, 0.9, 1]
         
-        graph.addReferenceLines(referenceLines)
+        graph.addReferenceLines(referenceLines: referenceLines)
         
         // Adding Plots
         // ############
@@ -158,8 +154,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         barPlot.barFillColor = UIColor.black
         barPlot.barOutlineColor = UIColor.gray
         
-        graph.addPlot(linePlot)
-        graph.addPlot(barPlot)
+        graph.addPlot(plot: linePlot)
+        graph.addPlot(plot: barPlot)
 
         self.view.addSubview(graph)
     }
