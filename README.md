@@ -10,7 +10,7 @@ If your application uses this component and you would like to show it off, pleas
 
 Version 4 was released which adds multiple plots, dynamic reloading of values, more reference line customisation options and various bug fixes. 
 
-You can see the major changs in the API [here](APIv4.md).
+You can see the major changes in the API [here](APIv4.md).
 
 The public interface is incompatible with previous versions. If you prefer to keep using the older version, make sure to specify version 3 in your podfile or downloaded the classes from a pre-v4 release.
 
