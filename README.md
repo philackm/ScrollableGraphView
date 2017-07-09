@@ -1,6 +1,6 @@
 # ScrollableGraphView
 
-## Anouncements
+## Announcements
 
 ### 9-7-2017 - Looking for Examples:
 
