@@ -58,7 +58,7 @@ Add all of the files in the [Classes](Classes/) directory to your project in Xco
 Add ```pod 'ScrollableGraphView'``` to your Podfile and then make sure to ```import ScrollableGraphView``` in your code.
 
 #### Carthage
-Coming soon.
+Add `github "philackm/ScrollableGraphView" ~> 4.0.2` to your Cartfile and then make sure to link the frameworks and `import ScrollableGraphView` in your code.
 
 ### Creating a graph and providing it with data.
 
