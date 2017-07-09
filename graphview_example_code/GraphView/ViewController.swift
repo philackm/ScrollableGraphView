@@ -107,13 +107,13 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     // min: 0
     // max: 100
     fileprivate func createSimpleGraph(_ frame: CGRect) -> ScrollableGraphView {
-        let linePlot = LinePlot(identifier: "simple")
-        let referenceLines = ReferenceLines()
         
-        // Compose the graph view by creating a graph, then adding the plot, followed by adding the reference lines.
+        // Compose the graph view by creating a graph, then adding any plots
+        // and reference lines before adding the graph to the view hierarchy.
         let graphView = ScrollableGraphView(frame: frame, dataSource: self)
-        graphView.shouldAnimateOnStartup = false
-
+        
+        let linePlot = LinePlot(identifier: "simple") // Identifier should be unique for each plot.
+        let referenceLines = ReferenceLines()
         
         graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
