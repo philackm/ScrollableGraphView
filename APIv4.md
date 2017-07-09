@@ -17,17 +17,15 @@ The new proposed API aims to resolve these issues by:
 
 ## Contents
 
-- [API - ScrollableGraphView](#proposed-api---scrollablegraphview-class)
-- [API - ScrollableGraphViewDataSource](#proposed-api---scrollablegraphviewdatasource-protocol)
-- [API - ReferenceLines](#proposed-api---referencelines-class)
-- [API - Encapsulating Settings](#proposed-api---encapsulating-customisation-settings)
-- [API - Configuration Files](#proposed-api---configuration-files)
+- [API - ScrollableGraphView](#api---scrollablegraphview-class)
+- [API - ScrollableGraphViewDataSource](#api---scrollablegraphviewdatasource-protocol)
+- [API - ReferenceLines](#api---referencelines-class)
 - [Example Usage](#example-usage)
     - [Creating a Graph via Configuration File](#creating-a-graph-via-configuration-file)
     - [Creating a Graph and Configuring it Programmatically](#creating-a-graph-and-configuring-it-programmatically)
 - [List of New Protocols and Types](#list-of-new-protocols-and-types)
 
-# Proposed API - ScrollableGraphView Class
+API - ScrollableGraphView Class
 
 ## Creating a Graph
 
@@ -40,16 +38,10 @@ Returns a graph instance. The data source for the graph is an object which confo
 ## Adding/Removing Plots
 
 ```swift
-func addPlot(type: PlotType, id: String, config: PlotConfiguration)
+func addPlot(plot: Plot)
 ```
 
-Adds a plot to the graph. Can be called multiple times to add multiple plots. The `id` for the plot is passed to the `dataSource` delegate when requesting data.
-
-```swift
-func removePlot(id: String)
-```
-
-Removes a plot from the graph for a given id.
+Adds a plot to the graph. Can be called multiple times to add multiple plots. The `identifier` for the plot is passed to the `dataSource` delegate when requesting data.
 
 ## Adding Reference Lines to the Graph
 
@@ -62,7 +54,7 @@ Adds an instance of ReferenceLines to the graph. Multiple calls will override th
 ## Giving the Graph Data
 
 ```swift
-var dataSource: GraphViewDataSource
+var dataSource: ScrollableGraphViewDataSource
 ```
 
 The data source delegate which provides the graph data. This object must conform to the `GraphViewDataSource` protocol by implementing the following three methods.
@@ -71,17 +63,9 @@ The data source delegate which provides the graph data. This object must conform
 func reload()
 ```
 
-Causes the graph to recall the delegate functions, to refetch the data. The delegate method `numberOfPoints` will also be called. This is used when points have been added/removed from the plot.
+Causes the graph to recall the delegate functions, to refetch the data.
 
-## Using Configuration Files
-
-```swift
-var configurationFilePath: String
-```
-
-Path to the JSON configuration file.
-
-# Proposed API - ScrollableGraphViewDataSource Protocol
+# API - ScrollableGraphViewDataSource Protocol
 
 ```swift
 func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double
@@ -101,7 +85,7 @@ func numberOfPoints(forPlot plot: Plot) -> Int
 
 Provides the number of points for each each plot.
 
-# Proposed API - ReferenceLines Class
+# API - ReferenceLines Class
 
 ## New Customisation Options for Reference Lines
 
@@ -123,108 +107,13 @@ var absolutePositions: [Double]
 
 An array of positions specified in absolute values where the reference lines will be rendered.
 
-# Proposed API - Encapsulating Customisation Settings
+# API - Encapsulating Customisation Settings
 
 Refactoring is required to organise the customisation settings. The `PlotConfiguration` and `GraphConfiguration` classes will encapsulate the settings for the plot and graph respectively. These data structures are then passed to the graph via the `setConfiguration` and `addPlot` methods.
 
-# Proposed API - Configuration Files
+## Example Usage
 
-In addition to the `PlotConfiguration` and `GraphConfiguration` classes, an alternative method of using JSON configuration files to specify the appearance of the graph will be provided.
-
-# Example Usage
-
-## Creating a graph via Configuration File
-
-```ViewController.swift```
-
-```swift
-class ViewController: UIViewController, ScrollableGraphViewDataSource {
-    
-    // Class members and init...
-    
-    var linePlotData: [Double] = // data for line plot
-    var barPlotData: [Double] =  // data for bar plot
-    var xAxisLabels: [String] =  // the labels along the x axis
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let graph = ScrollableGraphView(frame: self.view.frame, dataSource: self)
-        graph.configuration = Bundle.main.path(forResource: "configuration", ofType: "json")
-
-        self.view.addSubview(graph)
-    }
-
-    // Other class methods...
-
-    // Implementation for ScrollableGraphViewDataSource
-    func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
-        switch(plot.name) {
-            case "linePlot":
-                return linePlotData[pointIndex]
-                break
-            case "barPlot":
-                return barPlotData[pointIndex]
-                break
-        }
-    }
-    
-    func label(forPlot plot: Plot, atIndex pointIndex: Int) -> String {
-        return xAxisLabels[pointIndex]
-    }
-    
-    func numberOfPoints(forPlot plot: Plot) -> Int {
-        switch(plot.name) {
-        case "linePlot":
-            return linePlotData.count
-            break
-        case "barPlot":
-            return barPlotData.count
-            break
-        }
-    }
-}
-```
-
-```configuration.json```
-
-```json
-// Example JSON configuration file.
-{
-    "graph":
-    {
-        "backgroundColor" : "#FFFFFF",
-        "shouldAnimateOnStartup" : true,
-        "animationDuration" : 2.0
-    },
-    
-    "reference":
-    {
-        "positionType" : "relative",
-        "relativePositions" : [0, 0.5, 0.8, 0.9, 1]
-    },
-    
-    "plots":
-    [
-        {
-            "id" : "lineplot",
-            "type" : "line",
-            "lineWidth" : 5,
-            "lineColor" : "#000000",
-        },
-    
-        {
-            "id" : "barplot",
-            "type" : "bar",
-            "barWidth" : 20,
-            "barFillColor" : "#000000",
-            "barOutlineColor" : "#333333"
-        }
-    ]
-}
-```
-
-## Creating a Graph and Configuring it Programmatically
+### Creating a Graph and Configuring it Programmatically
 
 ```ViewController.swift```
 
@@ -245,12 +134,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         // Graph Configuration
         // ###################
 
-        let graphConfig = GraphConfiguration()
-        graphConfig.backgroundColor = UIColor.white
-        graphConfig.shouldAnimateOnStartup = true
-        graphConfig.animationDuration = 2.0
-        
-        graph.setConfiguration(graphConfig)
+        graph.backgroundColor = UIColor.white
+        graph.shouldAnimateOnStartup = true
         
         // Reference Lines
         // ###############
@@ -264,17 +149,17 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         // Adding Plots
         // ############
         
-        let lineConfig = PlotConfiguration()
-        lineConfig.lineWidth = 5
-        lineConfig.color = UIColor.black
+        let linePlot = LinePlot(identifier: "linePlot")
+        linePlot.lineWidth = 5
+        linePlot.color = UIColor.black
         
-        let barConfig = PlotConfiguration()
-        barConfig.barWidth = 20
-        barConfig.barFillColor = UIColor.black
-        barConfig.barOutlineColor = UIColor.gray
+        let barPlot = BarPlot(identifier: "barPlot")
+        barPlot.barWidth = 20
+        barPlot.barFillColor = UIColor.black
+        barPlot.barOutlineColor = UIColor.gray
         
-        graph.addPlot(PlotType.line, "lineplot", lineConfig?)
-        graph.addPlot(PlotType.bar, "barplot", barConfig?)
+        graph.addPlot(linePlot)
+        graph.addPlot(barPlot)
 
         self.view.addSubview(graph)
     }
@@ -297,15 +182,8 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return xAxisLabels[pointIndex]
     }
     
-    func numberOfPoints(forPlot plot: Plot) -> Int {
-        switch(plot.name) {
-        case "linePlot":
-            return linePlotData.count
-            break
-        case "barPlot":
-            return barPlotData.count
-            break
-        }
+    func numberOfPoints() -> Int {
+        return numberOfPointsInGraph
     }
 }
 ```
@@ -320,10 +198,4 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
 
 `Plot`
 
-`PlotType`
-
 `ReferenceLines`
-
-`PlotConfiguration`
-
-`GraphConfiguration`
