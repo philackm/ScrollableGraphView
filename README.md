@@ -43,7 +43,6 @@ If you find any bugs please create an issue on Github.
 - [Customisation](#customisation)
 - [Customisation Examples](#customisation-examples)
 - [Improvements](#improvements)
-- [Known Issues](#known-issues)
 - [Other](#other)
 
 ## Features
