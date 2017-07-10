@@ -28,6 +28,14 @@ The main goal of the this graph component is to visualise simple discrete datase
 
 All pull requests are welcome. There is a list of features people would like on the issues page, ranging from simple changes to quite complex. Feel free to jump on in.
 
+## Known Issues
+
+- Some aspects of the graph cannot be customised _after_ it has been added to the view hierarchy.
+- Reloading the graph with a different number of data items is currently not supported.
+- Performance in the simulator is not great.
+
+If you find any bugs please create an issue on Github.
+
 ## Contents
 
 - [Features](#features)
@@ -575,13 +583,6 @@ graphView.addPlot(plot: blueDotPlot)
 graphView.addPlot(plot: orangeLinePlot)
 graphView.addPlot(plot: orangeSquarePlot)
 ```
-
-## Known Issues
-
-- Reloading the graph with a different number of data items is currently not supported.
-- Performance in the simulator is not great.
-
-If you find any bugs please create an issue on Github.
 
 ## Other
 
