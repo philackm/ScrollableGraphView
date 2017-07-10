@@ -570,6 +570,9 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         blueLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 50)
         orangeLinePlotData = self.generateRandomData(self.numberOfDataItems, max: 40, shouldIncludeOutliers: false)
         
+        // update labels
+        xAxisLabels = self.generateSequentialLabels(self.numberOfDataItems, text: "MAR")
+        
         graphView.reload()
     }
     

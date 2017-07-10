@@ -458,6 +458,7 @@ import UIKit
         rangeDidChange()
         updateUI()
         updatePaths()
+        updateLabelsForCurrentInterval()
     }
     
     // The functions for adding plots and reference lines need to be able to add plots
@@ -479,18 +480,7 @@ import UIKit
         self.referenceLines = referenceLines
         addReferenceViewDrawingView()
         
-        // Have to ensure that the labels are added if we are supposed to be showing them.
-        if let ref = self.referenceLines {
-            if(ref.shouldShowLabels) {
-                
-                var activatedPoints: [Int] = []
-                for i in activePointsInterval {
-                    activatedPoints.append(i)
-                }
-                
-                updateLabels(deactivatedPoints: [], activatedPoints: activatedPoints)
-            }
-        }
+        updateLabelsForCurrentInterval()
     }
     
     private func initPlot(plot: Plot, activePointsInterval: CountableRange<Int>) {
@@ -834,6 +824,22 @@ import UIKit
             let _ = labelsView.subviews.filter { $0.frame == label.frame }.map { $0.removeFromSuperview() }
             
             labelsView.addSubview(label)
+        }
+    }
+    
+    private func updateLabelsForCurrentInterval() {
+        // Have to ensure that the labels are added if we are supposed to be showing them.
+        if let ref = self.referenceLines {
+            if(ref.shouldShowLabels) {
+                
+                var activatedPoints: [Int] = []
+                for i in activePointsInterval {
+                    activatedPoints.append(i)
+                }
+                
+                let filteredPoints = filterPointsForLabels(fromPoints: activatedPoints)
+                updateLabels(deactivatedPoints: filteredPoints, activatedPoints: filteredPoints)
+            }
         }
     }
     
