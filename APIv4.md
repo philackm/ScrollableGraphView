@@ -74,7 +74,7 @@ func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double
 Provides the y-axis value for a given x-axis index.
 
 ```swift
-func label(forPlot plot: Plot, atIndex pointIndex: Int) -> String
+func label(atIndex pointIndex: Int) -> String
 ```
 
 Provides the label that will appear on the x-axis below the point.
@@ -174,7 +174,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         }
     }
     
-    func label(forPlot plot: Plot, atIndex pointIndex: Int) -> String {
+    func label(atIndex pointIndex: Int) -> String {
         return xAxisLabels[pointIndex]
     }
     
