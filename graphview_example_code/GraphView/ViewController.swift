@@ -509,7 +509,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     
     // Button tap events
     
-    func didTap(_ gesture: UITapGestureRecognizer) {
+    @objc func didTap(_ gesture: UITapGestureRecognizer) {
         
         currentGraphType.next()
         
@@ -553,7 +553,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         setupConstraints()
     }
     
-    func reloadDidTap(_ gesture: UITapGestureRecognizer) {
+    @objc func reloadDidTap(_ gesture: UITapGestureRecognizer) {
         
         // TODO: Currently changing the number of data items is not supported.
         // It is only possible to change the the actual values of the data before reloading.
