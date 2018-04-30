@@ -96,7 +96,7 @@ import UIKit
     private var labelPool = LabelPool()
     
     // Data Source
-    open var dataSource: ScrollableGraphViewDataSource? {
+    weak open var dataSource: ScrollableGraphViewDataSource? {
         didSet {
             if(plots.count > 0) {
                 reload()
