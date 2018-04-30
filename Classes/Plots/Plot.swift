@@ -221,6 +221,12 @@ open class Plot {
         currentTimestamp = 0
     }
     
+    internal func invalidate() {
+        currentAnimations.removeAll()
+        graphPoints.removeAll()
+        displayLink?.invalidate()
+    }
+    
     internal func graphPoint(forIndex index: Int) -> GraphPoint {
         return graphPoints[index]
     }

@@ -138,6 +138,12 @@ import UIKit
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        for plot in plots {
+            plot.invalidate()
+        }
+    }
+    
     // You can change how you want the graph to appear in interface builder here.
     // This ONLY changes how it appears in interface builder, you will still need
     // to setup the graph properly in your view controller for it to change in the
