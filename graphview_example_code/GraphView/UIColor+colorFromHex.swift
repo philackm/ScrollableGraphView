@@ -15,7 +15,8 @@ extension UIColor {
             
             // Remove the leading "#"
             if(hexString[hexString.startIndex] == "#") {
-                cleanedHexString = String(hexString[hexString.characters.index(hexString.startIndex, offsetBy: 1)...])
+                let index = hexString.index(hexString.startIndex, offsetBy: 1)
+                cleanedHexString = String(hexString[index...])
             }
             
             // TODO: Other cleanup. Allow for a "short" hex string, i.e., "#fff"

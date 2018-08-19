@@ -266,7 +266,10 @@ internal class ReferenceLineDrawingView : UIView {
     }
     
     private func boundingSize(forText text: String) -> CGSize {
-        return (text as NSString).size(withAttributes: [NSAttributedStringKey.font:self.settings.referenceLineLabelFont])
+        //return CGSize.zero
+        //KBR:
+        return (text as NSString).size(withAttributes:
+            [NSAttributedStringKey.font:self.settings.referenceLineLabelFont])
     }
     
     private func calculateYAxisValue(for point: CGPoint) -> Double {
