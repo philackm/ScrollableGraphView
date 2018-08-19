@@ -15,7 +15,6 @@
 		E1FAD1C3212948E900FE8B13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B9212948E900FE8B13 /* Main.storyboard */; };
 		E1FAD1C4212948E900FE8B13 /* GraphType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BB212948E900FE8B13 /* GraphType.swift */; };
 		E1FAD1C5212948E900FE8B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */; };
-		E1FAD1C6212948E900FE8B13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1BD212948E900FE8B13 /* Info.plist */; };
 		E1FAD1DF2129496E00FE8B13 /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */; };
 		E1FAD1E02129496E00FE8B13 /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */; };
 		E1FAD1E12129496E00FE8B13 /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */; };
@@ -238,7 +237,6 @@
 				E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */,
 				E1FAD1C3212948E900FE8B13 /* Main.storyboard in Resources */,
 				E1FAD1C2212948E900FE8B13 /* LaunchScreen.storyboard in Resources */,
-				E1FAD1C6212948E900FE8B13 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
