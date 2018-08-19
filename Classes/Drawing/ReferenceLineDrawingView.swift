@@ -266,8 +266,6 @@ internal class ReferenceLineDrawingView : UIView {
     }
     
     private func boundingSize(forText text: String) -> CGSize {
-        //return CGSize.zero
-        //KBR:
         return (text as NSString).size(withAttributes:
             [NSAttributedStringKey.font:self.settings.referenceLineLabelFont])
     }
