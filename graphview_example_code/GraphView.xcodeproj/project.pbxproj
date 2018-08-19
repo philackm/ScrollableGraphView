@@ -7,63 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		291839A21C72E6A400753A45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291839A11C72E6A400753A45 /* AppDelegate.swift */; };
-		291839A41C72E6A400753A45 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 291839A31C72E6A400753A45 /* ViewController.swift */; };
-		291839A71C72E6A400753A45 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 291839A51C72E6A400753A45 /* Main.storyboard */; };
-		291839A91C72E6A400753A45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 291839A81C72E6A400753A45 /* Assets.xcassets */; };
-		291839AC1C72E6A400753A45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 291839AA1C72E6A400753A45 /* LaunchScreen.storyboard */; };
-		294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */; };
-		29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */; };
-		299482EB1F060CBE007BCDCA /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EA1F060CBE007BCDCA /* LinePlot.swift */; };
-		299482ED1F060CDC007BCDCA /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EC1F060CDC007BCDCA /* DotPlot.swift */; };
-		299482EF1F060CEA007BCDCA /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482EE1F060CEA007BCDCA /* BarPlot.swift */; };
-		299482F21F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */; };
-		299482F41F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */; };
-		299482F71F06931F007BCDCA /* GraphPointAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F61F06931F007BCDCA /* GraphPointAnimation.swift */; };
-		299482F91F069337007BCDCA /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299482F81F069337007BCDCA /* GraphPoint.swift */; };
-		29A2477C1F09ECE400F75511 /* LabelPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2477B1F09ECE400F75511 /* LabelPool.swift */; };
-		29A2477E1F09ED4E00F75511 /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A2477D1F09ED4E00F75511 /* ReferenceLines.swift */; };
-		29A5903C1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */; };
-		29A5903E1F05035F004D219C /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903D1F05035F004D219C /* BarDrawingLayer.swift */; };
-		29A590401F050378004D219C /* DotDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5903F1F050378004D219C /* DotDrawingLayer.swift */; };
-		29A590421F050397004D219C /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590411F050397004D219C /* GradientDrawingLayer.swift */; };
-		29A590441F0503AC004D219C /* FillDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590431F0503AC004D219C /* FillDrawingLayer.swift */; };
-		29A590461F0503BD004D219C /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */; };
-		29A590481F05049F004D219C /* LineDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A590471F05049F004D219C /* LineDrawingLayer.swift */; };
-		29A5904B1F0509C0004D219C /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5904A1F0509C0004D219C /* Plot.swift */; };
-		E1F1CE8E212938EF00C78BBF /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F1CE8D212938EF00C78BBF /* Examples.swift */; };
-		E1F1CE9021293ED800C78BBF /* GraphType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F1CE8F21293ED800C78BBF /* GraphType.swift */; };
+		E1FAD1BE212948E900FE8B13 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B3212948E900FE8B13 /* ViewController.swift */; };
+		E1FAD1BF212948E900FE8B13 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */; };
+		E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B5212948E900FE8B13 /* Assets.xcassets */; };
+		E1FAD1C1212948E900FE8B13 /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B6212948E900FE8B13 /* Examples.swift */; };
+		E1FAD1C2212948E900FE8B13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B7212948E900FE8B13 /* LaunchScreen.storyboard */; };
+		E1FAD1C3212948E900FE8B13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B9212948E900FE8B13 /* Main.storyboard */; };
+		E1FAD1C4212948E900FE8B13 /* GraphType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BB212948E900FE8B13 /* GraphType.swift */; };
+		E1FAD1C5212948E900FE8B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */; };
+		E1FAD1C6212948E900FE8B13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1BD212948E900FE8B13 /* Info.plist */; };
+		E1FAD1DF2129496E00FE8B13 /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */; };
+		E1FAD1E02129496E00FE8B13 /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */; };
+		E1FAD1E12129496E00FE8B13 /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */; };
+		E1FAD1E22129496E00FE8B13 /* DotDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */; };
+		E1FAD1E32129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */; };
+		E1FAD1E42129496E00FE8B13 /* LineDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */; };
+		E1FAD1E52129496E00FE8B13 /* FillDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */; };
+		E1FAD1E62129496E00FE8B13 /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */; };
+		E1FAD1E72129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */; };
+		E1FAD1E82129496E00FE8B13 /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */; };
+		E1FAD1E92129496E00FE8B13 /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */; };
+		E1FAD1EA2129496E00FE8B13 /* LabelPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D62129496E00FE8B13 /* LabelPool.swift */; };
+		E1FAD1EB2129496E00FE8B13 /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D82129496E00FE8B13 /* BarPlot.swift */; };
+		E1FAD1EC2129496E00FE8B13 /* GraphPointAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */; };
+		E1FAD1ED2129496E00FE8B13 /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */; };
+		E1FAD1EE2129496E00FE8B13 /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DC2129496E00FE8B13 /* Plot.swift */; };
+		E1FAD1EF2129496E00FE8B13 /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */; };
+		E1FAD1F02129496E00FE8B13 /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2918399E1C72E6A400753A45 /* GraphView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphView.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		291839A11C72E6A400753A45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		291839A31C72E6A400753A45 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = GraphView/ViewController.swift; sourceTree = "<group>"; };
-		291839A61C72E6A400753A45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		291839A81C72E6A400753A45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		291839AB1C72E6A400753A45 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		291839AD1C72E6A400753A45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphView.swift; path = ../../Classes/ScrollableGraphView.swift; sourceTree = "<group>"; };
-		29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+colorFromHex.swift"; path = "GraphView/UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
-		299482EA1F060CBE007BCDCA /* LinePlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinePlot.swift; path = ../../Classes/Plots/LinePlot.swift; sourceTree = "<group>"; };
-		299482EC1F060CDC007BCDCA /* DotPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DotPlot.swift; path = ../../Classes/Plots/DotPlot.swift; sourceTree = "<group>"; };
-		299482EE1F060CEA007BCDCA /* BarPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarPlot.swift; path = ../../Classes/Plots/BarPlot.swift; sourceTree = "<group>"; };
-		299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDataSource.swift; path = ../../Classes/Protocols/ScrollableGraphViewDataSource.swift; sourceTree = "<group>"; };
-		299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDrawingDelegate.swift; path = ../../Classes/Protocols/ScrollableGraphViewDrawingDelegate.swift; sourceTree = "<group>"; };
-		299482F61F06931F007BCDCA /* GraphPointAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphPointAnimation.swift; path = ../../Classes/Plots/Animation/GraphPointAnimation.swift; sourceTree = "<group>"; };
-		299482F81F069337007BCDCA /* GraphPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphPoint.swift; path = ../../Classes/Plots/Animation/GraphPoint.swift; sourceTree = "<group>"; };
-		29A2477B1F09ECE400F75511 /* LabelPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LabelPool.swift; path = ../../Classes/Reference/LabelPool.swift; sourceTree = "<group>"; };
-		29A2477D1F09ED4E00F75511 /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLines.swift; path = ../../Classes/Reference/ReferenceLines.swift; sourceTree = "<group>"; };
-		29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollableGraphViewDrawingLayer.swift; path = ../../Classes/Drawing/ScrollableGraphViewDrawingLayer.swift; sourceTree = "<group>"; };
-		29A5903D1F05035F004D219C /* BarDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarDrawingLayer.swift; path = ../../Classes/Drawing/BarDrawingLayer.swift; sourceTree = "<group>"; };
-		29A5903F1F050378004D219C /* DotDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DotDrawingLayer.swift; path = ../../Classes/Drawing/DotDrawingLayer.swift; sourceTree = "<group>"; };
-		29A590411F050397004D219C /* GradientDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradientDrawingLayer.swift; path = ../../Classes/Drawing/GradientDrawingLayer.swift; sourceTree = "<group>"; };
-		29A590431F0503AC004D219C /* FillDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillDrawingLayer.swift; path = ../../Classes/Drawing/FillDrawingLayer.swift; sourceTree = "<group>"; };
-		29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferenceLineDrawingView.swift; path = ../../Classes/Drawing/ReferenceLineDrawingView.swift; sourceTree = "<group>"; };
-		29A590471F05049F004D219C /* LineDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineDrawingLayer.swift; path = ../../Classes/Drawing/LineDrawingLayer.swift; sourceTree = "<group>"; };
-		29A5904A1F0509C0004D219C /* Plot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Plot.swift; path = ../../Classes/Plots/Plot.swift; sourceTree = "<group>"; };
-		E1F1CE8D212938EF00C78BBF /* Examples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
-		E1F1CE8F21293ED800C78BBF /* GraphType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphType.swift; sourceTree = "<group>"; };
+		E1FAD1B3212948E900FE8B13 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
+		E1FAD1B5212948E900FE8B13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1FAD1B6212948E900FE8B13 /* Examples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
+		E1FAD1B8212948E900FE8B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E1FAD1BA212948E900FE8B13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E1FAD1BB212948E900FE8B13 /* GraphType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphType.swift; sourceTree = "<group>"; };
+		E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1FAD1BD212948E900FE8B13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceLineDrawingView.swift; sourceTree = "<group>"; };
+		E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphView.swift; sourceTree = "<group>"; };
+		E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDrawingDelegate.swift; sourceTree = "<group>"; };
+		E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDataSource.swift; sourceTree = "<group>"; };
+		E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceLines.swift; sourceTree = "<group>"; };
+		E1FAD1D62129496E00FE8B13 /* LabelPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPool.swift; sourceTree = "<group>"; };
+		E1FAD1D82129496E00FE8B13 /* BarPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarPlot.swift; sourceTree = "<group>"; };
+		E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPointAnimation.swift; sourceTree = "<group>"; };
+		E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPoint.swift; sourceTree = "<group>"; };
+		E1FAD1DC2129496E00FE8B13 /* Plot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plot.swift; sourceTree = "<group>"; };
+		E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinePlot.swift; sourceTree = "<group>"; };
+		E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotPlot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +81,8 @@
 		291839951C72E6A400753A45 = {
 			isa = PBXGroup;
 			children = (
-				294A1ACC1CF80C970070FACD /* Example */,
-				291839A01C72E6A400753A45 /* Classes */,
-				29559B7C1C72E72B00E77931 /* Supporting Files */,
+				E1FAD1C72129496E00FE8B13 /* Classes */,
+				E1FAD1B2212948E900FE8B13 /* GraphView */,
 				2918399F1C72E6A400753A45 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,94 +95,86 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		291839A01C72E6A400753A45 /* Classes */ = {
+		E1FAD1B2212948E900FE8B13 /* GraphView */ = {
 			isa = PBXGroup;
 			children = (
-				294A1ACD1CF80CB30070FACD /* ScrollableGraphView.swift */,
-				29A2477A1F09ECC600F75511 /* Reference */,
-				299482F01F060F72007BCDCA /* Protocols */,
-				29A590491F0509AA004D219C /* Plots */,
-				29A590381F0500F5004D219C /* Drawing */,
+				E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */,
+				E1FAD1B5212948E900FE8B13 /* Assets.xcassets */,
+				E1FAD1B6212948E900FE8B13 /* Examples.swift */,
+				E1FAD1BB212948E900FE8B13 /* GraphType.swift */,
+				E1FAD1BD212948E900FE8B13 /* Info.plist */,
+				E1FAD1B7212948E900FE8B13 /* LaunchScreen.storyboard */,
+				E1FAD1B9212948E900FE8B13 /* Main.storyboard */,
+				E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */,
+				E1FAD1B3212948E900FE8B13 /* ViewController.swift */,
+			);
+			path = GraphView;
+			sourceTree = "<group>";
+		};
+		E1FAD1C72129496E00FE8B13 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1C82129496E00FE8B13 /* Drawing */,
+				E1FAD1D72129496E00FE8B13 /* Plots */,
+				E1FAD1D12129496E00FE8B13 /* Protocols */,
+				E1FAD1D42129496E00FE8B13 /* Reference */,
+				E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */,
 			);
 			name = Classes;
-			path = GraphView;
+			path = ../Classes;
 			sourceTree = "<group>";
 		};
-		294A1ACC1CF80C970070FACD /* Example */ = {
+		E1FAD1C82129496E00FE8B13 /* Drawing */ = {
 			isa = PBXGroup;
 			children = (
-				E1F1CE8D212938EF00C78BBF /* Examples.swift */,
-				E1F1CE8F21293ED800C78BBF /* GraphType.swift */,
-				29559B7F1C742D7800E77931 /* UIColor+colorFromHex.swift */,
-				291839A31C72E6A400753A45 /* ViewController.swift */,
+				E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */,
+				E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */,
+				E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */,
+				E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */,
+				E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */,
+				E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */,
+				E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */,
 			);
-			name = Example;
+			path = Drawing;
 			sourceTree = "<group>";
 		};
-		29559B7C1C72E72B00E77931 /* Supporting Files */ = {
+		E1FAD1D12129496E00FE8B13 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				291839A11C72E6A400753A45 /* AppDelegate.swift */,
-				291839A81C72E6A400753A45 /* Assets.xcassets */,
-				291839AD1C72E6A400753A45 /* Info.plist */,
-				291839AA1C72E6A400753A45 /* LaunchScreen.storyboard */,
-				291839A51C72E6A400753A45 /* Main.storyboard */,
+				E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */,
+				E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */,
 			);
-			name = "Supporting Files";
-			path = GraphView;
+			path = Protocols;
 			sourceTree = "<group>";
 		};
-		299482F01F060F72007BCDCA /* Protocols */ = {
+		E1FAD1D42129496E00FE8B13 /* Reference */ = {
 			isa = PBXGroup;
 			children = (
-				299482F11F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift */,
-				299482F31F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift */,
+				E1FAD1D62129496E00FE8B13 /* LabelPool.swift */,
+				E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */,
 			);
-			name = Protocols;
+			path = Reference;
 			sourceTree = "<group>";
 		};
-		299482F51F0692F2007BCDCA /* Animation */ = {
+		E1FAD1D72129496E00FE8B13 /* Plots */ = {
 			isa = PBXGroup;
 			children = (
-				299482F61F06931F007BCDCA /* GraphPointAnimation.swift */,
-				299482F81F069337007BCDCA /* GraphPoint.swift */,
+				E1FAD1D92129496E00FE8B13 /* Animation */,
+				E1FAD1D82129496E00FE8B13 /* BarPlot.swift */,
+				E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */,
+				E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */,
+				E1FAD1DC2129496E00FE8B13 /* Plot.swift */,
 			);
-			name = Animation;
+			path = Plots;
 			sourceTree = "<group>";
 		};
-		29A2477A1F09ECC600F75511 /* Reference */ = {
+		E1FAD1D92129496E00FE8B13 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
-				29A2477D1F09ED4E00F75511 /* ReferenceLines.swift */,
-				29A2477B1F09ECE400F75511 /* LabelPool.swift */,
+				E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */,
+				E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */,
 			);
-			name = Reference;
-			sourceTree = "<group>";
-		};
-		29A590381F0500F5004D219C /* Drawing */ = {
-			isa = PBXGroup;
-			children = (
-				29A5903B1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift */,
-				29A590471F05049F004D219C /* LineDrawingLayer.swift */,
-				29A5903F1F050378004D219C /* DotDrawingLayer.swift */,
-				29A5903D1F05035F004D219C /* BarDrawingLayer.swift */,
-				29A590411F050397004D219C /* GradientDrawingLayer.swift */,
-				29A590431F0503AC004D219C /* FillDrawingLayer.swift */,
-				29A590451F0503BD004D219C /* ReferenceLineDrawingView.swift */,
-			);
-			name = Drawing;
-			sourceTree = "<group>";
-		};
-		29A590491F0509AA004D219C /* Plots */ = {
-			isa = PBXGroup;
-			children = (
-				299482F51F0692F2007BCDCA /* Animation */,
-				29A5904A1F0509C0004D219C /* Plot.swift */,
-				299482EA1F060CBE007BCDCA /* LinePlot.swift */,
-				299482EC1F060CDC007BCDCA /* DotPlot.swift */,
-				299482EE1F060CEA007BCDCA /* BarPlot.swift */,
-			);
-			name = Plots;
+			path = Animation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,9 +235,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				291839AC1C72E6A400753A45 /* LaunchScreen.storyboard in Resources */,
-				291839A91C72E6A400753A45 /* Assets.xcassets in Resources */,
-				291839A71C72E6A400753A45 /* Main.storyboard in Resources */,
+				E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */,
+				E1FAD1C3212948E900FE8B13 /* Main.storyboard in Resources */,
+				E1FAD1C2212948E900FE8B13 /* LaunchScreen.storyboard in Resources */,
+				E1FAD1C6212948E900FE8B13 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,49 +249,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29A5904B1F0509C0004D219C /* Plot.swift in Sources */,
-				29A590461F0503BD004D219C /* ReferenceLineDrawingView.swift in Sources */,
-				29A590421F050397004D219C /* GradientDrawingLayer.swift in Sources */,
-				29A590481F05049F004D219C /* LineDrawingLayer.swift in Sources */,
-				294A1ACE1CF80CB30070FACD /* ScrollableGraphView.swift in Sources */,
-				29A5903E1F05035F004D219C /* BarDrawingLayer.swift in Sources */,
-				29A5903C1F05030F004D219C /* ScrollableGraphViewDrawingLayer.swift in Sources */,
-				29A590401F050378004D219C /* DotDrawingLayer.swift in Sources */,
-				29A590441F0503AC004D219C /* FillDrawingLayer.swift in Sources */,
-				29A2477E1F09ED4E00F75511 /* ReferenceLines.swift in Sources */,
-				299482F71F06931F007BCDCA /* GraphPointAnimation.swift in Sources */,
-				299482EB1F060CBE007BCDCA /* LinePlot.swift in Sources */,
-				299482F91F069337007BCDCA /* GraphPoint.swift in Sources */,
-				299482EF1F060CEA007BCDCA /* BarPlot.swift in Sources */,
-				299482F41F060FE0007BCDCA /* ScrollableGraphViewDrawingDelegate.swift in Sources */,
-				299482F21F060FB5007BCDCA /* ScrollableGraphViewDataSource.swift in Sources */,
-				29A2477C1F09ECE400F75511 /* LabelPool.swift in Sources */,
-				291839A41C72E6A400753A45 /* ViewController.swift in Sources */,
-				E1F1CE8E212938EF00C78BBF /* Examples.swift in Sources */,
-				29559B801C742D7800E77931 /* UIColor+colorFromHex.swift in Sources */,
-				E1F1CE9021293ED800C78BBF /* GraphType.swift in Sources */,
-				299482ED1F060CDC007BCDCA /* DotPlot.swift in Sources */,
-				291839A21C72E6A400753A45 /* AppDelegate.swift in Sources */,
+				E1FAD1E72129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift in Sources */,
+				E1FAD1E22129496E00FE8B13 /* DotDrawingLayer.swift in Sources */,
+				E1FAD1F02129496E00FE8B13 /* DotPlot.swift in Sources */,
+				E1FAD1E52129496E00FE8B13 /* FillDrawingLayer.swift in Sources */,
+				E1FAD1E62129496E00FE8B13 /* ScrollableGraphView.swift in Sources */,
+				E1FAD1C5212948E900FE8B13 /* AppDelegate.swift in Sources */,
+				E1FAD1E02129496E00FE8B13 /* BarDrawingLayer.swift in Sources */,
+				E1FAD1E32129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift in Sources */,
+				E1FAD1BE212948E900FE8B13 /* ViewController.swift in Sources */,
+				E1FAD1EB2129496E00FE8B13 /* BarPlot.swift in Sources */,
+				E1FAD1EC2129496E00FE8B13 /* GraphPointAnimation.swift in Sources */,
+				E1FAD1EE2129496E00FE8B13 /* Plot.swift in Sources */,
+				E1FAD1C1212948E900FE8B13 /* Examples.swift in Sources */,
+				E1FAD1EF2129496E00FE8B13 /* LinePlot.swift in Sources */,
+				E1FAD1ED2129496E00FE8B13 /* GraphPoint.swift in Sources */,
+				E1FAD1E92129496E00FE8B13 /* ReferenceLines.swift in Sources */,
+				E1FAD1E42129496E00FE8B13 /* LineDrawingLayer.swift in Sources */,
+				E1FAD1EA2129496E00FE8B13 /* LabelPool.swift in Sources */,
+				E1FAD1E12129496E00FE8B13 /* GradientDrawingLayer.swift in Sources */,
+				E1FAD1E82129496E00FE8B13 /* ScrollableGraphViewDataSource.swift in Sources */,
+				E1FAD1C4212948E900FE8B13 /* GraphType.swift in Sources */,
+				E1FAD1BF212948E900FE8B13 /* UIColor+colorFromHex.swift in Sources */,
+				E1FAD1DF2129496E00FE8B13 /* ReferenceLineDrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		291839A51C72E6A400753A45 /* Main.storyboard */ = {
+		E1FAD1B7212948E900FE8B13 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				291839A61C72E6A400753A45 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		291839AA1C72E6A400753A45 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				291839AB1C72E6A400753A45 /* Base */,
+				E1FAD1B8212948E900FE8B13 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E1FAD1B9212948E900FE8B13 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E1FAD1BA212948E900FE8B13 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
