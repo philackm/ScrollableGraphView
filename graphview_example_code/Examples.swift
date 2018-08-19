@@ -399,6 +399,55 @@ class Examples : ScrollableGraphViewDataSource {
         return graphView
     }
     
+    //
+    func createBlueOrangeGraph(_ frame: CGRect) -> ScrollableGraphView {
+        let graphView = ScrollableGraphView(frame: frame, dataSource: self)
+        // Setup the first line plot.
+        let blueLinePlot = LinePlot(identifier: "multiBlue")
+        
+        blueLinePlot.lineWidth = 5
+        blueLinePlot.lineColor = UIColor.colorFromHex(hexString: "#16aafc")
+        blueLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        
+        blueLinePlot.shouldFill = false
+        blueLinePlot.fillType = ScrollableGraphViewFillType.solid
+        blueLinePlot.fillColor = UIColor.colorFromHex(hexString: "#16aafc").withAlphaComponent(0.5)
+        
+        blueLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        
+        // Setup the second line plot.
+        let orangeLinePlot = LinePlot(identifier: "multiOrange")
+        
+        orangeLinePlot.lineWidth = 5
+        orangeLinePlot.lineColor = UIColor.colorFromHex(hexString: "#ff7d78")
+        orangeLinePlot.lineStyle = ScrollableGraphViewLineStyle.smooth
+        
+        orangeLinePlot.shouldFill = false
+        orangeLinePlot.fillType = ScrollableGraphViewFillType.solid
+        orangeLinePlot.fillColor = UIColor.colorFromHex(hexString: "#ff7d78").withAlphaComponent(0.5)
+        
+        orangeLinePlot.adaptAnimationType = ScrollableGraphViewAnimationType.elastic
+        
+        // Customise the reference lines.
+        let referenceLines = ReferenceLines()
+        
+        referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
+        referenceLines.referenceLineColor = UIColor.black.withAlphaComponent(0.2)
+        referenceLines.referenceLineLabelColor = UIColor.black
+        
+        referenceLines.dataPointLabelColor = UIColor.black.withAlphaComponent(1)
+        
+        // All other graph customisation is done in Interface Builder,
+        // e.g, the background colour would be set in interface builder rather than in code.
+        // graphView.backgroundFillColor = UIColor.colorFromHex(hexString: "#333333")
+        
+        // Add everything to the graph.
+        graphView.addReferenceLines(referenceLines: referenceLines)
+        graphView.addPlot(plot: blueLinePlot)
+        graphView.addPlot(plot: orangeLinePlot)
+        return graphView
+    }
+    
     // MARK: Data Generation
     
     func reload() {

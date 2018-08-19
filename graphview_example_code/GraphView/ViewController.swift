@@ -6,7 +6,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    // MARK: Properties
+    
     var examples: Examples!
     var graphView: ScrollableGraphView!
     var currentGraphType = GraphType.multiOne
@@ -15,8 +16,11 @@ class ViewController: UIViewController {
     var label = UILabel()
     var reloadLabel = UILabel()
     
-    // Init
-    // ####
+    override var prefersStatusBarHidden : Bool {
+        return true
+    }
+    
+    // MARK: Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,15 +29,14 @@ class ViewController: UIViewController {
         graphView = examples.createMultiPlotGraphOne(self.view.frame)
         
         addReloadLabel(withText: "RELOAD")
-        addLabel(withText: "MULTI 1 (TAP HERE)")
+        addLabel(withText: "MULTI 1")
         
         self.view.insertSubview(graphView, belowSubview: reloadLabel)
         
         setupConstraints()
     }
     
-    // Constraints and Helper Functions
-    // ################################
+    // MARK: Constraints
     
     private func setupConstraints() {
         
@@ -118,7 +121,7 @@ class ViewController: UIViewController {
         return label
     }
     
-    // Button tap events
+    // MARK: Button Taps
     
     @objc func didTap(_ gesture: UITapGestureRecognizer) {
         
@@ -157,6 +160,10 @@ class ViewController: UIViewController {
             graphView = examples.createPinkGraph(self.view.frame)
             addReloadLabel(withText: "RELOAD")
             addLabel(withText: "PINK")
+        case .blueOrange:
+            graphView = examples.createBlueOrangeGraph(self.view.frame)
+            addReloadLabel(withText: "RELOAD")
+            addLabel(withText: "BLUE ORANGE")
         }
         
         self.view.insertSubview(graphView, belowSubview: reloadLabel)
@@ -167,10 +174,6 @@ class ViewController: UIViewController {
     @objc func reloadDidTap(_ gesture: UITapGestureRecognizer) {
         examples.reload()
         graphView.reload()
-    }
-    
-    override var prefersStatusBarHidden : Bool {
-        return true
     }
 }
 

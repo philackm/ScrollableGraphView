@@ -14,6 +14,7 @@ enum GraphType {
     case bar
     case dot
     case pink
+    case blueOrange
     
     mutating func next() {
         switch(self) {
@@ -30,6 +31,8 @@ enum GraphType {
         case .dot:
             self = GraphType.pink
         case .pink:
+            self = GraphType.blueOrange
+        case .blueOrange:
             self = GraphType.simple
         }
     }
