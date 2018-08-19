@@ -20,7 +20,6 @@
 		E108478E2129DC60009A9586 /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D82129496E00FE8B13 /* BarPlot.swift */; };
 		E108478F2129DC60009A9586 /* GraphPointAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */; };
 		E10847902129DC60009A9586 /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DC2129496E00FE8B13 /* Plot.swift */; };
-		E10847912129DC60009A9586 /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B6212948E900FE8B13 /* Examples.swift */; };
 		E10847922129DC60009A9586 /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */; };
 		E10847932129DC60009A9586 /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */; };
 		E10847942129DC60009A9586 /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */; };
@@ -28,14 +27,15 @@
 		E10847962129DC60009A9586 /* LabelPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D62129496E00FE8B13 /* LabelPool.swift */; };
 		E10847972129DC60009A9586 /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */; };
 		E10847982129DC60009A9586 /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */; };
-		E10847992129DC60009A9586 /* GraphType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BB212948E900FE8B13 /* GraphType.swift */; };
 		E108479A2129DC60009A9586 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */; };
 		E108479B2129DC60009A9586 /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */; };
-		E108479F2129DC60009A9586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B5212948E900FE8B13 /* Assets.xcassets */; };
-		E10847A02129DC60009A9586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */; };
+		E10AC0DD2129FA1400674497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */; };
+		E10AC0DE2129FA1400674497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E10AC0DC2129FA1400674497 /* Assets.xcassets */; };
 		E11233A32129DD75002C1CC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11233A12129DD75002C1CC7 /* ViewController.swift */; };
 		E11233A42129DD75002C1CC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E11233A22129DD75002C1CC7 /* Main.storyboard */; };
 		E168658C2129EBAD00041C08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E168658B2129EBAD00041C08 /* ViewController.swift */; };
+		E18924552129FA98008BF238 /* LaunchImageCode.png in Resources */ = {isa = PBXBuildFile; fileRef = E18924542129FA98008BF238 /* LaunchImageCode.png */; };
+		E18924572129FAA7008BF238 /* LaunchImageIB.png in Resources */ = {isa = PBXBuildFile; fileRef = E18924562129FAA7008BF238 /* LaunchImageIB.png */; };
 		E1FAD1BF212948E900FE8B13 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */; };
 		E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B5212948E900FE8B13 /* Assets.xcassets */; };
 		E1FAD1C1212948E900FE8B13 /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B6212948E900FE8B13 /* Examples.swift */; };
@@ -66,9 +66,13 @@
 		E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E10847812129DAB5009A9586 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E10847A42129DC60009A9586 /* GraphViewIB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphViewIB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E10AC0DC2129FA1400674497 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E11233A12129DD75002C1CC7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E11233A22129DD75002C1CC7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E168658B2129EBAD00041C08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E18924542129FA98008BF238 /* LaunchImageCode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImageCode.png; sourceTree = "<group>"; };
+		E18924562129FAA7008BF238 /* LaunchImageIB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImageIB.png; sourceTree = "<group>"; };
 		E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
 		E1FAD1B5212948E900FE8B13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1FAD1B6212948E900FE8B13 /* Examples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
@@ -136,6 +140,9 @@
 		E11233A02129DD75002C1CC7 /* GraphViewIB */ = {
 			isa = PBXGroup;
 			children = (
+				E10AC0DC2129FA1400674497 /* Assets.xcassets */,
+				E18924562129FAA7008BF238 /* LaunchImageIB.png */,
+				E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */,
 				E11233A22129DD75002C1CC7 /* Main.storyboard */,
 				E11233A12129DD75002C1CC7 /* ViewController.swift */,
 			);
@@ -146,11 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */,
-				E1FAD1B5212948E900FE8B13 /* Assets.xcassets */,
-				E1FAD1B6212948E900FE8B13 /* Examples.swift */,
-				E1FAD1BB212948E900FE8B13 /* GraphType.swift */,
 				E1FAD1BD212948E900FE8B13 /* Info.plist */,
-				E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */,
 				E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */,
 			);
 			path = GraphView;
@@ -159,6 +162,11 @@
 		E1FAD1B2212948E900FE8B13 /* GraphViewCode */ = {
 			isa = PBXGroup;
 			children = (
+				E1FAD1B5212948E900FE8B13 /* Assets.xcassets */,
+				E1FAD1B6212948E900FE8B13 /* Examples.swift */,
+				E1FAD1BB212948E900FE8B13 /* GraphType.swift */,
+				E18924542129FA98008BF238 /* LaunchImageCode.png */,
+				E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */,
 				E10847812129DAB5009A9586 /* Main.storyboard */,
 				E168658B2129EBAD00041C08 /* ViewController.swift */,
 			);
@@ -307,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E18924552129FA98008BF238 /* LaunchImageCode.png in Resources */,
 				E10847822129DAB5009A9586 /* Main.storyboard in Resources */,
 				E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */,
 				E10847802129DAAA009A9586 /* LaunchScreen.storyboard in Resources */,
@@ -317,9 +326,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E18924572129FAA7008BF238 /* LaunchImageIB.png in Resources */,
 				E11233A42129DD75002C1CC7 /* Main.storyboard in Resources */,
-				E108479F2129DC60009A9586 /* Assets.xcassets in Resources */,
-				E10847A02129DC60009A9586 /* LaunchScreen.storyboard in Resources */,
+				E10AC0DE2129FA1400674497 /* Assets.xcassets in Resources */,
+				E10AC0DD2129FA1400674497 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +382,6 @@
 				E108478E2129DC60009A9586 /* BarPlot.swift in Sources */,
 				E108478F2129DC60009A9586 /* GraphPointAnimation.swift in Sources */,
 				E10847902129DC60009A9586 /* Plot.swift in Sources */,
-				E10847912129DC60009A9586 /* Examples.swift in Sources */,
 				E10847922129DC60009A9586 /* LinePlot.swift in Sources */,
 				E10847932129DC60009A9586 /* GraphPoint.swift in Sources */,
 				E10847942129DC60009A9586 /* ReferenceLines.swift in Sources */,
@@ -380,7 +389,6 @@
 				E10847962129DC60009A9586 /* LabelPool.swift in Sources */,
 				E10847972129DC60009A9586 /* GradientDrawingLayer.swift in Sources */,
 				E10847982129DC60009A9586 /* ScrollableGraphViewDataSource.swift in Sources */,
-				E10847992129DC60009A9586 /* GraphType.swift in Sources */,
 				E108479A2129DC60009A9586 /* UIColor+colorFromHex.swift in Sources */,
 				E108479B2129DC60009A9586 /* ReferenceLineDrawingView.swift in Sources */,
 			);

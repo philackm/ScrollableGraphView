@@ -11,7 +11,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     @IBOutlet var graphView: ScrollableGraphView!
     @IBOutlet var reloadButton: UIButton!
     
-    var numberOfItems = 30
+    var numberOfItems = 29
     lazy var plotOneData: [Double] = self.generateRandomData(self.numberOfItems, max: 100, shouldIncludeOutliers: true)
     lazy var plotTwoData: [Double] = self.generateRandomData(self.numberOfItems, max: 80, shouldIncludeOutliers: false)
     override var prefersStatusBarHidden : Bool {
@@ -48,7 +48,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
     }
     
     func label(atIndex pointIndex: Int) -> String {
-        return "FEB \(pointIndex)"
+        return "FEB \(pointIndex+1)"
     }
     
     func numberOfPoints() -> Int {
