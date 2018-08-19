@@ -1,18 +1,24 @@
 //
 //  ViewController.swift
-//  graphview_example_ib
+//  GraphViewIB
 //
 
 import UIKit
 
 class ViewController: UIViewController, ScrollableGraphViewDataSource {
+    // MARK: Properties
     
     @IBOutlet var graphView: ScrollableGraphView!
+    @IBOutlet var reloadButton: UIButton!
     
     var numberOfItems = 30
     lazy var plotOneData: [Double] = self.generateRandomData(self.numberOfItems, max: 100, shouldIncludeOutliers: true)
     lazy var plotTwoData: [Double] = self.generateRandomData(self.numberOfItems, max: 80, shouldIncludeOutliers: false)
+    override var prefersStatusBarHidden : Bool {
+        return true
+    }
     
+    // MARK: Init    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -20,8 +26,15 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         setupGraph(graphView: graphView)
     }
     
-    // ScrollableGraphViewDataSource
-    // #############################
+    // MARK: Button Clicks
+    
+    @IBAction func reloadDidClick(_ sender: Any) {
+        plotOneData = self.generateRandomData(self.numberOfItems, max: 100, shouldIncludeOutliers: true)
+        plotTwoData = self.generateRandomData(self.numberOfItems, max: 80, shouldIncludeOutliers: false)
+        graphView.reload()
+    }
+
+    // MARK: ScrollableGraphViewDataSource
     
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         switch(plot.identifier) {
@@ -42,8 +55,7 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
         return numberOfItems
     }
     
-    // Helper Functions
-    // ################
+    // MARK: Helper Functions
     
     // When using Interface Builder, only add the plots and reference lines in code.
     func setupGraph(graphView: ScrollableGraphView) {
@@ -107,9 +119,5 @@ class ViewController: UIViewController, ScrollableGraphViewDataSource {
             data.append(randomNumber)
         }
         return data
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
 }
