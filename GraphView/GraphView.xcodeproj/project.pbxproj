@@ -1,0 +1,603 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E10847802129DAAA009A9586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */; };
+		E10847822129DAB5009A9586 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10847812129DAB5009A9586 /* Main.storyboard */; };
+		E10847852129DC60009A9586 /* ScrollableGraphViewDrawingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */; };
+		E10847862129DC60009A9586 /* DotDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */; };
+		E10847872129DC60009A9586 /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */; };
+		E10847882129DC60009A9586 /* FillDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */; };
+		E10847892129DC60009A9586 /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */; };
+		E108478A2129DC60009A9586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */; };
+		E108478B2129DC60009A9586 /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */; };
+		E108478C2129DC60009A9586 /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */; };
+		E108478E2129DC60009A9586 /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D82129496E00FE8B13 /* BarPlot.swift */; };
+		E108478F2129DC60009A9586 /* GraphPointAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */; };
+		E10847902129DC60009A9586 /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DC2129496E00FE8B13 /* Plot.swift */; };
+		E10847922129DC60009A9586 /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */; };
+		E10847932129DC60009A9586 /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */; };
+		E10847942129DC60009A9586 /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */; };
+		E10847952129DC60009A9586 /* LineDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */; };
+		E10847962129DC60009A9586 /* LabelPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D62129496E00FE8B13 /* LabelPool.swift */; };
+		E10847972129DC60009A9586 /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */; };
+		E10847982129DC60009A9586 /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */; };
+		E108479A2129DC60009A9586 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */; };
+		E108479B2129DC60009A9586 /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */; };
+		E10AC0DD2129FA1400674497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */; };
+		E10AC0DE2129FA1400674497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E10AC0DC2129FA1400674497 /* Assets.xcassets */; };
+		E11233A32129DD75002C1CC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11233A12129DD75002C1CC7 /* ViewController.swift */; };
+		E11233A42129DD75002C1CC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E11233A22129DD75002C1CC7 /* Main.storyboard */; };
+		E168658C2129EBAD00041C08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E168658B2129EBAD00041C08 /* ViewController.swift */; };
+		E18924552129FA98008BF238 /* LaunchImageCode.png in Resources */ = {isa = PBXBuildFile; fileRef = E18924542129FA98008BF238 /* LaunchImageCode.png */; };
+		E18924572129FAA7008BF238 /* LaunchImageIB.png in Resources */ = {isa = PBXBuildFile; fileRef = E18924562129FAA7008BF238 /* LaunchImageIB.png */; };
+		E1FAD1BF212948E900FE8B13 /* UIColor+colorFromHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */; };
+		E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1FAD1B5212948E900FE8B13 /* Assets.xcassets */; };
+		E1FAD1C1212948E900FE8B13 /* Examples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1B6212948E900FE8B13 /* Examples.swift */; };
+		E1FAD1C4212948E900FE8B13 /* GraphType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BB212948E900FE8B13 /* GraphType.swift */; };
+		E1FAD1C5212948E900FE8B13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */; };
+		E1FAD1DF2129496E00FE8B13 /* ReferenceLineDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */; };
+		E1FAD1E02129496E00FE8B13 /* BarDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */; };
+		E1FAD1E12129496E00FE8B13 /* GradientDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */; };
+		E1FAD1E22129496E00FE8B13 /* DotDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */; };
+		E1FAD1E32129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */; };
+		E1FAD1E42129496E00FE8B13 /* LineDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */; };
+		E1FAD1E52129496E00FE8B13 /* FillDrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */; };
+		E1FAD1E62129496E00FE8B13 /* ScrollableGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */; };
+		E1FAD1E72129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */; };
+		E1FAD1E82129496E00FE8B13 /* ScrollableGraphViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */; };
+		E1FAD1E92129496E00FE8B13 /* ReferenceLines.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */; };
+		E1FAD1EA2129496E00FE8B13 /* LabelPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D62129496E00FE8B13 /* LabelPool.swift */; };
+		E1FAD1EB2129496E00FE8B13 /* BarPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1D82129496E00FE8B13 /* BarPlot.swift */; };
+		E1FAD1EC2129496E00FE8B13 /* GraphPointAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */; };
+		E1FAD1ED2129496E00FE8B13 /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */; };
+		E1FAD1EE2129496E00FE8B13 /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DC2129496E00FE8B13 /* Plot.swift */; };
+		E1FAD1EF2129496E00FE8B13 /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */; };
+		E1FAD1F02129496E00FE8B13 /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2918399E1C72E6A400753A45 /* GraphViewCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphViewCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E10847812129DAB5009A9586 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E10847A42129DC60009A9586 /* GraphViewIB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphViewIB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E10AC0DC2129FA1400674497 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E11233A12129DD75002C1CC7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E11233A22129DD75002C1CC7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E168658B2129EBAD00041C08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E18924542129FA98008BF238 /* LaunchImageCode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImageCode.png; sourceTree = "<group>"; };
+		E18924562129FAA7008BF238 /* LaunchImageIB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchImageIB.png; sourceTree = "<group>"; };
+		E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+colorFromHex.swift"; sourceTree = "<group>"; };
+		E1FAD1B5212948E900FE8B13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1FAD1B6212948E900FE8B13 /* Examples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Examples.swift; sourceTree = "<group>"; };
+		E1FAD1BB212948E900FE8B13 /* GraphType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphType.swift; sourceTree = "<group>"; };
+		E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1FAD1BD212948E900FE8B13 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceLineDrawingView.swift; sourceTree = "<group>"; };
+		E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FillDrawingLayer.swift; sourceTree = "<group>"; };
+		E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphView.swift; sourceTree = "<group>"; };
+		E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDrawingDelegate.swift; sourceTree = "<group>"; };
+		E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViewDataSource.swift; sourceTree = "<group>"; };
+		E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceLines.swift; sourceTree = "<group>"; };
+		E1FAD1D62129496E00FE8B13 /* LabelPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPool.swift; sourceTree = "<group>"; };
+		E1FAD1D82129496E00FE8B13 /* BarPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarPlot.swift; sourceTree = "<group>"; };
+		E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPointAnimation.swift; sourceTree = "<group>"; };
+		E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPoint.swift; sourceTree = "<group>"; };
+		E1FAD1DC2129496E00FE8B13 /* Plot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plot.swift; sourceTree = "<group>"; };
+		E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinePlot.swift; sourceTree = "<group>"; };
+		E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotPlot.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2918399B1C72E6A400753A45 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E108479C2129DC60009A9586 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		291839951C72E6A400753A45 = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1C72129496E00FE8B13 /* Classes */,
+				E1A077E72129D948009C2537 /* GraphView */,
+				E1FAD1B2212948E900FE8B13 /* GraphViewCode */,
+				E11233A02129DD75002C1CC7 /* GraphViewIB */,
+				2918399F1C72E6A400753A45 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2918399F1C72E6A400753A45 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2918399E1C72E6A400753A45 /* GraphViewCode.app */,
+				E10847A42129DC60009A9586 /* GraphViewIB.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E11233A02129DD75002C1CC7 /* GraphViewIB */ = {
+			isa = PBXGroup;
+			children = (
+				E10AC0DC2129FA1400674497 /* Assets.xcassets */,
+				E18924562129FAA7008BF238 /* LaunchImageIB.png */,
+				E10AC0DB2129FA1400674497 /* LaunchScreen.storyboard */,
+				E11233A22129DD75002C1CC7 /* Main.storyboard */,
+				E11233A12129DD75002C1CC7 /* ViewController.swift */,
+			);
+			path = GraphViewIB;
+			sourceTree = "<group>";
+		};
+		E1A077E72129D948009C2537 /* GraphView */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1BC212948E900FE8B13 /* AppDelegate.swift */,
+				E1FAD1BD212948E900FE8B13 /* Info.plist */,
+				E1FAD1B4212948E900FE8B13 /* UIColor+colorFromHex.swift */,
+			);
+			path = GraphView;
+			sourceTree = "<group>";
+		};
+		E1FAD1B2212948E900FE8B13 /* GraphViewCode */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1B5212948E900FE8B13 /* Assets.xcassets */,
+				E1FAD1B6212948E900FE8B13 /* Examples.swift */,
+				E1FAD1BB212948E900FE8B13 /* GraphType.swift */,
+				E18924542129FA98008BF238 /* LaunchImageCode.png */,
+				E108477F2129DAAA009A9586 /* LaunchScreen.storyboard */,
+				E10847812129DAB5009A9586 /* Main.storyboard */,
+				E168658B2129EBAD00041C08 /* ViewController.swift */,
+			);
+			path = GraphViewCode;
+			sourceTree = "<group>";
+		};
+		E1FAD1C72129496E00FE8B13 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1C82129496E00FE8B13 /* Drawing */,
+				E1FAD1D72129496E00FE8B13 /* Plots */,
+				E1FAD1D12129496E00FE8B13 /* Protocols */,
+				E1FAD1D42129496E00FE8B13 /* Reference */,
+				E1FAD1D02129496E00FE8B13 /* ScrollableGraphView.swift */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		E1FAD1C82129496E00FE8B13 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1CA2129496E00FE8B13 /* BarDrawingLayer.swift */,
+				E1FAD1CC2129496E00FE8B13 /* DotDrawingLayer.swift */,
+				E1FAD1CF2129496E00FE8B13 /* FillDrawingLayer.swift */,
+				E1FAD1CB2129496E00FE8B13 /* GradientDrawingLayer.swift */,
+				E1FAD1CE2129496E00FE8B13 /* LineDrawingLayer.swift */,
+				E1FAD1C92129496E00FE8B13 /* ReferenceLineDrawingView.swift */,
+				E1FAD1CD2129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
+		E1FAD1D12129496E00FE8B13 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1D32129496E00FE8B13 /* ScrollableGraphViewDataSource.swift */,
+				E1FAD1D22129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E1FAD1D42129496E00FE8B13 /* Reference */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1D62129496E00FE8B13 /* LabelPool.swift */,
+				E1FAD1D52129496E00FE8B13 /* ReferenceLines.swift */,
+			);
+			path = Reference;
+			sourceTree = "<group>";
+		};
+		E1FAD1D72129496E00FE8B13 /* Plots */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1D92129496E00FE8B13 /* Animation */,
+				E1FAD1D82129496E00FE8B13 /* BarPlot.swift */,
+				E1FAD1DE2129496E00FE8B13 /* DotPlot.swift */,
+				E1FAD1DD2129496E00FE8B13 /* LinePlot.swift */,
+				E1FAD1DC2129496E00FE8B13 /* Plot.swift */,
+			);
+			path = Plots;
+			sourceTree = "<group>";
+		};
+		E1FAD1D92129496E00FE8B13 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				E1FAD1DB2129496E00FE8B13 /* GraphPoint.swift */,
+				E1FAD1DA2129496E00FE8B13 /* GraphPointAnimation.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2918399D1C72E6A400753A45 /* GraphViewCode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 291839B01C72E6A400753A45 /* Build configuration list for PBXNativeTarget "GraphViewCode" */;
+			buildPhases = (
+				2918399A1C72E6A400753A45 /* Sources */,
+				2918399B1C72E6A400753A45 /* Frameworks */,
+				2918399C1C72E6A400753A45 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GraphViewCode;
+			productName = GraphViewCode;
+			productReference = 2918399E1C72E6A400753A45 /* GraphViewCode.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E10847832129DC60009A9586 /* GraphViewIB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E10847A12129DC60009A9586 /* Build configuration list for PBXNativeTarget "GraphViewIB" */;
+			buildPhases = (
+				E10847842129DC60009A9586 /* Sources */,
+				E108479C2129DC60009A9586 /* Frameworks */,
+				E108479D2129DC60009A9586 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GraphViewIB;
+			productName = GraphViewCode;
+			productReference = E10847A42129DC60009A9586 /* GraphViewIB.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		291839961C72E6A400753A45 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0940;
+				TargetAttributes = {
+					2918399D1C72E6A400753A45 = {
+						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
+					};
+				};
+			};
+			buildConfigurationList = 291839991C72E6A400753A45 /* Build configuration list for PBXProject "GraphView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 291839951C72E6A400753A45;
+			productRefGroup = 2918399F1C72E6A400753A45 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2918399D1C72E6A400753A45 /* GraphViewCode */,
+				E10847832129DC60009A9586 /* GraphViewIB */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2918399C1C72E6A400753A45 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18924552129FA98008BF238 /* LaunchImageCode.png in Resources */,
+				E10847822129DAB5009A9586 /* Main.storyboard in Resources */,
+				E1FAD1C0212948E900FE8B13 /* Assets.xcassets in Resources */,
+				E10847802129DAAA009A9586 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E108479D2129DC60009A9586 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E18924572129FAA7008BF238 /* LaunchImageIB.png in Resources */,
+				E11233A42129DD75002C1CC7 /* Main.storyboard in Resources */,
+				E10AC0DE2129FA1400674497 /* Assets.xcassets in Resources */,
+				E10AC0DD2129FA1400674497 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2918399A1C72E6A400753A45 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1FAD1E72129496E00FE8B13 /* ScrollableGraphViewDrawingDelegate.swift in Sources */,
+				E1FAD1E22129496E00FE8B13 /* DotDrawingLayer.swift in Sources */,
+				E1FAD1F02129496E00FE8B13 /* DotPlot.swift in Sources */,
+				E1FAD1E52129496E00FE8B13 /* FillDrawingLayer.swift in Sources */,
+				E1FAD1E62129496E00FE8B13 /* ScrollableGraphView.swift in Sources */,
+				E1FAD1C5212948E900FE8B13 /* AppDelegate.swift in Sources */,
+				E1FAD1E02129496E00FE8B13 /* BarDrawingLayer.swift in Sources */,
+				E168658C2129EBAD00041C08 /* ViewController.swift in Sources */,
+				E1FAD1E32129496E00FE8B13 /* ScrollableGraphViewDrawingLayer.swift in Sources */,
+				E1FAD1EB2129496E00FE8B13 /* BarPlot.swift in Sources */,
+				E1FAD1EC2129496E00FE8B13 /* GraphPointAnimation.swift in Sources */,
+				E1FAD1EE2129496E00FE8B13 /* Plot.swift in Sources */,
+				E1FAD1C1212948E900FE8B13 /* Examples.swift in Sources */,
+				E1FAD1EF2129496E00FE8B13 /* LinePlot.swift in Sources */,
+				E1FAD1ED2129496E00FE8B13 /* GraphPoint.swift in Sources */,
+				E1FAD1E92129496E00FE8B13 /* ReferenceLines.swift in Sources */,
+				E1FAD1E42129496E00FE8B13 /* LineDrawingLayer.swift in Sources */,
+				E1FAD1EA2129496E00FE8B13 /* LabelPool.swift in Sources */,
+				E1FAD1E12129496E00FE8B13 /* GradientDrawingLayer.swift in Sources */,
+				E1FAD1E82129496E00FE8B13 /* ScrollableGraphViewDataSource.swift in Sources */,
+				E1FAD1C4212948E900FE8B13 /* GraphType.swift in Sources */,
+				E1FAD1BF212948E900FE8B13 /* UIColor+colorFromHex.swift in Sources */,
+				E1FAD1DF2129496E00FE8B13 /* ReferenceLineDrawingView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E10847842129DC60009A9586 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E10847852129DC60009A9586 /* ScrollableGraphViewDrawingDelegate.swift in Sources */,
+				E10847862129DC60009A9586 /* DotDrawingLayer.swift in Sources */,
+				E10847872129DC60009A9586 /* DotPlot.swift in Sources */,
+				E10847882129DC60009A9586 /* FillDrawingLayer.swift in Sources */,
+				E10847892129DC60009A9586 /* ScrollableGraphView.swift in Sources */,
+				E108478A2129DC60009A9586 /* AppDelegate.swift in Sources */,
+				E108478B2129DC60009A9586 /* BarDrawingLayer.swift in Sources */,
+				E11233A32129DD75002C1CC7 /* ViewController.swift in Sources */,
+				E108478C2129DC60009A9586 /* ScrollableGraphViewDrawingLayer.swift in Sources */,
+				E108478E2129DC60009A9586 /* BarPlot.swift in Sources */,
+				E108478F2129DC60009A9586 /* GraphPointAnimation.swift in Sources */,
+				E10847902129DC60009A9586 /* Plot.swift in Sources */,
+				E10847922129DC60009A9586 /* LinePlot.swift in Sources */,
+				E10847932129DC60009A9586 /* GraphPoint.swift in Sources */,
+				E10847942129DC60009A9586 /* ReferenceLines.swift in Sources */,
+				E10847952129DC60009A9586 /* LineDrawingLayer.swift in Sources */,
+				E10847962129DC60009A9586 /* LabelPool.swift in Sources */,
+				E10847972129DC60009A9586 /* GradientDrawingLayer.swift in Sources */,
+				E10847982129DC60009A9586 /* ScrollableGraphViewDataSource.swift in Sources */,
+				E108479A2129DC60009A9586 /* UIColor+colorFromHex.swift in Sources */,
+				E108479B2129DC60009A9586 /* ReferenceLineDrawingView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		291839AE1C72E6A400753A45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		291839AF1C72E6A400753A45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		291839B11C72E6A400753A45 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = GraphView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewCode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		291839B21C72E6A400753A45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = GraphView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewCode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		E10847A22129DC60009A9586 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = GraphView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewIB;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		E10847A32129DC60009A9586 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = GraphView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewIB;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		291839991C72E6A400753A45 /* Build configuration list for PBXProject "GraphView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				291839AE1C72E6A400753A45 /* Debug */,
+				291839AF1C72E6A400753A45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		291839B01C72E6A400753A45 /* Build configuration list for PBXNativeTarget "GraphViewCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				291839B11C72E6A400753A45 /* Debug */,
+				291839B21C72E6A400753A45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E10847A12129DC60009A9586 /* Build configuration list for PBXNativeTarget "GraphViewIB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E10847A22129DC60009A9586 /* Debug */,
+				E10847A32129DC60009A9586 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 291839961C72E6A400753A45 /* Project object */;
+}
