@@ -287,7 +287,7 @@
 				TargetAttributes = {
 					2918399D1C72E6A400753A45 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -512,7 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewCode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -529,7 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewCode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -546,7 +546,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewIB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -563,7 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ios.GraphViewIB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

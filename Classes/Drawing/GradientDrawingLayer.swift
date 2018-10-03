@@ -15,13 +15,13 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
         let mask = CAShapeLayer()
         
         mask.frame = CGRect(x: 0, y: 0, width: self.viewportWidth, height: self.viewportHeight)
-        mask.fillRule = kCAFillRuleEvenOdd
+        mask.fillRule = CAShapeLayerFillRule.evenOdd
         mask.lineJoin = self.lineJoin
         
         return mask
     })()
     
-    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: ScrollableGraphViewGradientType, lineJoin: String = kCALineJoinRound, lineDrawingLayer: LineDrawingLayer) {
+    init(frame: CGRect, startColor: UIColor, endColor: UIColor, gradientType: ScrollableGraphViewGradientType, lineJoin: String = convertFromCAShapeLayerLineJoin(CAShapeLayerLineJoin.round), lineDrawingLayer: LineDrawingLayer) {
         self.startColor = startColor
         self.endColor = endColor
         self.gradientType = gradientType
@@ -67,4 +67,9 @@ internal class GradientDrawingLayer : ScrollableGraphViewDrawingLayer {
             ctx.drawRadialGradient(gradient!, startCenter: topCentre, startRadius: startRadius, endCenter: topCentre, endRadius: endRadius, options: .drawsAfterEndLocation)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCAShapeLayerLineJoin(_ input: CAShapeLayerLineJoin) -> String {
+	return input.rawValue
 }

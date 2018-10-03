@@ -209,7 +209,7 @@ open class Plot {
     
     internal func setup() {
         displayLink = CADisplayLink(target: self, selector: #selector(animationUpdate))
-        displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+        displayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
         displayLink.isPaused = true
     }
     

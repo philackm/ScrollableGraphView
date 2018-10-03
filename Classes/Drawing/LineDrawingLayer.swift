@@ -20,8 +20,8 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
         self.lineWidth = lineWidth
         self.strokeColor = lineColor.cgColor
         
-        self.lineJoin = lineJoin
-        self.lineCap = lineCap
+        self.lineJoin = convertToCAShapeLayerLineJoin(lineJoin)
+        self.lineCap = convertToCAShapeLayerLineCap(lineCap)
         
         // Setup
         self.fillColor = UIColor.clear.cgColor // This is handled by the fill drawing layer.
@@ -125,4 +125,14 @@ internal class LineDrawingLayer : ScrollableGraphViewDrawingLayer {
     override func updatePath() {
         self.path = createLinePath().cgPath
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToCAShapeLayerLineJoin(_ input: String) -> CAShapeLayerLineJoin {
+	return CAShapeLayerLineJoin(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToCAShapeLayerLineCap(_ input: String) -> CAShapeLayerLineCap {
+	return CAShapeLayerLineCap(rawValue: input)
 }

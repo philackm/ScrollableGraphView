@@ -26,10 +26,10 @@ open class LinePlot : Plot {
     open var lineStyle = ScrollableGraphViewLineStyle.straight
     
     /// How each segment in the line should connect. Takes any of the Core Animation LineJoin values.
-    open var lineJoin: String = kCALineJoinRound
+    open var lineJoin: String = convertFromCAShapeLayerLineJoin(CAShapeLayerLineJoin.round)
     
     /// The line caps. Takes any of the Core Animation LineCap values.
-    open var lineCap: String = kCALineCapRound
+    open var lineCap: String = convertFromCAShapeLayerLineCap(CAShapeLayerLineCap.round)
     open var lineCurviness: CGFloat = 0.5
     
     
@@ -130,4 +130,14 @@ open class LinePlot : Plot {
 @objc public enum ScrollableGraphViewGradientType : Int {
     case linear
     case radial
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCAShapeLayerLineJoin(_ input: CAShapeLayerLineJoin) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCAShapeLayerLineCap(_ input: CAShapeLayerLineCap) -> String {
+	return input.rawValue
 }
