@@ -2,10 +2,6 @@
 
 ## Announcements
 
-### 9-7-2017 - Looking for Examples:
-
-If your application uses this component and you would like to show it off, please let me know as I would like to create a gallery. Please create a pull request and update the [examples.md](examples.md) with the app name and URL. I will add screenshots of the applications to a gallery for everyone to see.
-
 ### 9-7-2017 - Version 4: 
 
 Version 4 was released which adds multiple plots, dynamic reloading of values, more reference line customisation options and various bug fixes. 
